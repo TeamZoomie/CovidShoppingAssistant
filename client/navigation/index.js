@@ -12,6 +12,7 @@ const HomeNavigator = () => (
     <Navigator headerMode='none'>
         <Screen name='Home' component={HomeScreen}/>
         <Screen name='List' component={ListScreen}/>
+        <Screen name='Settings' component={SettingsScreen}/>
     </Navigator>
 );
 
