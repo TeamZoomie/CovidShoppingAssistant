@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as eva from '@eva-design/eva';
 import { StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -8,7 +8,7 @@ import { AppNavigator } from './navigation';
 
 export default function App() {
 	return (
-		<>
+		<Fragment>
 			<IconRegistry icons={EvaIconsPack}/>
 			<ApplicationProvider {...eva} theme={eva.light}>
 				<SafeAreaProvider>
@@ -16,15 +16,6 @@ export default function App() {
 					<AppNavigator/>
 				</SafeAreaProvider>
 			</ApplicationProvider>
-		</>
+		</Fragment>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { SafeAreaView, View, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { List, ListItem, Text, Divider, Icon, Layout, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { LineChart } from 'react-native-chart-kit';
 import GridList from '../components/GridList';
@@ -89,7 +89,7 @@ export const HomeScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.root}>
-            <ScrollView>
+            <View>
                 <TopNavigation title='Home' alignment='center' accessoryLeft={DrawerAction}/>
                 <Divider/>
                 <Layout style={styles.content}>
@@ -97,12 +97,12 @@ export const HomeScreen = ({ navigation }) => {
                     {/* <Text category='h4' status='primary'>
                         Covid Shopping Assistant
                     </Text> */}
-                    <List
+                    {/* <List
                         style={styles.container}
                         data={listData}
                         ItemSeparatorComponent={Divider}
                         renderItem={renderItem}
-                    />
+                    /> */}
                     <GridList data={data} onPress={id => navigation.navigate(data[id].route)}/>
                     {/* <Button onPress={() => navigation.push('List')}>OPEN DETAILS</Button> */}
                     <Text style={styles.text} category="h4">COVID-19 in Australia</Text>
@@ -115,7 +115,7 @@ export const HomeScreen = ({ navigation }) => {
                         bezier
                     />
                 </Layout>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
