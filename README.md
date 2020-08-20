@@ -1,6 +1,17 @@
-# CovidShoppingAssistant
+# Covid Shopping Assistant
+Team Zoomie has chosen *The Social Distancing Social Club*’s proposal to take through to build. The proposal explores and attempts to provide a solution to  the shopping experience during an ongoing pandemic. The provided solution is a mobile application that aims to assist shoppers in maintaining social distancing rules and regulations, whilst also improving time-efficiency when grocery shopping. This will be achieved by helping shoppers pre-plan their trip to the grocery store. The key features include: (1) social distancing reminders, (2) reminders to use COVIDSafe, and (3) create and modify shopping lists.
 
-### Client Quickstart
+## Team Zoomie
+Name | Experience
+------------ | -------------
+Laura Pham | User interface and user experience
+Jessica Jenkinson | User interface and user experience
+Calum Henman | Cyber Security major with programming experience
+Theo Duval | Primarily programming skills, as well as maths and logic
+Adrian Cryer | Primarily programming skills, as well as maths and logic
+Andy Jie Peng | Programming skills and database experience
+
+## Client Quickstart
 
 0. Download Git (if you haven't ready got it!): https://git-scm.com/
 1. Download Node (>= 12): https://nodejs.org/en/download/
@@ -20,3 +31,6 @@ If you get permission denied, you will have to add an ssh key to your account (M
 6. Start the client: `expo start`
 7. Open Expo App on your phone and scan QR code (In terminal / new window that was created)
 8. Profit??
+
+## Server Quickstart
+Todo
