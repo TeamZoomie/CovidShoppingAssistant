@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, DrawerItem, Layout, Text, IndexPath } from '@ui-kitten/components';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ListScreen } from '../screens/ListScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
 const { Navigator, Screen } = createDrawerNavigator();
 
 const HomeNavigator = () => (
@@ -29,6 +30,7 @@ export const DrawerNavigator = () => (
     <Navigator drawerContent={props => <DrawerContent {...props}/>}>
         <Screen name='Home' component={HomeScreen}/>
         <Screen name='List' component={ListScreen}/>
+        <Screen name='Settings' component={SettingsScreen}/>
     </Navigator>
 );
 
