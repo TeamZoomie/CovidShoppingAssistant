@@ -21,12 +21,11 @@ const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
 
-const settings = [
-    {
-        title: 'Theme'
-    }
-]
-
+// const settings = [
+//     {
+//         title: 'Theme'
+//     }
+// ]
 
 export const SettingsScreen = ({ navigation }) => {
 
