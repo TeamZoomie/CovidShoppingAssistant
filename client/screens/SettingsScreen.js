@@ -1,6 +1,6 @@
 // TODO Tidy up imports
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, CheckBox } from 'react-native';
 import { Divider, Icon, Layout, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { List, ListItem, Button } from '@ui-kitten/components';
 import { Toggle } from '@ui-kitten/components';
@@ -61,6 +61,14 @@ export const SettingsScreen = ({ navigation }) => {
         settingsContext.toggleTheme();
     };
 
+    // For the checkboxes
+    const [checkedBoxes, setCheckedBoxes] = React.useState(false);
+
+    const themeBoxChange = (isChecked) => {
+        setCheckedBoxes(isChecked);
+        settingsContext.toggleTheme();
+    };
+
     // Define the drawer action
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
@@ -97,6 +105,11 @@ export const SettingsScreen = ({ navigation }) => {
                         <Radio>Dark Theme</Radio>
                 </RadioGroup>
             <Divider/>
+                <CheckBox 
+                    checked={checkedBoxes} 
+                    onChange={nextChecked => themeBoxChange(nextChecked)}>
+                        {'Dark Theme'}
+                </CheckBox>
 
             </Layout>
         </SafeAreaView>
