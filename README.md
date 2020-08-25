@@ -33,4 +33,15 @@ If you get permission denied, you will have to add an ssh key to your account (M
 8. Profit??
 
 ## Server Quickstart
-Todo
+### How to connect to the server  
+1. Proxy ssh connection
+	1. Log into moss
+		- `ssh <student number>@moss.labs.eait.uq.edu.au`
+	2. Log into web server
+		- `ssh <student number>@deco3801-zoomie.zones.eait.uq.edu.au`
+2. Using VPN (I haven't testing this working)
+	1. Install UQ VPN or EAIT VPN
+	2. `ssh <student number>@deco3801-zoomie.zones.eait.uq.edu.au`
+  
+### Web Server Location
+`https://deco3801-zoomie.uqcloud.net/`
