@@ -6,6 +6,7 @@ import { Drawer, DrawerItem, Layout, Text, IndexPath } from '@ui-kitten/componen
 import { HomeScreen } from '../screens/HomeScreen';
 import { ListScreen } from '../screens/ListScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
+import { CovidScreen } from '../screens/CovidScreen';
 const { Navigator, Screen } = createDrawerNavigator();
 
 const HomeNavigator = () => (
@@ -13,6 +14,7 @@ const HomeNavigator = () => (
         <Screen name='Home' component={HomeScreen}/>
         <Screen name='List' component={ListScreen}/>
         <Screen name='Settings' component={SettingsScreen}/>
+        <Screen name='COVID' component={CovidScreen}/>
     </Navigator>
 );
 
@@ -24,6 +26,7 @@ const DrawerContent = ({ navigation, state }) => (
         <DrawerItem title='Home' />
         <DrawerItem title='Shopping List' />
         <DrawerItem title='Settings' />
+        <DrawerItem title='COVID-19 Info' />
     </Drawer>
 );
 
@@ -32,6 +35,7 @@ export const DrawerNavigator = () => (
         <Screen name='Home' component={HomeScreen}/>
         <Screen name='List' component={ListScreen}/>
         <Screen name='Settings' component={SettingsScreen}/>
+        <Screen name='Covid Info' component={CovidScreen}/>
     </Navigator>
 );
 

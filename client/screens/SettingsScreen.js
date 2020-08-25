@@ -8,16 +8,20 @@ import { SettingsContext } from '../settings-context';
 import { IndexPath, Select, SelectItem } from '@ui-kitten/components';
 import { Text } from '@ui-kitten/components';
 import { Radio, RadioGroup} from '@ui-kitten/components';
+import GridList from '../components/GridList';
 
 const styles = StyleSheet.create({
+    root: {
+        flex: 1
+    },
     container: {
-        flex: 1,
-        flexDirection: 'column'
+        maxHeight: 200,
     },
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+    },
+    text: {
+        textAlign: 'Left',
     }
 });
 
@@ -81,7 +85,7 @@ export const SettingsScreen = ({ navigation }) => {
         <SafeAreaView className={styles.root}>
             <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
             <Divider/>
-            <Layout style={styles.container}>
+            <Layout style={styles.content}>
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>{'Theme'}</Text>}
@@ -94,7 +98,7 @@ export const SettingsScreen = ({ navigation }) => {
                     {'Dark Theme'}
                 </Toggle>    
             <Divider/>
-                <Text category='h6'>
+                <Text style={styles.text} category='h6'>
                     {'Set Theme'}
                 </Text>
 
@@ -108,7 +112,7 @@ export const SettingsScreen = ({ navigation }) => {
                 <CheckBox 
                     checked={checkedBoxes} 
                     onChange={nextChecked => themeBoxChange(nextChecked)}>
-                        {'Dark Theme'}
+                        
                 </CheckBox>
 
             </Layout>
