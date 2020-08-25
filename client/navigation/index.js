@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, DrawerItem, Layout, Text, IndexPath } from '@ui-kitten/components';
-import { HomeScreen } from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen';
 import { ListScreen } from '../screens/ListScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { CovidScreen } from '../screens/CovidScreen';

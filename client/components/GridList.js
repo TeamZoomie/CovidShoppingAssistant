@@ -1,18 +1,17 @@
 import React from 'react';
-import { Dimensions, ListRenderItemInfo, StyleSheet } from 'react-native';
-import { Card, List, ListElement, ListItemElement, ListProps, Text } from '@ui-kitten/components';
+import { Dimensions, StyleSheet } from 'react-native';
+import { Card, List, Text } from '@ui-kitten/components';
 
 const styles = StyleSheet.create({
     container: {
-        padding: 8,
+        paddingBottom: 8,
     },
     item: {
         flex: 1,
         justifyContent: 'center',
         aspectRatio: 1.0,
-        margin: 8,
-        maxWidth: Dimensions.get('window').width / 2 - 24,
-        borderWidth: 2,
+        maxWidth: Dimensions.get('window').width / 2 - 16,
+        borderWidth: 1,
     },
     itemTitle: {
         alignSelf: 'center',

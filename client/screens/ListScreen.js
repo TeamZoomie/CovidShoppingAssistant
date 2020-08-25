@@ -18,18 +18,19 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back-outline' />
 );
 
-export const ListScreen = ({ navigation }) => {
+export const ListScreen = ({ route, navigation }) => {
 
+    const list = route.params;
     const BackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
     );
 
     return (
-        <SafeAreaView className={styles.root}>
-            <TopNavigation title='Shopping List' alignment='center' accessoryLeft={BackAction}/>
+        <SafeAreaView style={styles.root}>
+            <TopNavigation title={ list.name } alignment='center' accessoryLeft={BackAction}/>
             <Divider/>
-            <Layout className={styles.content}>
-                <Text category='h1'>Shopping List</Text>
+            <Layout style={styles.content}>
+                <Text category='h1'>List</Text>
             </Layout>
         </SafeAreaView>
     );
