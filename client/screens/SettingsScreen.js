@@ -1,6 +1,6 @@
 // TODO Tidy up imports
 import React from 'react';
-import { SafeAreaView, StyleSheet, CheckBox } from 'react-native';
+import { View, StyleSheet, CheckBox } from 'react-native';
 import { Divider, Icon, Layout, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { List, ListItem, Button } from '@ui-kitten/components';
 import { Toggle } from '@ui-kitten/components';
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     text: {
-        textAlign: 'Left',
+        textAlign: 'left',
     }
 });
 
@@ -82,7 +82,7 @@ export const SettingsScreen = ({ navigation }) => {
 
     
     return (
-        <SafeAreaView className={styles.root}>
+        <View style={styles.root}>
             <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
             <Divider/>
             <Layout style={styles.content}>
@@ -116,6 +116,6 @@ export const SettingsScreen = ({ navigation }) => {
                 </CheckBox>
 
             </Layout>
-        </SafeAreaView>
+        </View>
     );
 };
