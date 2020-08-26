@@ -43,11 +43,22 @@ export const SettingsScreen = ({ navigation }) => {
 
     // For a list of items
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+    
+    const data = [
+        'Light Theme',
+        'Dark Theme'
+    ];
+
+    const displayValue = data[selectedIndex.row];
 
     const themeSelectChange = (index) => {
         setSelectedIndex(index);
         settingsContext.toggleTheme();
     };
+
+    const renderOption = (title) => (
+        <SelectItem title={title}/>
+      );
 
     // For the toggle of themes between light and dark
     const [lightTheme, setLightTheme] = React.useState(false);
@@ -89,9 +100,9 @@ export const SettingsScreen = ({ navigation }) => {
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>{'Theme'}</Text>}
+                    value={displayValue}
                     onSelect={index => themeSelectChange(index)}>
-                    <SelectItem title='Light Theme'/>
-                    <SelectItem title='Dark Theme'/>
+                    {data.map(renderOption)}
                 </Select>                
             <Divider/>
                 <Toggle checked={lightTheme} onChange={themeChange}>
