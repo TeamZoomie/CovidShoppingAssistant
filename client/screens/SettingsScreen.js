@@ -111,10 +111,12 @@ export const SettingsScreen = ({ navigation }) => {
             <Divider/>
                 <CheckBox 
                     checked={checkedBoxes} 
-                    onChange={nextChecked => themeBoxChange(nextChecked)}>
-                        
+                    value={checkedBoxes}
+                    onValueChange={nextChecked => themeBoxChange(nextChecked)}>
                 </CheckBox>
-
+                <Text style={styles.text} category='h8'>
+                {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
+                </Text>
             </Layout>
         </View>
     );
