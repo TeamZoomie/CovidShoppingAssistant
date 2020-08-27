@@ -9,18 +9,24 @@ import { Text } from '@ui-kitten/components';
 import { Radio, RadioGroup} from '@ui-kitten/components';
 import { Input } from '@ui-kitten/components';
 
-const styles = StyleSheet.create({
+const styles = (theme) => ({
     root: {
-        flex: 1
+        flex: 1,
+        backgroundColor: theme['background-basic-color-2']
+    },
+    layout: {
+        padding: 16,
+    },
+    text: {
+        fontWeight: "700",
+        textAlign: 'left',
+        marginHorizontal: 8
     },
     container: {
         maxHeight: 200,
-    },
-    content: {
-        flex: 1,
-    },
-    text: {
-        textAlign: 'left',
+        margin: 20,
+        borderColor: '#eee',
+        borderWidth: 2
     }
 });
 
@@ -85,13 +91,11 @@ export const SettingsScreen = ({ navigation }) => {
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
     );
 
-
-
-    
     return (
         <View style={styles.root}>
             <TopNavigation title='Settings' alignment='center' 
                     accessoryLeft={DrawerAction}/>
+        <View style={styles.container}>
             <Divider/>
                 <Toggle checked={lightTheme} onChange={themeChange}>
                         {'Dark Theme'}
@@ -129,10 +133,11 @@ export const SettingsScreen = ({ navigation }) => {
                     value={checkedBoxes}
                     onValueChange={nextChecked => themeBoxChange(nextChecked)}>
                 </CheckBox>
-                <Text style={styles.text} category='h8'>
+                <Text style={styles.text} category='h6' key={7}>
                 {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
                 </Text>
             </Layout>
+            </View>
         </View>
     );
 };

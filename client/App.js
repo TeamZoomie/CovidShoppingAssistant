@@ -9,11 +9,14 @@ import { SettingsContext } from './settings-context';
 
 export default function App() {
 
+	// Theme Settings
 	const [theme, setTheme] = React.useState('light');
 	const toggleTheme = () => {
 		const nextTheme = theme === 'light' ? 'dark' : 'light';
 		setTheme(nextTheme);
 	};
+
+	// Username settings
 	const username = 'Zoomie'
 
 	return (

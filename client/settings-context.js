@@ -9,5 +9,5 @@ export const SettingsContext = React.createContext( {
     toggleTheme: () => {},
 
     // Display name for user
-    username: 'Zoomie'
+    username: 'Zoomie',
 });
