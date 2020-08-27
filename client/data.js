@@ -3,7 +3,7 @@ export default {
         {
             id: 0,
             name: "Weekly", 
-            date: '21/8/20',
+            date: new Date('2020-08-21'),
             items: [
                 {
                     name: 'Fruit',
@@ -15,13 +15,13 @@ export default {
         },
         { 
             id: 1,
-            name:'Christmas', 
-            date:'22/12/19'
+            name: 'Christmas', 
+            date: new Date('2019-12-22'),
         },
         {
             id: 2,
-            name:'Party', 
-            date:'12/12/19'
+            name: 'Party', 
+            date: new Date('2019-12-12')
         },
     ]
 }

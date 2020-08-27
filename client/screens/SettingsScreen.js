@@ -88,7 +88,8 @@ export const SettingsScreen = ({ navigation }) => {
 
     // Define the drawer action
     const DrawerAction = () => (
-        <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
+        <TopNavigationAction icon={HamburgerIcon} onPress={() => 
+            navigation.openDrawer()}/>
     );
 
     return (
