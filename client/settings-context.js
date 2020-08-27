@@ -1,5 +1,4 @@
 import React from 'react';
-import * as eva from '@eva-design/eva';
 
 export const SettingsContext = React.createContext( {
 
@@ -7,5 +6,8 @@ export const SettingsContext = React.createContext( {
     theme: 'light',
 
     // Function to switch between light and dark themes
-    toggleTheme: () => {}
+    toggleTheme: () => {},
+
+    // Display name for user
+    username: 'Zoomie'
 });

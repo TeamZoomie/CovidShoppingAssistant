@@ -14,11 +14,12 @@ export default function App() {
 		const nextTheme = theme === 'light' ? 'dark' : 'light';
 		setTheme(nextTheme);
 	};
+	const username = 'Zoomie'
 
 	return (
 		<Fragment>
 			<IconRegistry icons={EvaIconsPack}/>
-			<SettingsContext.Provider value={{ theme, toggleTheme }}>
+			<SettingsContext.Provider value={{ theme, toggleTheme , username}}>
 				<ApplicationProvider {...eva} theme={eva[theme]}>
 					<SafeAreaProvider>
 						<StatusBar hidden/>

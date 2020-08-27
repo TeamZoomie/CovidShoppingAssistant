@@ -1,14 +1,13 @@
-// TODO Tidy up imports
 import React from 'react';
 import { View, StyleSheet, CheckBox } from 'react-native';
-import { Divider, Icon, Layout, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { List, ListItem, Button } from '@ui-kitten/components';
+import { Divider, Icon, Layout, 
+    TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Toggle } from '@ui-kitten/components';
 import { SettingsContext } from '../settings-context';
 import { IndexPath, Select, SelectItem } from '@ui-kitten/components';
 import { Text } from '@ui-kitten/components';
 import { Radio, RadioGroup} from '@ui-kitten/components';
-import GridList from '../components/GridList';
+import { Input } from '@ui-kitten/components';
 
 const styles = StyleSheet.create({
     root: {
@@ -29,12 +28,6 @@ const styles = StyleSheet.create({
 const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
-
-const settings = [
-    {
-        title: 'Theme'
-    }
-]
 
 export const SettingsScreen = ({ navigation }) => {
 
@@ -68,6 +61,9 @@ export const SettingsScreen = ({ navigation }) => {
         settingsContext.toggleTheme();  
     };
 
+    // Username
+    const [username, setUsername] = React.useState(settingsContext.username)
+
     // For the radio buttons
     const [selectedRadioIndex, setSelectedRadioIndex] = React.useState(0);
 
@@ -94,20 +90,28 @@ export const SettingsScreen = ({ navigation }) => {
     
     return (
         <View style={styles.root}>
-            <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
-            <Divider/>
-            <Layout style={styles.content}>
-                <Select
-                    selectedIndex={selectedIndex}
-                    label={<Text category='h6'>{'Theme'}</Text>}
-                    value={displayValue}
-                    onSelect={index => themeSelectChange(index)}>
-                    {data.map(renderOption)}
-                </Select>                
+            <TopNavigation title='Settings' alignment='center' 
+                    accessoryLeft={DrawerAction}/>
             <Divider/>
                 <Toggle checked={lightTheme} onChange={themeChange}>
-                    {'Dark Theme'}
-                </Toggle>    
+                        {'Dark Theme'}
+                </Toggle> 
+            <Divider/>
+                <Text>Username is {username}</Text>
+                <Input
+                    placeholder={`${username}`}
+                    value={username}
+                    onChangeText={nextValue => setUsername(nextValue)}
+                />
+            <Divider/>
+                <Layout style={styles.content}>
+                    <Select
+                        selectedIndex={selectedIndex}
+                        label={<Text category='h6'>{'Theme'}</Text>}
+                        value={displayValue}
+                        onSelect={index => themeSelectChange(index)}>
+                        {data.map(renderOption)}
+                    </Select>                   
             <Divider/>
                 <Text style={styles.text} category='h6'>
                     {'Set Theme'}
