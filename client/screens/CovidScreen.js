@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 import { List, ListItem, Divider } from '@ui-kitten/components';
+import { Datepicker, Layout, Text } from '@ui-kitten/components';
 
 const styles = StyleSheet.create({
     root: {
@@ -33,6 +34,8 @@ export const CovidScreen = ({ navigation }) => {
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
     );
 
+    const [date, setDate] = React.useState(new Date());
+
     return(
         <SafeAreaView style={styles.root}>
             <View>
@@ -44,6 +47,16 @@ export const CovidScreen = ({ navigation }) => {
                     renderItem={renderItem}
                 />
             </View>
+            <Layout>
+                <Text category='h6'>
+                    Selected date: {date.toLocaleDateString()}
+                </Text>
+
+                <Datepicker
+                    date={date}
+                    onSelect={nextDate => setDate(nextDate)}
+                />
+            </Layout>
         </SafeAreaView>
     );
 }
