@@ -2,21 +2,21 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Drawer, DrawerItem, Layout, Text, IndexPath } from '@ui-kitten/components';
+import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 import HomeScreen from '../screens/HomeScreen';
-import { ListScreen } from '../screens/ListScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
+import ListScreen from '../screens/ListScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import { CovidScreen } from '../screens/CovidScreen';
 const { Navigator, Screen } = createDrawerNavigator();
 
-const HomeNavigator = () => (
-    <Navigator headerMode='none'>
-        <Screen name='Home' component={HomeScreen}/>
-        <Screen name='List' component={ListScreen}/>
-        <Screen name='Settings' component={SettingsScreen}/>
-        <Screen name='COVID' component={CovidScreen}/>
-    </Navigator>
-);
+// const HomeNavigator = () => (
+//     <Navigator headerMode='none'>
+//         <Screen name='Home' component={HomeScreen}/>
+//         <Screen name='List' component={ListScreen}/>
+//         <Screen name='Settings' component={SettingsScreen}/>
+//         <Screen name='COVID' component={CovidScreen}/>
+//     </Navigator>
+// );
 
 const DrawerContent = ({ navigation, state }) => (
     <Drawer
