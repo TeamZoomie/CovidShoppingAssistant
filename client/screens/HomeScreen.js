@@ -8,7 +8,10 @@ import {
     Layout, 
     TopNavigation, 
     TopNavigationAction, 
-    withStyles 
+    withStyles,
+    Button,
+    Modal,
+    Card
 } from '@ui-kitten/components';
 import GridList from '../components/GridList';
 import ShoppingLists from '../components/ShoppingLists';
@@ -29,6 +32,9 @@ const styles = (theme) => ({
         // fontWeight: '700',
         textAlign: 'left',
         marginHorizontal: 8
+    },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     }
 });
 
@@ -55,7 +61,11 @@ const HomeScreen = ({ eva, navigation }) => {
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
     );
+
     const [value, setValue] = React.useState('');
+
+    // For the modal pop up warning
+    const [visible, setVisible] = React.useState(false);
 
     return (
         <View style={styles.root}>
@@ -70,7 +80,29 @@ const HomeScreen = ({ eva, navigation }) => {
                     value={value}
                     onChangeText={nextValue => setValue(nextValue)}
                 />
-                <GridList data={uiData} onPress={id => navigation.navigate(uiData[id].route)}/>
+                <GridList 
+                    data={uiData} 
+                    onPress={id => navigation.navigate(uiData[id].route)}
+                />
+                <Divider/>
+                {/*This is for a popup warning*/}
+                <Button onPress={() => setVisible(true)}>
+                    Be Warned About Shopping
+                </Button>
+                <Modal
+                    visible={visible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setVisible(false)}>
+                    <Card disabled={true}>
+                    <Text>Be sure to stay away from people and don't
+                        touch your face.
+                    </Text>
+                    <Button onPress={() => setVisible(false)}>
+                        Begin Shopping
+                    </Button>
+                    </Card>
+                </Modal>
+                <Divider/>
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
                         data={data.lists} 

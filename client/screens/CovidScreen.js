@@ -24,6 +24,8 @@ const data = 'https://coronavirus-19-api.herokuapp.com/countries/Australia'
 
 const data_copy = {"country":"Australia","cases":24916,"todayCases":104,"deaths":517,"todayDeaths":15,"recovered":19603,"active":4796,"critical":38,"casesPerOneMillion":975,"deathsPerOneMillion":20,"totalTests":5757173,"testsPerOneMillion":225388}
 
+const case_numbers_historical = {}
+
 export const CovidScreen = ({ navigation }) => {
 
     const renderItem = ({ item }) => (
