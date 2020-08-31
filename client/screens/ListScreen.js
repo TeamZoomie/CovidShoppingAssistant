@@ -64,21 +64,6 @@ const ListScreen = ({ route, navigation, eva }) => {
 
     const [date, setDate] = React.useState(list.date);
 
-    // const renderCheckbox = ({item}) => (
-    //     <CheckBox
-    //         checked={item.checked}
-    //         onChange={nextChecked => item.checked}>
-    //     </CheckBox>
-    // )
-
-    // const renderItem = ({item}) => (
-    //     <ListItem
-    //         title={`${item.name}`}    
-    //         description={`${item.category}`}
-    //         //accessoryLeft={`${renderCheckbox}`}    
-    //     />
-    // )
-
     return (
         <View style={styles.root}>
             <TopNavigation 

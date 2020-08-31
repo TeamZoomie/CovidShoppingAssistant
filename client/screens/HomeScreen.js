@@ -69,7 +69,11 @@ const HomeScreen = ({ eva, navigation }) => {
 
     return (
         <View style={styles.root}>
-            <TopNavigation title='Home' alignment='center' accessoryLeft={DrawerAction}/>
+            <TopNavigation 
+                title='Home' 
+                alignment='center' 
+                accessoryLeft={DrawerAction}
+            />
             <Divider/>
             <Layout style={styles.content}>
                 <View style={styles.header}>
@@ -85,6 +89,7 @@ const HomeScreen = ({ eva, navigation }) => {
                     onPress={id => navigation.navigate(uiData[id].route)}
                 />
                 <Divider/>
+
                 {/*This is for a popup warning*/}
                 <Button onPress={() => setVisible(true)}>
                     Be Warned About Shopping
@@ -102,7 +107,7 @@ const HomeScreen = ({ eva, navigation }) => {
                     </Button>
                     </Card>
                 </Modal>
-                <Divider/>
+
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
                         data={data.lists} 
