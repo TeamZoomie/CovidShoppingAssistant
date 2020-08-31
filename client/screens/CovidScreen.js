@@ -80,6 +80,9 @@ export const CovidScreen = ({ navigation }) => {
                 <Divider/>
                 <Text category='h6'>
                     Number of New COVID-19 Cases Per Day
+                </Text> 
+                <Text>
+                    From 13th of March to 31st of August
                 </Text>
                 <LineChart
                     data={case_numbers_historical}
