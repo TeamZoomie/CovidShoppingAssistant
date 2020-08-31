@@ -50,7 +50,10 @@ export default class App extends Component {
 	}
 
 	removeListItem = (listId, itemIndex) => {
-
+		const list = this.state.lists[listId];
+		this.setState(prevState) ({
+			list: prevState.list.filter(el => el != itemIndex)
+		})
 	}
 
 	render() {

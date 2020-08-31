@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import {  View, StyleSheet } from 'react-native';
 import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
+import { ListsContext } from '../../lists-context';
 
 const styles = StyleSheet.create({
     item: {
@@ -40,6 +41,7 @@ const RemoveIcon = (props) => (
 );
 
 const ListItem = (props) => {
+    const listsContext = React.useContext(ListsContext);
     const [checked, setChecked] = React.useState(false);
     return (
         <View style={styles.contentContainer}>
@@ -57,7 +59,13 @@ const ListItem = (props) => {
                     </Text>
                 </View> */}
             </View>
-            <Button style={styles.button} appearance='ghost' status='basic' accessoryLeft={RemoveIcon}/>
+            <Button 
+                style={styles.button} 
+                appearance='ghost' 
+                status='basic' 
+                accessoryLeft={RemoveIcon} 
+                onPress={listsContext.removeListItem}
+            />
         </View>
     )
 };
