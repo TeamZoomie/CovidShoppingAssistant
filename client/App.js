@@ -51,15 +51,19 @@ export default class App extends Component {
 
 	removeListItem = (listId, itemIndex) => {
 		const list = this.state.lists[listId];
-		this.setState(prevState) ({
-			list: prevState.list.filter(el => el != itemIndex)
-		})
+		this.setState(prevState => ({
+			lists: { 
+				...prevState.lists, 
+				[listId]: { ...list, items:list.items.filter((el, index) => index != itemIndex) }
+			}
+		}));
 	}
 
 	render() {
 		const listContextValues = {
 			addList: this.addList,
 			addListItem: this.addListItem,
+			removeListItem: this.removeListItem,
 			getList: this.getList
 		};
 		const settingsContextValues = {

@@ -58,6 +58,10 @@ const ListScreen = ({ route, navigation, eva }) => {
         setAddText('');
     }
 
+    const onRemoveItem = (index) => {
+        listsContext.removeListItem(listId, index);
+    }
+
     const [date, setDate] = React.useState(list.date);
 
     // const renderCheckbox = ({item}) => (
@@ -112,7 +116,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                     />
                 </View>
                 <ScrollView style={{ height: '100%' }}>
-                    <ShoppingList data={list.items} />
+                    <ShoppingList data={list.items} onRemoveItem={onRemoveItem}/>
                 </ScrollView>
             </Layout>
         </View>

@@ -64,7 +64,7 @@ const ListItem = (props) => {
                 appearance='ghost' 
                 status='basic' 
                 accessoryLeft={RemoveIcon} 
-                onPress={listsContext.removeListItem}
+                onPress={props.onRemoveItem}
             />
         </View>
     )
@@ -75,7 +75,7 @@ export default function ShoppingList(props) {
         <View style={styles.container}>
             {props.data.map((item, i) => (
                 <Fragment key={i}>
-                    <ListItem name={item.name}/>
+                    <ListItem name={item.name} onRemoveItem={() => props.onRemoveItem(i)}/>
                     { i !== props.datalength - 1 && <Divider/>}
                 </Fragment>
             ))}
