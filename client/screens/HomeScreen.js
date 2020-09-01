@@ -15,7 +15,7 @@ import {
 } from '@ui-kitten/components';
 import GridList from '../components/GridList';
 import ShoppingLists from '../components/ShoppingLists';
-import data from '../data';
+import { ListsContext } from '../lists-context';
 
 const styles = (theme) => ({
     root: {
@@ -55,11 +55,20 @@ const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
 
+const AddIcon = (props) => (
+    <Icon {...props} name='plus-outline' />
+);
+
 const HomeScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
+    const listsContext = React.useContext(ListsContext);
+
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
+    );
+    const CreateAction = () => (
+        <TopNavigationAction icon={AddIcon} onPress={() => navigation.navigate('CreateList')}/>
     );
 
     const [value, setValue] = React.useState('');
@@ -73,6 +82,7 @@ const HomeScreen = ({ eva, navigation }) => {
                 title='Home' 
                 alignment='center' 
                 accessoryLeft={DrawerAction}
+                accessoryRight={CreateAction}
             />
             <Divider/>
             <Layout style={styles.content}>
@@ -97,7 +107,8 @@ const HomeScreen = ({ eva, navigation }) => {
                 <Modal
                     visible={visible}
                     backdropStyle={styles.backdrop}
-                    onBackdropPress={() => setVisible(false)}>
+                    onBackdropPress={() => setVisible(false)}
+                >
                     <Card disabled={true}>
                     <Text>Be sure to stay away from people and don't
                         touch your face.
@@ -110,7 +121,7 @@ const HomeScreen = ({ eva, navigation }) => {
 
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
-                        data={data.lists} 
+                        data={listsContext.getLists()} 
                         onPress={listId => {
                             navigation.navigate('List', { listId });
                         }} 

@@ -17,7 +17,9 @@ export default class App extends Component {
 		this.state = {
 			theme: 'light',
 			lists: Object.assign(data.lists),
-			username: 'Zoomie'
+			username: 'Zoomie',
+			// Do this for now, but eventually generate serverside
+			nextId: Object.values(data.lists).length + 1
 		}
 	}
 
@@ -26,12 +28,29 @@ export default class App extends Component {
 		this.setState(prevState => ({ theme: prevState.theme === 'light' ? 'dark' : 'light' }));
 	}
 
-	addList = ({ name }) => {
-
+	addList = ({ name, duedate, active }, cb) => {
+		this.setState(prevState => ({
+			lists: { 
+				...prevState.lists, 
+				[prevState.nextId]: { 
+					id: prevState.nextId,
+					name,
+					duedate,
+					active,
+					date: new Date(),
+					items: []
+				},
+			},
+			nextId: prevState.nextId + 1
+		}), () => cb(this.state.nextId - 1));
 	}
 
 	getList = (listId) => {
 		return this.state.lists[listId];
+	}
+
+	getLists = () => {
+		return this.state.lists;
 	}
 
 	addListItem = (listId, item) => {
@@ -64,7 +83,8 @@ export default class App extends Component {
 			addList: this.addList,
 			addListItem: this.addListItem,
 			removeListItem: this.removeListItem,
-			getList: this.getList
+			getList: this.getList,
+			getLists: this.getLists
 		};
 		const settingsContextValues = {
 			theme: this.state.theme, 
