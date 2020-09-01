@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, View, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Dimensions, ActivityIndicator,FlatList } from 'react-native';
 import { Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 import { List, ListItem, Divider } from '@ui-kitten/components';
 import { Datepicker, Layout, Text } from '@ui-kitten/components';
@@ -26,7 +26,6 @@ const HamburgerIcon = (props) => (
 
 // https://github.com/javieraviles/covidAPI
 const data = 'https://coronavirus-19-api.herokuapp.com/countries/Australia'
-var covidInfo
 // TODO Need to read data in directly
 
 
@@ -60,23 +59,19 @@ export const CovidScreen = ({ navigation }) => {
             navigation.openDrawer()}/>
     );
 
-    // Retrive the Covid19 stats
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = (e) => {
-    if (request.readyState !== 4) {
-        return;
-    }
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+  
+    useEffect(() => {
+      fetch('https://coronavirus-19-api.herokuapp.com/countries/Australia')
+        .then((response) => response.json())
+        .then((json) => setData(json))
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    }, []);
+    console.log(data);
 
-    if (request.status === 200) {
-        console.log('success', request.responseText);
-        covidInfo = request.responseText;
-        console.log(covidInfo);
-    } else {
-        console.warn('error');
-    }
-    };
-    request.open('GET', 'https://coronavirus-19-api.herokuapp.com/countries/Australia');
-    request.send();
+    
     return(
         <SafeAreaView style={styles.root}>
             <View>
@@ -116,9 +111,14 @@ export const CovidScreen = ({ navigation }) => {
                 <Text category='h6'>
                     Number of New COVID-19 Cases - {date.toLocaleDateString()}
                 </Text> 
-                <Text>
-                    Stats: {covidInfo}
-                </Text>
+                <View>
+                {isLoading ? <ActivityIndicator/> : (
+                     <Text category='h7'>
+                         TodayCases: {data.todayCases}<br/>
+                         TodayDeaths: {data.todayDeaths}
+                         </Text>
+                )}
+                </View>
             </Layout>
         </SafeAreaView>
     );
