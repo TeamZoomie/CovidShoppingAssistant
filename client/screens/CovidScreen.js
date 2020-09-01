@@ -58,7 +58,8 @@ export const CovidScreen = ({ navigation }) => {
         <TopNavigationAction icon={HamburgerIcon} onPress={() => 
             navigation.openDrawer()}/>
     );
-
+    
+    // Get the covid statistics from api
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
   
@@ -69,9 +70,7 @@ export const CovidScreen = ({ navigation }) => {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     }, []);
-    console.log(data);
 
-    
     return(
         <SafeAreaView style={styles.root}>
             <View>
@@ -111,12 +110,18 @@ export const CovidScreen = ({ navigation }) => {
                 <Text category='h6'>
                     Number of New COVID-19 Cases - {date.toLocaleDateString()}
                 </Text> 
-                <View>
+                <View style={{padding: 10 }}>
                 {isLoading ? <ActivityIndicator/> : (
-                     <Text category='h7'>
-                         TodayCases: {data.todayCases}<br/>
-                         TodayDeaths: {data.todayDeaths}
-                         </Text>
+                     <Text>
+                         {data.country}<br/>
+                         Cases: {data.cases} | 
+                         Today: {data.todayCases} |
+                         Active: {data.active} <br/>
+                         Deaths: {data.deaths} |
+                         Today: {data.todayDeaths}<br/>
+                         Recovered: {data.recovered} |
+                         Critical: {data.critical}
+                    </Text>
                 )}
                 </View>
             </Layout>
