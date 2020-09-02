@@ -10,6 +10,5 @@ router.register(r'Users', views.UserViewSet)
 
 urlpatterns = [
         path('', include(router.urls)),
-        path('covid-stats/', include('covidstats.urls')),
         path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
         ]
