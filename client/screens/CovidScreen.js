@@ -1,3 +1,4 @@
+/*laura*/
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Dimensions, ActivityIndicator,FlatList } from 'react-native';
 import { Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
