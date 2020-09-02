@@ -4,7 +4,7 @@ Team Zoomie has chosen *The Social Distancing Social Club*’s proposal to take 
 ## Team Zoomie
 Name | Experience
 ------------ | -------------
-Laura Pham | User interface and user experience
+Laura Pham | User interface, user experience, and front end programming
 Jessica Jenkinson | User interface and user experience
 Calum Henman | Cyber Security major with programming experience
 Theo Duval | Primarily programming skills, as well as maths and logic
