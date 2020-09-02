@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Dimensions, StyleSheet } from 'react-native';
 import { Card, List, Text } from '@ui-kitten/components';
 
@@ -35,11 +36,13 @@ export default function GridList(props) {
         </Card>
     );
     return (
-        <List
-            {...listProps}
-            numColumns={2}
-            contentContainerStyle={[styles.container, contentContainerStyle]}
-            renderItem={render}
-        />
+        <View>
+            <List
+                {...listProps}
+                numColumns={2}
+                contentContainerStyle={[styles.container, contentContainerStyle]}
+                renderItem={render}
+            />
+        </View>
     );
 }

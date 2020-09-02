@@ -1,32 +1,37 @@
 import React from 'react';
-import { View, StyleSheet, CheckBox } from 'react-native';
-import { Divider, Icon, Layout, 
-    TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { Toggle } from '@ui-kitten/components';
+import { View } from 'react-native';
+import { 
+    CheckBox,
+    Input,
+    Radio, 
+    RadioGroup,
+    Divider, 
+    Icon, 
+    Layout, 
+    TopNavigation, 
+    TopNavigationAction,
+    Toggle,
+    Text,
+    IndexPath, 
+    Select, 
+    SelectItem,
+    withStyles
+} from '@ui-kitten/components';
 import { SettingsContext } from '../settings-context';
-import { IndexPath, Select, SelectItem } from '@ui-kitten/components';
-import { Text } from '@ui-kitten/components';
-import { Radio, RadioGroup} from '@ui-kitten/components';
-import { Input } from '@ui-kitten/components';
+
 
 const styles = (theme) => ({
     root: {
         flex: 1,
         backgroundColor: theme['background-basic-color-2']
     },
-    layout: {
+    content: {
         padding: 16,
     },
     text: {
         fontWeight: "700",
         textAlign: 'left',
         marginHorizontal: 8
-    },
-    container: {
-        maxHeight: 200,
-        margin: 20,
-        borderColor: '#eee',
-        borderWidth: 2
     }
 });
 
@@ -35,7 +40,9 @@ const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
 
-export const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = ({ eva, navigation }) => {
+
+    const styles = eva.style;
 
     // Get the settings context as these variables need to be global
     const settingsContext = React.useContext(SettingsContext);
@@ -49,14 +56,13 @@ export const SettingsScreen = ({ navigation }) => {
     ];
 
     const displayValue = data[selectedIndex.row];
-
     const themeSelectChange = (index) => {
         setSelectedIndex(index);
         settingsContext.toggleTheme();
     };
 
-    const renderOption = (title) => (
-        <SelectItem title={title}/>
+    const renderOption = (title, id) => (
+        <SelectItem key={id} title={title}/>
       );
 
     // For the toggle of themes between light and dark
@@ -68,7 +74,7 @@ export const SettingsScreen = ({ navigation }) => {
     };
 
     // Username
-    const [username, setUsername] = React.useState(settingsContext.username)
+    const [username, setUsername] = React.useState(settingsContext.username);
 
     // For the radio buttons
     const [selectedRadioIndex, setSelectedRadioIndex] = React.useState(0);
@@ -91,54 +97,53 @@ export const SettingsScreen = ({ navigation }) => {
         <TopNavigationAction icon={HamburgerIcon} onPress={() => 
             navigation.openDrawer()}/>
     );
-
+    
     return (
         <View style={styles.root}>
-            <TopNavigation title='Settings' alignment='center' 
-                    accessoryLeft={DrawerAction}/>
-        <View style={styles.container}>
+            <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
             <Divider/>
+            <Layout style={styles.content}>
                 <Toggle checked={lightTheme} onChange={themeChange}>
                         {'Dark Theme'}
                 </Toggle> 
-            <Divider/>
+                <Divider/>
                 <Text>Username is {username}</Text>
                 <Input
                     placeholder={`${username}`}
                     value={username}
                     onChangeText={nextValue => setUsername(nextValue)}
                 />
-            <Divider/>
-                <Layout style={styles.content}>
-                    <Select
-                        selectedIndex={selectedIndex}
-                        label={<Text category='h6'>{'Theme'}</Text>}
-                        value={displayValue}
-                        onSelect={index => themeSelectChange(index)}>
-                        {data.map(renderOption)}
-                    </Select>                   
-            <Divider/>
+                <Divider/>
+                <Select
+                    selectedIndex={selectedIndex}
+                    label={<Text category='h6'>{'Theme'}</Text>}
+                    value={displayValue}
+                    onSelect={index => themeSelectChange(index)}>
+                    {data.map(renderOption)}
+                </Select>                   
+                <Divider/>
                 <Text style={styles.text} category='h6'>
                     {'Set Theme'}
                 </Text>
-
                 <RadioGroup
                     selectedIndex={selectedRadioIndex}
-                    onChange={index => themeRadioChange(index)}>
-                        <Radio>Light Theme</Radio>
-                        <Radio>Dark Theme</Radio>
+                    onChange={index => themeRadioChange(index)}
+                >
+                    <Radio>Light Theme</Radio>
+                    <Radio>Dark Theme</Radio>
                 </RadioGroup>
-            <Divider/>
+                <Divider/>
                 <CheckBox 
                     checked={checkedBoxes} 
                     value={checkedBoxes}
                     onValueChange={nextChecked => themeBoxChange(nextChecked)}>
                 </CheckBox>
-                <Text style={styles.text} category='h6' key={7}>
-                {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
+                <Text style={styles.text} category='h6'>
+                    {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
                 </Text>
             </Layout>
-            </View>
         </View>
     );
 };
+
+export default withStyles(SettingsScreen, styles);

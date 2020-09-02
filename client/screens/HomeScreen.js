@@ -1,31 +1,40 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text, Input, Divider, Icon, Layout, TopNavigation, TopNavigationAction, withStyles } from '@ui-kitten/components';
+import { ScrollView, View } from 'react-native';
+import { 
+    Text, 
+    Input, 
+    Divider, 
+    Icon, 
+    Layout, 
+    TopNavigation, 
+    TopNavigationAction, 
+    withStyles,
+    Button,
+    Modal,
+    Card
+} from '@ui-kitten/components';
 import GridList from '../components/GridList';
 import ShoppingLists from '../components/ShoppingLists';
-import data from '../data';
+import { ListsContext } from '../lists-context';
 
 const styles = (theme) => ({
     root: {
         flex: 1,
         backgroundColor: theme['background-basic-color-2']
     },
-    layout: {
+    content: {
         padding: 16,
     },
     header: {
         paddingBottom: 16
     },
     text: {
-        fontWeight: "700",
+        // fontWeight: '700',
         textAlign: 'left',
         marginHorizontal: 8
     },
-    container: {
-        maxHeight: 200,
-        margin: 20,
-        borderColor: '#eee',
-        borderWidth: 2
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     }
 });
 
@@ -46,37 +55,79 @@ const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
 
+const AddIcon = (props) => (
+    <Icon {...props} name='plus-outline' />
+);
+
 const HomeScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
+    const listsContext = React.useContext(ListsContext);
+
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
     );
+    const CreateAction = () => (
+        <TopNavigationAction icon={AddIcon} onPress={() => navigation.navigate('CreateList')}/>
+    );
+
     const [value, setValue] = React.useState('');
+
+    // For the modal pop up warning
+    const [visible, setVisible] = React.useState(false);
 
     return (
         <View style={styles.root}>
-            <TopNavigation title='Home' alignment='center' accessoryLeft={DrawerAction}/>
+            <TopNavigation 
+                title='Home' 
+                alignment='center' 
+                accessoryLeft={DrawerAction}
+                accessoryRight={CreateAction}
+            />
             <Divider/>
-            <View style={styles.layout}>
-                <Layout>
-                    <View style={styles.header}>
-                        <Text style={styles.text} category="h4">Welcome</Text>
-                    </View>
-                    <Input
-                        placeholder='Search...'
-                        value={value}
-                        onChangeText={nextValue => setValue(nextValue)}
-                    />
+            <Layout style={styles.content}>
+                <View style={styles.header}>
+                    <Text style={styles.text} category="h4">Welcome</Text>
+                </View>
+                <Input
+                    placeholder='Search...'
+                    value={value}
+                    onChangeText={nextValue => setValue(nextValue)}
+                />
+                <GridList 
+                    data={uiData} 
+                    onPress={id => navigation.navigate(uiData[id].route)}
+                />
+                <Divider/>
+
+                {/*This is for a popup warning*/}
+                <Button onPress={() => setVisible(true)}>
+                    Be Warned About Shopping
+                </Button>
+                <Modal
+                    visible={visible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setVisible(false)}
+                >
+                    <Card disabled={true}>
+                    <Text>Be sure to stay away from people and don't
+                        touch your face.
+                    </Text>
+                    <Button onPress={() => setVisible(false)}>
+                        Begin Shopping
+                    </Button>
+                    </Card>
+                </Modal>
+
+                <View style={{ height: '100%' }}>
                     <ShoppingLists 
-                        data={data.lists} 
-                        onPress={item => {
-                            navigation.navigate('List', item);
+                        data={listsContext.getLists()} 
+                        onPress={listId => {
+                            navigation.navigate('List', { listId });
                         }} 
                     />
-                    <GridList data={uiData} onPress={id => navigation.navigate(uiData[id].route)}/>
-                </Layout>
-            </View>
+                </View>
+            </Layout>
         </View>
     );
 }
