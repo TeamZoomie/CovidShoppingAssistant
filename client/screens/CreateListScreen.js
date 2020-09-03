@@ -13,7 +13,7 @@ import {
     Text,
     withStyles
 } from '@ui-kitten/components';
-import Header from '../components/Header';
+import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
 
 
@@ -50,7 +50,8 @@ const CreateListScreen = ({ eva, navigation }) => {
 
     const createList = () => {
         listsContext.addList({ name, dueDate, active: true }, listId => {
-            navigation.navigate("List", { listId })
+            navigation.pop();
+            navigation.navigate("List", { listId });
         });
     }
 
@@ -68,14 +69,14 @@ const CreateListScreen = ({ eva, navigation }) => {
             <Divider/>
             <Layout style={styles.content}>
                 <View>
-                    <Header category="c2">Enter List Name</Header>
+                    <Heading category="c2">Enter List Name</Heading>
                     <Input
                         placeholder="List name"
                         value={name}
                         onChangeText={nextValue => setName(nextValue)}
                         style={{ paddingBottom: 24 }}
                     />
-                    <Header category="c2">Due Date</Header>
+                    <Heading category="c2">Due Date</Heading>
                     <Datepicker
                         date={dueDate}
                         onSelect={nextDate => setDueDate(nextDate)}
