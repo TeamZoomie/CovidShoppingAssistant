@@ -59,10 +59,23 @@ const AddIcon = (props) => (
     <Icon {...props} name='plus-outline' />
 );
 
-const HomeScreen = ({ eva, navigation }) => {
+const HomeScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
+
+    // const { callback } = route.params;
+    // if (callback) {
+    //     callback();
+    // }
+    // const { state } = navigation;
+    // if (state && state.params && state.params.callBack)
+        // state.params.callBack();
+
+    // if (route.params && 'callback' in route.params) {
+    //     navigation.getParams('callback');
+    //     route.params.callback();
+    // }
 
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
@@ -70,8 +83,6 @@ const HomeScreen = ({ eva, navigation }) => {
     const CreateAction = () => (
         <TopNavigationAction icon={AddIcon} onPress={() => navigation.navigate('CreateList')}/>
     );
-
-    const [value, setValue] = React.useState('');
 
     // For the modal pop up warning
     const [visible, setVisible] = React.useState(false);
@@ -89,16 +100,16 @@ const HomeScreen = ({ eva, navigation }) => {
                 <View style={styles.header}>
                     <Text style={styles.text} category="h4">Welcome</Text>
                 </View>
-                <Input
+                {/* <Input
                     placeholder='Search...'
                     value={value}
                     onChangeText={nextValue => setValue(nextValue)}
-                />
-                <GridList 
+                /> */}
+                {/* <GridList 
                     data={uiData} 
                     onPress={id => navigation.navigate(uiData[id].route)}
                 />
-                <Divider/>
+                <Divider/> */}
 
                 {/*This is for a popup warning*/}
                 <Button onPress={() => setVisible(true)}>
@@ -121,7 +132,7 @@ const HomeScreen = ({ eva, navigation }) => {
 
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
-                        data={listsContext.getLists()} 
+                        data={listsContext.lists} 
                         onPress={listId => {
                             navigation.navigate('List', { listId });
                         }} 

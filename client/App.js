@@ -10,7 +10,7 @@ import { ListsContext } from './lists-context';
 import data from './data';
 
 
-export default class App extends Component {
+export default class App extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
@@ -19,7 +19,8 @@ export default class App extends Component {
 			lists: Object.assign(data.lists),
 			username: 'Zoomie',
 			// Do this for now, but eventually generate serverside
-			nextId: Object.values(data.lists).length + 1
+			nextId: Object.values(data.lists).length + 1,
+			test: 'test'
 		}
 	}
 
@@ -78,13 +79,28 @@ export default class App extends Component {
 		}));
 	}
 
+	removeList = (listId) => {
+		const { [listId]: value, ...listsWithout } = this.state.lists;
+		this.setState({ lists: listsWithout });
+	};
+
+
+	test = () => {
+		this.setState({
+			test: 'updated'
+		})
+	}
+
 	render() {
 		const listContextValues = {
 			addList: this.addList,
 			addListItem: this.addListItem,
 			removeListItem: this.removeListItem,
-			getList: this.getList,
-			getLists: this.getLists
+			removeList: this.removeList,
+			// getList: this.getList,
+			// getLists: this.getLists,
+			lists: this.state.lists,
+			test: this.test
 		};
 		const settingsContextValues = {
 			theme: this.state.theme, 
@@ -94,16 +110,16 @@ export default class App extends Component {
 		return (
 			<Fragment>
 				<IconRegistry icons={EvaIconsPack}/>
-				<SettingsContext.Provider value={settingsContextValues}>
-					<ApplicationProvider {...eva} theme={eva[this.state.theme]}>
-						<SafeAreaProvider>
+				<ApplicationProvider {...eva} theme={eva[this.state.theme]}>
+					<SafeAreaProvider>
+						<SettingsContext.Provider value={settingsContextValues}>
 							<StatusBar hidden/>
 							<ListsContext.Provider value={listContextValues}>
 								<AppNavigator/>
 							</ListsContext.Provider>
-						</SafeAreaProvider>
-					</ApplicationProvider>
-				</SettingsContext.Provider>
+						</SettingsContext.Provider>
+					</SafeAreaProvider>
+				</ApplicationProvider>
 			</Fragment>
 		);
 	}

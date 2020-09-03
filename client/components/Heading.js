@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
 
 const styles = StyleSheet.create({
-    header: {
+    root: {
         paddingBottom: 8
     },
     text: {
@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default function Header(props) {
+export default function Heading(props) {
     return (
-        <View style={styles.header}>
-            <Text {...props} style={styles.text} category={props.category}>{props.children}</Text>
+        <View style={styles.root}>
+            <Text {...props} style={[styles.text, props.style]} category={props.category}>{props.children}</Text>
         </View>
     )
 }
