@@ -161,7 +161,7 @@ const HomeScreen = ({ eva, navigation, route }) => {
 
                     />
                 <Button onPress={() => setScanned(false)}>
-                    Scan again
+                    Scan
                 </Button>
 
                 <View style={{ height: '100%' }}>
