@@ -13,7 +13,6 @@ import {
     Modal,
     Card
 } from '@ui-kitten/components';
-import GridList from '../components/GridList';
 import ShoppingLists from '../components/ShoppingLists';
 import { ListsContext } from '../lists-context';
 import { BarCodeScanner} from 'expo-barcode-scanner';
@@ -39,19 +38,6 @@ const styles = (theme) => ({
     },
 });
 
-const uiData = [
-    {
-        title: 'Start Shopping',
-        route: 'List',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
-    },
-    {
-        title: 'Create List',
-        route: 'List',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
-    },
-]
-
 const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
 );
@@ -60,23 +46,10 @@ const AddIcon = (props) => (
     <Icon {...props} name='plus-outline' />
 );
 
-const HomeScreen = ({ eva, navigation, route }) => {
+const HomeScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
-
-    // const { callback } = route.params;
-    // if (callback) {
-    //     callback();
-    // }
-    // const { state } = navigation;
-    // if (state && state.params && state.params.callBack)
-        // state.params.callBack();
-
-    // if (route.params && 'callback' in route.params) {
-    //     navigation.getParams('callback');
-    //     route.params.callback();
-    // }
 
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
@@ -127,21 +100,11 @@ const HomeScreen = ({ eva, navigation, route }) => {
                 <View style={styles.header}>
                     <Text style={styles.text} category="h4">Welcome</Text>
                 </View>
-                {/* <Input
-                    placeholder='Search...'
-                    value={value}
-                    onChangeText={nextValue => setValue(nextValue)}
-                /> */}
-                {/* <GridList 
-                    data={uiData} 
-                    onPress={id => navigation.navigate(uiData[id].route)}
-                />
-                <Divider/> */}
 
                 {/*This is for a popup warning*/}
-                <Button onPress={() => setVisible(true)}>
-                    Be Warned About Shopping
-                </Button>
+                {/* <Button onPress={() => setVisible(true)}> */}
+                    {/* Be Warned About Shopping */}
+                {/* </Button> */}
                 <Modal
                     visible={visible}
                     backdropStyle={styles.backdrop}

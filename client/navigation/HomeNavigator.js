@@ -3,6 +3,7 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
 import CreateListScreen from '../screens/CreateListScreen';
+import ShoppingIntroScreen from '../screens/ShoppingIntroScreen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -15,6 +16,7 @@ export const HomeNavigator = () => {
             <Screen name="Home" component={HomeScreen} />
             <Screen name="List" component={ListScreen} />
             <Screen name="CreateList" component={CreateListScreen} />
+            <Screen name="ShoppingIntro" component={ShoppingIntroScreen} />
         </Navigator>
     );
 };

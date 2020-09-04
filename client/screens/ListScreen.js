@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { 
     Input, 
@@ -46,22 +46,43 @@ const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
-const ListScreen = React.memo(({ route, navigation, eva }) => {
+const ListScreen = ({ route, navigation, eva }) => {
 
     const styles = eva.style;
-    
-    if (!('listId' in route.params)) {
-        return <View><Text>No List</Text></View>;
-    }
-    
-    const { listId } = route.params;
+    const listsContext = React.useContext(ListsContext);
+    const theme = useTheme();
+
     const [addText, setAddText] = React.useState('');
     const [settingsVisible, setSettingsVisible] = React.useState(false);
+    const [shoppingMode, setShoppingMode] = React.useState(route.params?.shoppingMode || false);
 
-    const listsContext = React.useContext(ListsContext);
-    let list = listsContext.lists[listId];
+    const { listId } = route.params;
+    const list = listsContext.lists[listId];
+    
+    useEffect(() => {
+        console.log(route.params.shoppingMode)
+        if (shoppingMode !== route.params?.shoppingMode) {
+            setShoppingMode(route.params.shoppingMode);
+        }
+    }, [route.params?.shoppingMode]);
 
-    const theme = useTheme();
+    const addListItem = () => {
+        if (addText !== '') {
+            listsContext.addListItem(listId, { name: addText, checked: false });
+            setAddText('');
+        }
+    };
+
+    const removeItem = (index) => {
+        listsContext.removeListItem(listId, index);
+    };
+
+    const removeList = () => {
+        setSettingsVisible(false);
+        navigation.navigate("Home");
+        listsContext.removeList(listId);
+
+    };
 
     const BackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
@@ -79,29 +100,16 @@ const ListScreen = React.memo(({ route, navigation, eva }) => {
                 <MenuItem title='Print' onPress={() => print()}/>
                 <MenuItem
                     title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkred' }]}>Delete</Text>}
+                    // onPress={navigation.navigate("Home", { callback: removeList })}
                     onPress={removeList}
                 />
             </OverflowMenu>
         </View>
         
     );
-
-    const addListItem = () => {
-        if (addText !== '') {
-            listsContext.addListItem(listId, { name: addText, checked: false });
-            setAddText('');
-        }
-    };
-
-    const onRemoveItem = (index) => {
-        listsContext.removeListItem(listId, index);
-        // listsContext.test();
-    };
-
-    const removeList = () => {
-        navigation.navigate("Home", { callback: () => listsContext.removeList(listId) });
-    };
-
+    if (!list || Object.keys(list).length === 0) {
+        return <View><Text>No List</Text></View>
+    }
     return (
         <View style={styles.root}>
             <TopNavigation 
@@ -128,7 +136,6 @@ const ListScreen = React.memo(({ route, navigation, eva }) => {
                     />
                 </View>
                 <ScrollView 
-                    // style={[{height: '100%' }, list.items.length === 0 ? {} : {}]}
                     contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
                 >
                     {list.items.length === 0 ? (
@@ -141,12 +148,30 @@ const ListScreen = React.memo(({ route, navigation, eva }) => {
                             </Text>
                         </View>
                     ) : (
-                        <ShoppingList data={list.items} onRemoveItem={onRemoveItem}/>
+                        <ShoppingList data={list.items} onRemoveItem={removeItem}/>
                     )}
                 </ScrollView>
+                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+                    {shoppingMode ? (
+                        <Button 
+                            style={{ width: '50%' }} 
+                            onPress={() => {
+                                setShoppingMode(false);
+                                navigation.setParams({ shoppingMode: false })
+                            }}
+                        >
+                            Finished
+                        </Button>
+                    ) : (
+                        <Button style={{ width: '50%' }} onPress={() => navigation.navigate("ShoppingIntro")}>
+                            Start Shopping
+                        </Button>
+                    )}
+                    
+                </View>
             </Layout>
         </View>
     );
-})
+}
 
 export default withStyles(ListScreen, styles);
