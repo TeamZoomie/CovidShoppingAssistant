@@ -92,13 +92,14 @@ const HomeScreen = ({ eva, navigation, route }) => {
 	const [hasPermission, setHasPermission] = React.useState(null);
 	const [scanned, setScanned] = React.useState(false);
 
-	// Get the necessary permissions to use the camera
+    // Get the necessary permissions to use the camera
+    /*
 	React.useEffect(() => {
 		(async () => {
 		  const { status } = await BarCodeScanner.requestPermissionsAsync();
 		  setHasPermission(status === 'granted');
 		})();
-	}, []);
+    }, []);
 
 	const handleBarCodeScanned = ({ type, data }) => {
 		setScanned(true);
@@ -112,7 +113,7 @@ const HomeScreen = ({ eva, navigation, route }) => {
 	if (hasPermission === false) {
 		return <Text>No access to camera</Text>;
 	}
-
+    */
     return (
         <View style={styles.root}>
             <TopNavigation 
@@ -156,13 +157,12 @@ const HomeScreen = ({ eva, navigation, route }) => {
                     </Card>
                 </Modal>
 
-                <BarCodeScanner
+                {/*<BarCodeScanner
                         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-
-                    />
+                />
                 <Button onPress={() => setScanned(false)}>
                     Scan
-                </Button>
+                </Button>*/}
 
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
