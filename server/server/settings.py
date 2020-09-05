@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'covidstats.apps.CovidstatsConfig',
-    'rest_framework'
+    'rest_framework',
+    'requests',
+    'json'
 ]
 
 MIDDLEWARE = [

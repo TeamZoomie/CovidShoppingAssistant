@@ -4,6 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('', views.CovidViewSet)
+router.register(r'news', views.NewsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

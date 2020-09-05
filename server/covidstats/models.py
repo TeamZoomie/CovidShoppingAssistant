@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 class CovidAustralia(models.Model):
     country = models.CharField(max_length=60)
@@ -17,4 +18,7 @@ class CovidAustralia(models.Model):
     def __str__(self):
         return self.country
 
+class NewsModel(models.Model):
+    number = models.CharField()
+    json = JSONField()
 # Create your models here.
