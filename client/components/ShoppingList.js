@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import {  View, StyleSheet } from 'react-native';
 import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
-import { ListsContext } from '../../lists-context';
 
 const styles = StyleSheet.create({
     item: {
@@ -9,14 +8,12 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'column',
-        // alignItems: 'flex-start',
         flex: 1,
         width: '100%'
     },
     contentContainer: {
         flex: 1,
-        padding: 16,
-        // display: 'flex',
+        padding: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
@@ -39,19 +36,18 @@ const styles = StyleSheet.create({
 const RemoveIcon = (props) => (
     <Icon {...props} height={16} name='trash-outline' />
 );
-
 const ListItem = (props) => {
-    const listsContext = React.useContext(ListsContext);
     const [checked, setChecked] = React.useState(false);
     return (
         <View style={styles.contentContainer}>
             <View>
                 <CheckBox
-                    style={[styles.checkbox, checked ? { textDecorationLine: 'line-through' } : {}]}
                     checked={checked}
                     onChange={nextChecked => setChecked(nextChecked)}
                 >
-                    {props.name}
+                    <Text style={checked ? { textDecorationLine: 'line-through' } : {}}>
+                        {props.name}
+                    </Text>
                 </CheckBox>
                 {/* <View style={styles.subItem}>
                     <Text>

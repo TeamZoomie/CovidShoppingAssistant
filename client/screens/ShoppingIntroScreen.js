@@ -118,4 +118,4 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
     );
 };
 
-export default withStyles(ShoppingIntroScreen, styles)
+export default withStyles(ShoppingIntroScreen, styles);

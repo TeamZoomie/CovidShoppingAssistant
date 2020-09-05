@@ -60,7 +60,6 @@ const ListScreen = ({ route, navigation, eva }) => {
     const list = listsContext.lists[listId];
     
     useEffect(() => {
-        console.log(route.params.shoppingMode)
         if (shoppingMode !== route.params?.shoppingMode) {
             setShoppingMode(route.params.shoppingMode);
         }
@@ -76,14 +75,12 @@ const ListScreen = ({ route, navigation, eva }) => {
     const removeItem = (index) => {
         listsContext.removeListItem(listId, index);
     };
-
     const removeList = () => {
         setSettingsVisible(false);
         navigation.navigate("Home");
         listsContext.removeList(listId);
 
     };
-
     const BackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
     );
@@ -108,7 +105,7 @@ const ListScreen = ({ route, navigation, eva }) => {
         
     );
     if (!list || Object.keys(list).length === 0) {
-        return <View><Text>No List</Text></View>
+        return <View><Text>No List</Text></View>;
     }
     return (
         <View style={styles.root}>
@@ -163,7 +160,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                             Finished
                         </Button>
                     ) : (
-                        <Button style={{ width: '50%' }} onPress={() => navigation.navigate("ShoppingIntro")}>
+                        <Button style={{ width: '50%' }} onPress={() => navigation.navigate("StoreSelector")}>
                             Start Shopping
                         </Button>
                     )}
