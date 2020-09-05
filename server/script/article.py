@@ -3,13 +3,14 @@ from bs4 import BeautifulSoup
 
 
 topic = 'covid-19'
-hl = 'en-US'
+hl = 'en-AU'
+ceid = 'AU:en'
 sort = 'date'
-region = 'US'
+region = 'AU'
 num = 5
 output = 'rss'
 
-url = f"http://news.google.com/news?q={topic}&hl={hl}&sort={sort}&gl={region}&num={num}&output={output}"
+url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
 print(url)
 
 

@@ -10,7 +10,7 @@ class CovidViewSet(viewsets.ModelViewSet):
     """
     API endpoint
     """
-    queryset = CovidAustralia.objects.all()
+    queryset = CovidAustralia.objects.all(
     serializer_class = CovidSerializer
 
     CovidAustralia.objects.all().delete()
