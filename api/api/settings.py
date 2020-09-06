@@ -25,7 +25,7 @@ SECRET_KEY = 'j$7mrlmw*(jaxe82_sep4&30*j^yk&g#goxr(*706jd6ap)9$r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net']
 
 
 # Application definition
@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'covidstats.apps.CovidstatsConfig',
+    'rest_framework',
+    'requests',
+    'bs4',
+    'feedparser'
 ]
 
 MIDDLEWARE = [
