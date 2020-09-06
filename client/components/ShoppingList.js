@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         height: '100%',
+        alignItems: 'center'
     },
     subItem: {
         backgroundColor: 'lightgrey',

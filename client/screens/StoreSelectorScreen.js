@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 import { 
+    Card,
     Input,
     Icon,
     Layout,
@@ -10,9 +11,12 @@ import {
     Button,
     withStyles,
     Divider,
+    Spinner
 } from '@ui-kitten/components';
+import * as Location from 'expo-location';
 import Heading from '../components/Heading';
-import { getPlacesAutocomplete } from '../api/GooglePlacesAPI';
+import StoreList from '../components/StoreList';
+import { getPlacesNearby } from '../api/GooglePlacesAPI';
 
 const styles = (theme) => ({
     root: {
@@ -27,6 +31,9 @@ const styles = (theme) => ({
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
+    errorText: {
+        color: theme['color-primary-default']
+    }
 });
 
 const ConfirmIcon = (props) => (
@@ -39,17 +46,68 @@ const BackIcon = (props) => (
 const StoreSelectorScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
-    const [searchText, setSearchText] = React.useState('');
-    const confirmStore = () => {
-        navigation.navigate("ShoppingIntro");
-    };
-    const getStores = () => {
-        getPlacesAutocomplete({ input: searchText, type: 'establishment' }, error => {
-            console.log(error)
-        });
-        // Do stuff
+    const [searchText, setSearchText] = useState('');
+    const [stores, setStores] = useState([]);
+    const [location, setLocation] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                let { status } = await Location.requestPermissionsAsync();
+                if (status !== 'granted') {
+                    console.log('Permission to access location was denied');
+                }
+            
+                let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+                setLocation(location);
+                getStores(location);
+
+            } catch (error) {
+                setLoading(false);
+                setError(true);
+            }
+        })();
+    }, []);
+
+    const confirmStore = (id) => {
+        navigation.navigate("ShoppingIntro", stores[id]);
     };
 
+    const getStores = (location) => {
+        setLoading(true);
+        const searchParams = { 
+            keyword: searchText, 
+            type: 'supermarket', 
+            rankby: 'distance',
+            location: location.coords.latitude + ',' + location.coords.longitude, 
+            // radius: 20000 // 20km
+        };
+        getPlacesNearby(searchParams)
+            .then(payload => {
+                setLoading(false);
+                if (payload.status === 'REQUEST_DENIED') {
+                    setError(true);
+                }
+                setStores(
+                    payload.results.map(store => ({
+                        icon: store.icon,
+                        placeId: store.place_id,
+                        mainText: store.name,
+                        secondaryText: store.vicinity,
+                    }))
+                );
+            })
+            .catch(error => setError(true));
+    };
+    const onSearchTextChange = (value) => {
+        // Need to setup debounce.
+        if (value !== '' && value.length > 3) {
+            getStores(location)
+        }
+        setSearchText(value);
+    };
     const BackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.navigate("List", { shoppingMode: false })}/>
     );
@@ -71,28 +129,32 @@ const StoreSelectorScreen = ({ eva, navigation }) => {
                     <Input
                         placeholder="Search"
                         value={searchText}
-                        onChangeText={value => setSearchText(value)}
-                        style={{ paddingBottom: 24 }}
+                        onChangeText={onSearchTextChange}
+                        style={{ paddingBottom: 16 }}
                     />
-                    <Button onPress={getStores}>Test Search</Button>
+                </View>
+                <View style={loading || error ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                    {loading || error ? (
+                        error ? (
+                            <Fragment>
+                                <Heading category="h6" style={styles.errorText}>
+                                    Could not get location.
+                                </Heading>
+                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                    An error occured...
+                                </Text>
+                            </Fragment>
+                        ) : (
+                            <Spinner size='giant'/>
+                        )
+                    ) : (
+                        <Fragment>
+                            <Heading category="c2">Results</Heading>
+                            <StoreList stores={stores} onPress={id => confirmStore(id)} />
+                        </Fragment>
+                    )}
                 </View>
             </Layout>
-            {/* <GooglePlacesAutocomplete
-                placeholder='Search'
-                // fetchDetails={true}
-                onPress={(data, details) => {
-                    console.log(data, details);
-                }}
-                GooglePlacesSearchQuery={{ types: ['grocery'] }}
-                onFail={(error) => console.error(error)}
-                query={{
-                    key: GOOGLE_API_KEY,
-                    language: 'en',
-                    components: 'country:aus',
-                    types: 'establishment'
-                }}
-                enablePoweredByContainer={false}
-            /> */}
         </View>
     );
 };
