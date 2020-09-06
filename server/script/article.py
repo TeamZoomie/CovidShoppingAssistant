@@ -1,16 +1,16 @@
 import feedparser
 from bs4 import BeautifulSoup
+import json
 
 
 topic = 'covid-19'
 hl = 'en-AU'
-ceid = 'AU:en'
 sort = 'date'
 region = 'AU'
 num = 5
 output = 'rss'
 
-url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
+url = f"http://news.google.com/news?q={topic}&hl={hl}&sort={sort}&gl={region}&num={num}&output={output}"
 print(url)
 
 
@@ -40,7 +40,6 @@ class ParseFeed:
             info['Published Date'] = f.get("published", ""),
             info['Title'] = f.get("title", ""),
             info['Url'] = f.get("link", "")
-
             result.append(info)
         return result
 
@@ -48,6 +47,25 @@ class ParseFeed:
         # TODO: get the image of each article
         return 0
 
+def articleToJson(data, filename):
+    with open(filename, "w") as f:
+        f.write(''.join([
+            # '<html>',
+            # '<head><meta charset="utf-8" /></head>',
+            # '<body>',
+            #
+            # "<div id='draw'>",
+            # "<svg></svg>",
+            # "</div>"
+            # "<p>",
+            # "{};".format(data),
+            # "</p>"
+            data
+        ]))
+
+
 feed = ParseFeed(url)
 article = feed.parse()
-print(article)
+data = json.dumps(article)
+# Parse the Json data into news.json
+articleToJson(data, 'news.json')
