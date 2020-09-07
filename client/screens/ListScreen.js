@@ -33,13 +33,13 @@ const styles = (theme) => ({
     searchField: {
         width: '72%',
         padding: 0,
-        borderColor: '#FFFFFF'
+        borderColor: theme['background-basic-color-2']
     },
     addTextItem: {
         width: '13%',
         height: 16,
-        backgroundColor: '#FFFFFF',
-        borderColor: '#FFFFFF'//'#A3B2C7'
+        backgroundColor: theme['background-basic-color-2'],
+        borderColor: theme['background-basic-color-2']//'#A3B2C7'
     },
     container: {
         flexDirection: 'row',
@@ -54,14 +54,14 @@ const BackIcon = (props) => (
 );
 
 const AddIcon = (props) => (
-    <Icon {...props} height={25} width={25} name='plus-circle-outline' />
+    <Icon height={25} width={25} name='plus-circle-outline' />
 );
 
 const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
-const BarcodeIcon = () => (
+const BarcodeIcon = () => (// TODO Make a barcode icon
     <Image 
         source = {require("../assets/barcode-solid.png")}
         style = {{ width: 35, height: 24 }} 
