@@ -47,6 +47,11 @@ const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
+// TODO Make a barcode icon
+const BarcodeIcon = (props) => (
+    <Icon {...props} name='camera-outline' />
+);
+
 const ListScreen = ({ route, navigation, eva }) => {
 
     const styles = eva.style;
@@ -174,7 +179,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                             accessoryLeft={AddIcon}
                             onPress={addListItem}
                         />
-                        <Button onPress={() => setScanMode(true)}>
+                        <Button accessoryLeft={BarcodeIcon} onPress={() => setScanMode(true)}>
                             Scan
                         </Button>
                     </View>
