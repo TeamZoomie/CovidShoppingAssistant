@@ -69,8 +69,6 @@ const DemoScreen = ({ navigation, eva }) => {
                 <Text style={styles.text}>
                     Create list for an easier shopping experience
                 </Text>
-                <Button>
-       BUTTON
 </Layout>
         </View>
     );
