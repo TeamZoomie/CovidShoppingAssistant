@@ -32,6 +32,11 @@ const styles = (theme) => ({
     },
     searchField: {
         width: '100%'
+    },
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 0
     }
 });
 
@@ -109,7 +114,8 @@ const ListScreen = ({ route, navigation, eva }) => {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setScanMode(false);
-		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        addListItem(data)
     };
 
     const BackAction = () => (
@@ -173,15 +179,19 @@ const ListScreen = ({ route, navigation, eva }) => {
                             onChangeText={nextValue => setAddText(nextValue)}
                             onSubmitEditing={addListItem}
                         />
-                        <Button 
-                            style={styles.button} 
-                            appearance='filled' 
-                            accessoryLeft={AddIcon}
-                            onPress={addListItem}
-                        />
-                        <Button accessoryLeft={BarcodeIcon} onPress={() => setScanMode(true)}>
-                            Scan
-                        </Button>
+                        <Layout style={styles.container}>
+                            <Button 
+                                style={styles.button} 
+                                appearance='filled' 
+                                accessoryLeft={AddIcon}
+                                onPress={addListItem}
+                            >
+                                From Text
+                            </Button>
+                            <Button accessoryLeft={BarcodeIcon} onPress={() => setScanMode(true)}>
+                                From Barcode
+                            </Button>
+                        </Layout>  
                     </View>
                     <ScrollView 
                         contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
