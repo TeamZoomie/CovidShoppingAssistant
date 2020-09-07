@@ -68,6 +68,23 @@ const case_numbers_historical = {
         
 ]}
 
+const case_data = [
+    {
+      name: "Days below 10 cases",
+      population: 135,
+      color: "rgba(131, 167, 234, 1)",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "Days with 10 or more new cases",
+      population: 27,
+      color: "#F00",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    }
+];
+
 export const CovidScreen = ({ navigation }) => {
 
     const [date, setDate] = React.useState(new Date());
@@ -154,6 +171,15 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLines={false}
                 />
                 <Divider/>
+                <PieChart
+                    data={case_data}
+                    width={Dimensions.get('window').width}
+                    height={220}
+                    chartConfig={chartConfig}
+                    accessor="population"
+                    paddingLeft="15"
+                    absolute
+                />
             </Layout>
         </SafeAreaView>
     );
