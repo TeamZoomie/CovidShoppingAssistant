@@ -35,8 +35,8 @@ const styles = (theme) => ({
     date: {
         fontWeight: '700', 
         textAlign: 'right', 
-        paddingLeft: 32, 
-        paddingRight: 32,
+        paddingLeft: 13, 
+        paddingRight: 13,
         marginBottom: 8,
     },
     item: {
