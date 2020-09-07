@@ -150,10 +150,6 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLines={false}
                 />
                 <Divider/>
-                <PieChart
-                    data={case_numbers_historical}
-                    chartConfig={chartConfig}
-                />
             </Layout>
         </SafeAreaView>
     );
