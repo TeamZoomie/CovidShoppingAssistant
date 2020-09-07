@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Image } from 'react-native';
 import { 
     Input, 
     Text,
@@ -31,12 +31,21 @@ const styles = (theme) => ({
         padding: 16,
     },
     searchField: {
-        width: '100%'
+        width: '72%',
+        padding: 0,
+        borderColor: '#FFFFFF'
+    },
+    addTextItem: {
+        width: '13%',
+        height: 16,
+        backgroundColor: '#FFFFFF',
+        borderColor: '#FFFFFF'//'#A3B2C7'
     },
     container: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        padding: 0
+        padding: 2,
+        leftMargin: 2
     }
 });
 
@@ -45,16 +54,18 @@ const BackIcon = (props) => (
 );
 
 const AddIcon = (props) => (
-    <Icon {...props} height={16} name='plus-circle-outline' />
+    <Icon {...props} height={25} width={25} name='plus-circle-outline' />
 );
 
 const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
-// TODO Make a barcode icon
-const BarcodeIcon = (props) => (
-    <Icon {...props} name='camera-outline' />
+const BarcodeIcon = () => (
+    <Image 
+        source = {require("../assets/barcode-solid.png")}
+        style = {{ width: 35, height: 24 }} 
+    />
 );
 
 const ListScreen = ({ route, navigation, eva }) => {
@@ -172,26 +183,27 @@ const ListScreen = ({ route, navigation, eva }) => {
                 <Divider/>
                 <Layout style={styles.content}>
                     <View>
-                        <Input
-                            style={styles.searchField}
-                            placeholder='Add new item...'
-                            value={addText}
-                            onChangeText={nextValue => setAddText(nextValue)}
-                            onSubmitEditing={addListItem}
-                        />
                         <Layout style={styles.container}>
+                            <Input
+                                style={styles.searchField}
+                                placeholder='Add new item...'
+                                value={addText}
+                                onChangeText={nextValue => setAddText(nextValue)}
+                                onSubmitEditing={addListItem}
+                            />
                             <Button 
-                                style={styles.button} 
-                                appearance='filled' 
+                                style={styles.addTextItem} 
+                                appearance='ghost' 
                                 accessoryLeft={AddIcon}
                                 onPress={addListItem}
-                            >
-                                From Text
-                            </Button>
-                            <Button accessoryLeft={BarcodeIcon} onPress={() => setScanMode(true)}>
-                                From Barcode
-                            </Button>
-                        </Layout>  
+                            />                           
+                            <Button 
+                                accessoryLeft={BarcodeIcon}
+                                appearance='ghost'
+                                onPress={() => setScanMode(true)}
+                                style={styles.addTextItem}
+                            />
+                        </Layout>
                     </View>
                     <ScrollView 
                         contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
