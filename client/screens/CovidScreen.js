@@ -105,36 +105,35 @@ export const CovidScreen = ({ navigation }) => {
                 <View style={styles.covid}>
                 {isLoading ? <ActivityIndicator/> : (
                      <Text style={{
-                         fontSize: 20,
-                         fontWeight: 550,
+                         fontSize: 22,
+                         fontWeight: "700"
                           }}>
                          {data.country}
-                         <br/>
-                         <View style={{
-                            fontSize: 15,
-                            paddingLeft: 10
-                            // color: 696969
-                          }}>
-                            <Text>
-                            Cases: {data.cases} | 
-                            Today: {data.todayCases} |
-                            Active: {data.active} <br/>
-                            Deaths: {data.deaths} |
-                            Today: {data.todayDeaths}<br/>
-                            Recovered: {data.recovered} |
-                            Critical: {data.critical}
+                         {'\n'}
+                            <Text style={{
+                            fontSize: 17
+                            }}>
+                                {'\n'}Cases: {data.cases} | 
+                                Today: {data.todayCases} |
+                                Active: {data.active} {'\n'}
+                                Deaths: {data.deaths} |
+                                Today: {data.todayDeaths}{'\n'}
+                                Recovered: {data.recovered} |
+                                Critical: {data.critical}
                             </Text>
-                         </View>
                     </Text>
                 )}
                 </View>
                 <Divider/>
-                <Text category='h6'>
+                <Text style={{
+                    fontSize: 17,
+                    fontWeight:"700"
+                }}>
                     Number of New COVID-19 Cases Per Day
                 </Text> 
                 <View style = {styles.content}>
                     <Text>
-                        From 13th of March to 31st of August
+                        {'\n'}From 13th of March to 31st of August
                     </Text>
                 </View>
                 <LineChart
