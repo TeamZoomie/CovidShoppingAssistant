@@ -34,7 +34,7 @@ export default function ShoppingLists(props) {
         <ListItem
             containerStyle={{flex: 1, alignSelf: 'stretch' }}
             style={{flex: 1, alignSelf: 'stretch' }}
-            title={evaProps => <Text category="h6" style={{ marginHorizontal: 8 }} category="h6">{item.name}</Text>}
+            title={evaProps => <Text style={{ marginHorizontal: 8 }} category="h6">{item.name}</Text>}
             description={'Last used ' +  format(item.date, 'dd/MM/yy')}
             accessoryRight={ArrowIcon}
             onPress={() => props.onPress(item.id)}

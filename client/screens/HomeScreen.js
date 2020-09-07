@@ -13,9 +13,9 @@ import {
     Modal,
     Card
 } from '@ui-kitten/components';
-import GridList from '../components/GridList';
 import ShoppingLists from '../components/ShoppingLists';
 import { ListsContext } from '../lists-context';
+import { BarCodeScanner} from 'expo-barcode-scanner';
 
 const styles = (theme) => ({
     root: {
@@ -35,21 +35,8 @@ const styles = (theme) => ({
     },
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    }
+    },
 });
-
-const uiData = [
-    {
-        title: 'Start Shopping',
-        route: 'List',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
-    },
-    {
-        title: 'Create List',
-        route: 'List',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
-    },
-]
 
 const HamburgerIcon = (props) => (
     <Icon {...props} name='menu-outline' />
@@ -71,11 +58,35 @@ const HomeScreen = ({ eva, navigation }) => {
         <TopNavigationAction icon={AddIcon} onPress={() => navigation.navigate('CreateList')}/>
     );
 
-    const [value, setValue] = React.useState('');
-
     // For the modal pop up warning
     const [visible, setVisible] = React.useState(false);
 
+    // For barcode scanner
+	const [hasPermission, setHasPermission] = React.useState(null);
+	const [scanned, setScanned] = React.useState(false);
+
+    // Get the necessary permissions to use the camera
+    /*
+	React.useEffect(() => {
+		(async () => {
+		  const { status } = await BarCodeScanner.requestPermissionsAsync();
+		  setHasPermission(status === 'granted');
+		})();
+    }, []);
+
+	const handleBarCodeScanned = ({ type, data }) => {
+		setScanned(true);
+		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+	};
+
+	if (hasPermission === null) {
+		return <Text>Requesting for camera permission</Text>;
+	}
+
+	if (hasPermission === false) {
+		return <Text>No access to camera</Text>;
+	}
+    */
     return (
         <View style={styles.root}>
             <TopNavigation 
@@ -89,21 +100,11 @@ const HomeScreen = ({ eva, navigation }) => {
                 <View style={styles.header}>
                     <Text style={styles.text} category="h4">Welcome</Text>
                 </View>
-                <Input
-                    placeholder='Search...'
-                    value={value}
-                    onChangeText={nextValue => setValue(nextValue)}
-                />
-                <GridList 
-                    data={uiData} 
-                    onPress={id => navigation.navigate(uiData[id].route)}
-                />
-                <Divider/>
 
                 {/*This is for a popup warning*/}
-                <Button onPress={() => setVisible(true)}>
-                    Be Warned About Shopping
-                </Button>
+                {/* <Button onPress={() => setVisible(true)}> */}
+                    {/* Be Warned About Shopping */}
+                {/* </Button> */}
                 <Modal
                     visible={visible}
                     backdropStyle={styles.backdrop}
@@ -119,9 +120,16 @@ const HomeScreen = ({ eva, navigation }) => {
                     </Card>
                 </Modal>
 
+                {/*<BarCodeScanner
+                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                />
+                <Button onPress={() => setScanned(false)}>
+                    Scan
+                </Button>*/}
+
                 <View style={{ height: '100%' }}>
                     <ShoppingLists 
-                        data={listsContext.getLists()} 
+                        data={listsContext.lists} 
                         onPress={listId => {
                             navigation.navigate('List', { listId });
                         }} 
