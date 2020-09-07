@@ -124,6 +124,7 @@ export const CovidScreen = ({ navigation }) => {
                     </Text>
                 )}
                 </View>
+                {/*
                 <Divider/>
                 <Text style={{
                     fontSize: 17,
@@ -144,7 +145,7 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLabels={false}
                     withHorizontalLines={false}
                     withVerticalLines={false}
-                />
+                />*/}
             </Layout>
         </SafeAreaView>
     );

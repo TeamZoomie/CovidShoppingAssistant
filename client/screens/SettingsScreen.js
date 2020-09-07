@@ -103,24 +103,26 @@ const SettingsScreen = ({ eva, navigation }) => {
             <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
             <Divider/>
             <Layout style={styles.content}>
-                <Toggle checked={lightTheme} onChange={themeChange}>
-                        {'Dark Theme'}
-                </Toggle> 
-                <Divider/>
-                <Text>Username is {username}</Text>
-                <Input
-                    placeholder={`${username}`}
-                    value={username}
-                    onChangeText={nextValue => setUsername(nextValue)}
-                />
-                <Divider/>
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>{'Theme'}</Text>}
                     value={displayValue}
                     onSelect={index => themeSelectChange(index)}>
                     {data.map(renderOption)}
-                </Select>                   
+                </Select>    
+                {/*
+                <Toggle checked={lightTheme} onChange={themeChange}>
+                        {'Dark Theme'}
+                </Toggle> 
+                */}
+                <Divider/>
+                <Text category='h6'>Username is {username}</Text>
+                <Input
+                    placeholder={`${username}`}
+                    value={username}
+                    onChangeText={nextValue => setUsername(nextValue)}
+                />
+                {/*       
                 <Divider/>
                 <Text style={styles.text} category='h6'>
                     {'Set Theme'}
@@ -141,6 +143,7 @@ const SettingsScreen = ({ eva, navigation }) => {
                 <Text style={styles.text} category='h6'>
                     {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
                 </Text>
+                */}
             </Layout>
         </View>
     );
