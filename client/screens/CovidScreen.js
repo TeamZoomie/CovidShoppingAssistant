@@ -70,14 +70,14 @@ const case_numbers_historical = {
 
 const case_data = [
     {
-      name: "Days below 10 cases",
+      name: "Days < 10",
       population: 135,
       color: "rgba(131, 167, 234, 1)",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
-      name: "Days with 10 or more new cases",
+      name: "Days >= 10",
       population: 27,
       color: "#F00",
       legendFontColor: "#7F7F7F",
@@ -172,8 +172,9 @@ export const CovidScreen = ({ navigation }) => {
                 />
                 <Divider/>
                 <PieChart
+                    style={styles.container}
                     data={case_data}
-                    width={Dimensions.get('window').width}
+                    width={Dimensions.get('window').width - 50}
                     height={220}
                     chartConfig={chartConfig}
                     accessor="population"
