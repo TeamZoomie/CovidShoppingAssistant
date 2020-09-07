@@ -179,6 +179,7 @@ export const CovidScreen = ({ navigation }) => {
                     accessor="population"
                     paddingLeft="15"
                     absolute
+                    backgroundColor="transparent"
                 />
             </Layout>
         </SafeAreaView>
