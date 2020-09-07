@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
-import { 
+import { Header, ScrollView, View, Image } from 'react-native';
+import {
     Input, 
     Text,
     Divider, 
@@ -28,25 +28,50 @@ const styles = (theme) => ({
     },
     searchField: {
         width: '100%'
-    }
+    },
+    h1: {
+      fontSize: 30,
+        fontWeight: "bold",
+        color: '#398AD7',
+
+    },
+    text: {
+   fontSize: 20,
+     color: '#444444',
+        },
 });
 
+// Hamburger Icon
+const HamburgerIcon = (props) => (
+    <Icon {...props} name='menu-outline' />
+);
+
+const AddIcon = (props) => (
+    <Icon {...props} name='shopping-cart-outline' />
+);
+
 const DemoScreen = ({ navigation, eva }) => {
+
+    const DrawerAction = () => (
+        <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
+    );
     const styles = eva.style;
     return (
         <View style={styles.root}>
-            {/* <TopNavigation 
-                title='Home' 
-                alignment='center' 
+             <TopNavigation
+                title='My Lists'
+                alignment='center'
                 accessoryLeft={DrawerAction}
-                accessoryRight={CreateAction}
-            /> */}
+              />
             <Divider/>
             <Layout style={styles.content}>
-                <Text>
-                    Add Content here
+            <Text style={styles.h1} >Your List is Empty</Text>
+                <Text style={styles.text}>
+                    Create list for an easier shopping experience
                 </Text>
-            </Layout>
+                <Button>
+       BUTTON
+</Layout>
         </View>
     );
 }
