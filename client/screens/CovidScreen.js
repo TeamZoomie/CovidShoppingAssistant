@@ -128,6 +128,7 @@ export const CovidScreen = ({ navigation }) => {
                     </Text>
                 )}
                 </View>
+                {/*
                 <Divider/>
                 <Text category='h6'>
                     Number of New COVID-19 Cases Per Day
@@ -145,7 +146,7 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLabels={false}
                     withHorizontalLines={false}
                     withVerticalLines={false}
-                />
+                />*/}
             </Layout>
         </SafeAreaView>
     );
