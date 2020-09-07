@@ -8,10 +8,21 @@ import { LineChart } from "react-native-chart-kit";
 
 const styles = StyleSheet.create({
     root: {
-        flex: 1
+        flex: 1,
+    },
+    box:{
+        padding:16,
     },
     container: {
-        maxHeight: 200,
+        maxHeight: 200
+    },
+    covid: {
+        fontFamily: 'Roboto',
+        paddingTop: 15,
+        paddingBottom: 15
+    },
+    content: {
+        paddingLeft: 15
     }
 })
 
@@ -81,7 +92,7 @@ export const CovidScreen = ({ navigation }) => {
                     accessoryLeft={DrawerAction}
                 />
             </View>
-            <Layout>
+            <Layout style={styles.box}>
                 <Text category='h6'>
                     Selected date: {date.toLocaleDateString()}
                 </Text>
@@ -90,14 +101,42 @@ export const CovidScreen = ({ navigation }) => {
                     date={date}
                     onSelect={nextDate => setDate(nextDate)}
                 />
-
+                <Divider/>
+                <View style={styles.covid}>
+                {isLoading ? <ActivityIndicator/> : (
+                     <Text style={{
+                         fontSize: 20,
+                         fontWeight: 550,
+                          }}>
+                         {data.country}
+                         <br/>
+                         <View style={{
+                            fontSize: 15,
+                            paddingLeft: 10
+                            // color: 696969
+                          }}>
+                            <Text>
+                            Cases: {data.cases} | 
+                            Today: {data.todayCases} |
+                            Active: {data.active} <br/>
+                            Deaths: {data.deaths} |
+                            Today: {data.todayDeaths}<br/>
+                            Recovered: {data.recovered} |
+                            Critical: {data.critical}
+                            </Text>
+                         </View>
+                    </Text>
+                )}
+                </View>
                 <Divider/>
                 <Text category='h6'>
                     Number of New COVID-19 Cases Per Day
                 </Text> 
-                <Text>
-                    From 13th of March to 31st of August
-                </Text>
+                <View style = {styles.content}>
+                    <Text>
+                        From 13th of March to 31st of August
+                    </Text>
+                </View>
                 <LineChart
                     data={case_numbers_historical}
                     width={Dimensions.get('window').width}
@@ -107,24 +146,6 @@ export const CovidScreen = ({ navigation }) => {
                     withHorizontalLines={false}
                     withVerticalLines={false}
                 />
-                <Divider/>
-                <Text category='h6'>
-                    Number of New COVID-19 Cases - {date.toLocaleDateString()}
-                </Text> 
-                <View style={{padding: 10 }}>
-                {isLoading ? <ActivityIndicator/> : (
-                     <Text>
-                         {data.country}<br/>
-                         Cases: {data.cases} | 
-                         Today: {data.todayCases} |
-                         Active: {data.active} <br/>
-                         Deaths: {data.deaths} |
-                         Today: {data.todayDeaths}<br/>
-                         Recovered: {data.recovered} |
-                         Critical: {data.critical}
-                    </Text>
-                )}
-                </View>
             </Layout>
         </SafeAreaView>
     );
