@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Legends
+from .models import CovidNews
 
-admin.site.register(Legends)
+admin.site.register(CovidNews)
