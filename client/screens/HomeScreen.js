@@ -13,19 +13,25 @@ import {
     Modal,
     Card
 } from '@ui-kitten/components';
+import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
+import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = (theme) => ({
     root: {
         flex: 1,
-        backgroundColor: theme['background-basic-color-2']
+        // backgroundColor: theme['background-basic-color-1']
     },
     content: {
-        padding: 16,
+        padding: 24,
+        height: '100%',
+        backgroundColor: theme['background-basic-color-1'],
+        flex: 1,
     },
-    header: {
-        paddingBottom: 16
+    heading: {
+        paddingBottom: 8
     },
     text: {
         // fontWeight: '700',
@@ -49,6 +55,7 @@ const HomeScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
+    const activeList = listsContext.activeList;
 
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
@@ -59,7 +66,6 @@ const HomeScreen = ({ eva, navigation }) => {
 
     // For the modal pop up warning
     const [visible, setVisible] = React.useState(false);
-    
     return (
         <View style={styles.root}>
             <TopNavigation 
@@ -70,14 +76,20 @@ const HomeScreen = ({ eva, navigation }) => {
             />
             <Divider/>
             <Layout style={styles.content}>
-                <View style={styles.header}>
-                    <Text style={styles.text} category="h4">Welcome</Text>
-                </View>
-
-                {/*This is for a popup warning*/}
-                {/* <Button onPress={() => setVisible(true)}> */}
-                    {/* Be Warned About Shopping */}
-                {/* </Button> */}
+                <Heading category="h6" style={styles.heading}>My Active List</Heading>
+                <ActiveList 
+                    list={activeList}
+                    onPress={() => navigation.navigate('List', { listId: activeList.id })}
+                />
+                <Heading category="h6" style={[styles.heading, { paddingTop: 24 }]}>Recent Lists</Heading>
+                <ShoppingLists
+                    data={listsContext.lists} 
+                    onPress={listId => {
+                        navigation.navigate('List', { listId });
+                    }}
+                />
+                
+                {/* Warning */}
                 <Modal
                     visible={visible}
                     backdropStyle={styles.backdrop}
@@ -92,14 +104,6 @@ const HomeScreen = ({ eva, navigation }) => {
                     </Button>
                     </Card>
                 </Modal>
-                <View style={{ height: '100%' }}>
-                    <ShoppingLists 
-                        data={listsContext.lists} 
-                        onPress={listId => {
-                            navigation.navigate('List', { listId });
-                        }} 
-                    />
-                </View>
             </Layout>
         </View>
     );

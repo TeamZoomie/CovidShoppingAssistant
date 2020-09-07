@@ -4,15 +4,9 @@ import { Text, Card, Button, withStyles } from '@ui-kitten/components';
 
 const styles = (theme) => ({
     container: {
-        // flex: 1,
-        // flexDirection: 'column',
-        // justifyContent: 'space-between',
-        // width: '100%',
-        // height: '100%',
-        // flexGrow: 1
-        // paddingBottom: 16
         marginTop: 4,
         marginBottom: 4,
+        height: '100%'
     },
     highlight: {
         marginBottom: 8

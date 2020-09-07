@@ -17,6 +17,7 @@ export default class App extends React.PureComponent {
 		this.state = {
 			theme: 'light',
 			lists: Object.assign(data.lists),
+			activeList: 0,
 			username: 'Zoomie',
 			// Do this for now, but eventually generate serverside
 			nextId: Object.values(data.lists).length + 1,
@@ -93,12 +94,11 @@ export default class App extends React.PureComponent {
 
 	render() {
 		const listContextValues = {
+			activeList: this.state.lists[this.state.activeList],
 			addList: this.addList,
 			addListItem: this.addListItem,
 			removeListItem: this.removeListItem,
 			removeList: this.removeList,
-			// getList: this.getList,
-			// getLists: this.getLists,
 			lists: this.state.lists,
 			test: this.test
 		};

@@ -12,6 +12,10 @@ const styles = (theme) => ({
         backgroundColor: theme['background-basic-color-2'],
         justifyContent: 'space-between'
     },
+    scrollView: {
+        flex: 1,
+        backgroundColor: 'white'
+    },
     wrapper: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -73,7 +77,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
     return (
         <View style={styles.root}>
             <ScrollView
-                style={{ flex: 1 }}
+                style={styles.scrollView}
                 horizontal={true}
                 scrollEventThrottle={16}
                 pagingEnabled={true}
@@ -84,7 +88,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
             >
                 <View style={{ width, height }}>
                     {/* A cool infographic would look nice here */}
-                    <Image source={require('../assets/splash.png')} style={styles.imageStyle} />
+                    <Image source={require('../assets/covidscreen1.jpg')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         <Heading style={styles.subHeading} category="p1">
@@ -97,7 +101,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <Image source={require('../assets/splash.png')} style={styles.imageStyle} />
+                    <Image source={require('../assets/covidscreen1.jpg')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Scan barcodes!</Heading>
                         <Heading style={styles.subheading} category="p1">You will be reminded every 5 minutes!</Heading>

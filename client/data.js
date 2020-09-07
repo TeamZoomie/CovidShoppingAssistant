@@ -2,8 +2,10 @@ export default {
     lists: {
         0: {
             id: 0,
-            name: "Weekly", 
+            name: 'Weekly', 
             date: new Date('2020-08-21'),
+            duedate: new Date('2020-09-29'),
+            colour: 'green',
             items: [
                 {
                     name: 'Apples',
@@ -27,8 +29,10 @@ export default {
         },
         1: { 
             id: 1,
-            name:'Christmas', 
-            date:new Date('2019-12-22'),
+            name: 'Christmas', 
+            date: new Date('2019-12-22'),
+            duedate: new Date('2020-08-29'),
+            colour: 'green',
             items: [
                 {
                     name: 'Fruit',
@@ -42,6 +46,7 @@ export default {
             id: 2,
             name: 'Party', 
             date: new Date('2019-12-12'),
+            colour: 'green',
             items: [
                 {
                     name: 'Fruit',
@@ -55,6 +60,7 @@ export default {
             id: 3,
             name: 'Daily', 
             date: new Date('2020-08-29'),
+            colour: 'orange',
             items: [
                 {
                     name: 'Cookies',
