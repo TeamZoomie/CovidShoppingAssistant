@@ -29,6 +29,8 @@ const chartConfig = {
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     backgroundGradientFrom: "#FFFFFF",
     backgroundGradientTo: "#FFFFFF",
+    decimalPlaces:0,
+    propsForDots: { r: '6', strokeWidth: '2', stroke: '#DEB887', }
   };
 
 const HamburgerIcon = (props) => (
@@ -58,10 +60,12 @@ const case_numbers_historical = {
     0, 2, 0, 0, 0, 0, 3, 3, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 
     0, 0, 1, 1, 0, 9, 2, 1, 0, 1, 2, 3, 4, 4, 1]
     }*/
-    data:  [8, 11, 15, 7, 10, 16, 50, 40, 37, 38, 60, 78,
-        46, 50, 62, 70, 31, 33, 55, 40, 57, 39, 27, 9, 14, 13, 9, 10, 13, 9, 12, 7,
-        11, 5, 5, 6, 9]
+    // data:  [8, 11, 15, 7, 10, 16, 50, 40, 37, 38, 60, 78,
+    //     46, 50, 62, 70, 31, 33, 55, 40, 57, 39, 27, 9, 14, 13, 9, 10, 13, 9, 12, 7,
+    //     11, 5, 5, 6, 9]
+    data: [117, 126, 99,123, 73,104,126, 87, 71,72, 43]
         }
+        
 ]}
 
 export const CovidScreen = ({ navigation }) => {
@@ -137,12 +141,12 @@ export const CovidScreen = ({ navigation }) => {
                 </Text> 
                 <View style = {styles.content}>
                     <Text>
-                        {'\n'}From 13th of March to 31st of March NEED CHECK
+                        {'\n'}From 27th of August to 7th of September
                     </Text>
                 </View>
                 <LineChart
                     data={case_numbers_historical}
-                    width={Dimensions.get('window').width}
+                    width={Dimensions.get('window').width - 50}
                     height={220}
                     chartConfig={chartConfig}
                     withVerticalLabels={false}
