@@ -20,8 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="211ecef5-f833-41e6-a25d-756e3eebd3d6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/navigation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/navigation/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/screens/DemoScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/screens/DemoScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
