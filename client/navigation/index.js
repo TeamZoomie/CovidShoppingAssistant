@@ -17,7 +17,7 @@ const DrawerContent = ({ navigation, state }) => (
         <DrawerItem title='Home' />
         <DrawerItem title='Settings' />
         <DrawerItem title='COVID-19 Info' />
-        <DrawerItem title='Demo Screen' />
+        {/*<DrawerItem title='Demo Screen' />*/}
     </Drawer>
 );
 
