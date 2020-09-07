@@ -21,6 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="211ecef5-f833-41e6-a25d-756e3eebd3d6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/screens/DemoScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/screens/DemoScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,10 +100,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="850" y="260" key="FileChooserDialogImpl" timestamp="1599102666929">
+    <state x="850" y="260" key="FileChooserDialogImpl" timestamp="1599441168619">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="850" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599102666929" />
+    <state x="850" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1599441168619" />
     <state x="702" y="148" key="SettingsEditor" timestamp="1599101159178">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
