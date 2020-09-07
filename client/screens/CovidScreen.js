@@ -1,10 +1,9 @@
-/*laura*/
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Dimensions, ActivityIndicator,FlatList } from 'react-native';
 import { Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 import { List, ListItem, Divider } from '@ui-kitten/components';
 import { Datepicker, Layout, Text } from '@ui-kitten/components';
-import { LineChart } from "react-native-chart-kit";
+import { LineChart, PieChart } from "react-native-chart-kit";
 
 const styles = StyleSheet.create({
     root: {
@@ -138,7 +137,7 @@ export const CovidScreen = ({ navigation }) => {
                 </Text> 
                 <View style = {styles.content}>
                     <Text>
-                        {'\n'}From 13th of March to 31st of August
+                        {'\n'}From 13th of March to 31st of March NEED CHECK
                     </Text>
                 </View>
                 <LineChart
@@ -149,6 +148,11 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLabels={false}
                     withHorizontalLines={false}
                     withVerticalLines={false}
+                />
+                <Divider/>
+                <PieChart
+                    data={case_numbers_historical}
+                    chartConfig={chartConfig}
                 />
             </Layout>
         </SafeAreaView>

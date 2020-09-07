@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { 
     Input, 
     Text,
@@ -57,6 +57,11 @@ const ListScreen = ({ route, navigation, eva }) => {
     const [settingsVisible, setSettingsVisible] = React.useState(false);
     const [shoppingMode, setShoppingMode] = React.useState(route.params?.shoppingMode || false);
 
+    // For barcode scanner
+    const [hasPermission, setHasPermission] = React.useState(null);
+    const [scanned, setScanned] = React.useState(false);
+    const [scanMode, setScanMode] = React.useState(false);
+
     const { listId } = route.params;
     const list = listsContext.lists[listId];
     
@@ -65,6 +70,18 @@ const ListScreen = ({ route, navigation, eva }) => {
             setShoppingMode(route.params.shoppingMode);
         }
     }, [route.params?.shoppingMode]);
+
+    // Get the necessary permissions to use the camera
+    useEffect(() => {
+		(async () => {
+            try {
+                const { status } = await BarCodeScanner.requestPermissionsAsync();
+		        setHasPermission(status === 'granted');
+            } catch (error) {
+                console.log(error);
+            }
+		})();
+    }, []);
 
     const addListItem = () => {
         if (addText !== '') {
@@ -76,15 +93,24 @@ const ListScreen = ({ route, navigation, eva }) => {
     const removeItem = (index) => {
         listsContext.removeListItem(listId, index);
     };
+
     const removeList = () => {
         setSettingsVisible(false);
         navigation.navigate("Home");
         listsContext.removeList(listId);
 
     };
+
+    const handleBarCodeScanned = ({ type, data }) => {
+        setScanned(true);
+        setScanMode(false);
+		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    };
+
     const BackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
     );
+
     const AddAction = () => (
         <View style={styles.buttonContainer}>
             <OverflowMenu
@@ -98,110 +124,96 @@ const ListScreen = ({ route, navigation, eva }) => {
                 <MenuItem title='Print' onPress={() => print()}/>
                 <MenuItem
                     title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkred' }]}>Delete</Text>}
-                    // onPress={navigation.navigate("Home", { callback: removeList })}
                     onPress={removeList}
                 />
             </OverflowMenu>
         </View>
-        
     );
-
-    // For barcode scanner
-	const [hasPermission, setHasPermission] = React.useState(null);
-	const [scanned, setScanned] = React.useState(false);
-
-    // Get the necessary permissions to use the camera
-    
-	React.useEffect(() => {
-		(async () => {
-            try {
-                const { status } = await BarCodeScanner.requestPermissionsAsync();
-		        setHasPermission(status === 'granted');
-            } catch (error) {
-
-            }
-		  
-		})();
-    }, []);
-
-    const handleBarCodeScanned = ({ type, data }) => {
-		setScanned(true);
-		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    };
-    
-    const scan = () => {
-        <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        />
-    }
 
     if (!list || Object.keys(list).length === 0) {
         return <View><Text>No List</Text></View>;
     }
     return (
-        <View style={styles.root}>
-            <TopNavigation 
-                title={list.name} 
-                alignment='center' 
-                accessoryLeft={BackAction}
-                accessoryRight={AddAction}
-            />
-            <Divider/>
-            <Layout style={styles.content}>
-                <View>
-                    <Input
-                        style={styles.searchField}
-                        placeholder='Add new item...'
-                        value={addText}
-                        onChangeText={nextValue => setAddText(nextValue)}
-                        onSubmitEditing={addListItem}
-                    />
-                    <Button 
-                        style={styles.button} 
-                        appearance='filled' 
-                        accessoryLeft={AddIcon}
-                        onPress={addListItem}
-                    />
-                    <Button onPress={() => scan()}>
-                        Scan
-                    </Button>
-                </View>
-                <ScrollView 
-                    contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
-                >
-                    {list.items.length === 0 ? (
-                        <View style={{ textAlign: 'center', alignItems: 'center' }}>
-                            <Heading category="h6" style={{ color: theme['color-primary-default'] }}>
-                                Your list is empty.
-                            </Heading>
-                            <Text category="c1" style={{ fontWeight: "300" }}>
-                                Add an item by entering a name into the field above.
-                            </Text>
-                        </View>
-                    ) : (
-                        <ShoppingList data={list.items} onRemoveItem={removeItem}/>
-                    )}
-                </ScrollView>
-                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-                    {shoppingMode ? (
+        scanMode ? (
+            <View
+                style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}
+            >
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    style={StyleSheet.absoluteFillObject}
+                />
+                <Button onPress={() => setScanMode(false)}>
+                    Scan
+                </Button>
+            </View>
+        ) : (
+            <View style={styles.root}>
+                <TopNavigation 
+                    title={list.name} 
+                    alignment='center' 
+                    accessoryLeft={BackAction}
+                    accessoryRight={AddAction}
+                />
+                <Divider/>
+                <Layout style={styles.content}>
+                    <View>
+                        <Input
+                            style={styles.searchField}
+                            placeholder='Add new item...'
+                            value={addText}
+                            onChangeText={nextValue => setAddText(nextValue)}
+                            onSubmitEditing={addListItem}
+                        />
                         <Button 
-                            style={{ width: '50%' }} 
-                            onPress={() => {
-                                setShoppingMode(false);
-                                navigation.setParams({ shoppingMode: false })
-                            }}
-                        >
-                            Finished
+                            style={styles.button} 
+                            appearance='filled' 
+                            accessoryLeft={AddIcon}
+                            onPress={addListItem}
+                        />
+                        <Button onPress={() => setScanMode(true)}>
+                            Scan
                         </Button>
-                    ) : (
-                        <Button style={{ width: '50%' }} onPress={() => navigation.navigate("StoreSelector")}>
-                            Start Shopping
-                        </Button>
-                    )}
-                    
-                </View>
-            </Layout>
-        </View>
+                    </View>
+                    <ScrollView 
+                        contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
+                    >
+                        {list.items.length === 0 ? (
+                            <View style={{ textAlign: 'center', alignItems: 'center' }}>
+                                <Heading category="h6" style={{ color: theme['color-primary-default'] }}>
+                                    Your list is empty.
+                                </Heading>
+                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                    Add an item by entering a name into the field above.
+                                </Text>
+                            </View>
+                        ) : (
+                            <ShoppingList data={list.items} onRemoveItem={removeItem}/>
+                        )}
+                    </ScrollView>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+                        {shoppingMode ? (
+                            <Button 
+                                style={{ width: '50%' }} 
+                                onPress={() => {
+                                    setShoppingMode(false);
+                                    navigation.setParams({ shoppingMode: false })
+                                }}
+                            >
+                                Finished
+                            </Button>
+                        ) : (
+                            <Button style={{ width: '50%' }} onPress={() => navigation.navigate("StoreSelector")}>
+                                Start Shopping
+                            </Button>
+                        )}
+                    </View>
+                </Layout>
+            </View>
+        )
     );
 }
 
