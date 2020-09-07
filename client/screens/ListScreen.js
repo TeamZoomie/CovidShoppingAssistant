@@ -147,7 +147,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                     style={StyleSheet.absoluteFillObject}
                 />
                 <Button onPress={() => setScanMode(false)}>
-                    Exit Scanning
+                    Stop Scanning
                 </Button>
             </View>
         ) : (
