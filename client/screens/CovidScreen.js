@@ -171,7 +171,7 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLines={false}
                 />
                 <Divider/>
-                <PieChart
+                {/* <PieChart
                     data={case_data}
                     width={Dimensions.get('window').width}
                     height={220}
@@ -179,7 +179,7 @@ export const CovidScreen = ({ navigation }) => {
                     accessor="population"
                     paddingLeft="15"
                     absolute
-                />
+                /> */}
             </Layout>
         </SafeAreaView>
     );
