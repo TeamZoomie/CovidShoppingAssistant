@@ -82,6 +82,7 @@ export const CovidScreen = ({ navigation }) => {
                 />
             </View>
             <Layout>
+                {/*
                 <Text category='h6'>
                     Selected date: {date.toLocaleDateString()}
                 </Text>
@@ -107,7 +108,7 @@ export const CovidScreen = ({ navigation }) => {
                     withHorizontalLines={false}
                     withVerticalLines={false}
                 />
-                <Divider/>
+                <Divider/>*/}
                 <Text category='h6'>
                     Number of New COVID-19 Cases - {date.toLocaleDateString()}
                 </Text> 
