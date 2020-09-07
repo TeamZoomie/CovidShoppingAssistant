@@ -10,6 +10,8 @@ npm-debug.*
 web-build/
 package-lock.json
 
+.idea/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
