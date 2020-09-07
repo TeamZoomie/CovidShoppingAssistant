@@ -17,6 +17,7 @@ import {
 import ShoppingList from '../components/ShoppingList';
 import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
+import { BarCodeScanner} from 'expo-barcode-scanner';
 
 
 const styles = (theme) => ({
@@ -104,6 +105,36 @@ const ListScreen = ({ route, navigation, eva }) => {
         </View>
         
     );
+
+    // For barcode scanner
+	const [hasPermission, setHasPermission] = React.useState(null);
+	const [scanned, setScanned] = React.useState(false);
+
+    // Get the necessary permissions to use the camera
+    
+	React.useEffect(() => {
+		(async () => {
+            try {
+                const { status } = await BarCodeScanner.requestPermissionsAsync();
+		        setHasPermission(status === 'granted');
+            } catch (error) {
+
+            }
+		  
+		})();
+    }, []);
+
+    const handleBarCodeScanned = ({ type, data }) => {
+		setScanned(true);
+		alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    };
+    
+    const scan = () => {
+        <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        />
+    }
+
     if (!list || Object.keys(list).length === 0) {
         return <View><Text>No List</Text></View>;
     }
@@ -131,6 +162,9 @@ const ListScreen = ({ route, navigation, eva }) => {
                         accessoryLeft={AddIcon}
                         onPress={addListItem}
                     />
+                    <Button onPress={() => scan()}>
+                        Scan
+                    </Button>
                 </View>
                 <ScrollView 
                     contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
