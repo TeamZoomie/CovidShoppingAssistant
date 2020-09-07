@@ -53,7 +53,7 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back-outline' />
 );
 
-const AddIcon = (props) => (
+const AddIcon = () => (
     <Icon height={25} width={25} name='plus-circle-outline' />
 );
 
@@ -126,7 +126,7 @@ const ListScreen = ({ route, navigation, eva }) => {
         setScanned(true);
         setScanMode(false);
         alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        addListItem(data)
+        listsContext.addListItem(listId, { name: `${data}`, checked: false });
     };
 
     const BackAction = () => (
