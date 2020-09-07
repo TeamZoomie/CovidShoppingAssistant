@@ -63,12 +63,6 @@ export default {
                     checked: false
                 }
             ]
-        },
-        4: {
-            id: 4,
-            name:'Todo: make list scrollable', 
-            date: new Date('2018-08-29'),
-            items: []
-        },
+        }
     }
 }
