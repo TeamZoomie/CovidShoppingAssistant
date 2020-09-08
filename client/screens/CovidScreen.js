@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 
 const chartConfig = {
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    backgroundGradientFrom: "transparent",
-    backgroundGradientTo: "transparent",
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientTo: "#FFFFFF",
     decimalPlaces:0,
     propsForDots: { r: '6', strokeWidth: '2', stroke: '#DEB887', }
   };
