@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 
 const chartConfig = {
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    backgroundGradientFrom: "transparent",
-    backgroundGradientTo: "transparent",
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientTo: "#FFFFFF",
     decimalPlaces:0,
     propsForDots: { r: '6', strokeWidth: '2', stroke: '#DEB887', }
   };
@@ -63,7 +63,7 @@ const case_numbers_historical = {
     // data:  [8, 11, 15, 7, 10, 16, 50, 40, 37, 38, 60, 78,
     //     46, 50, 62, 70, 31, 33, 55, 40, 57, 39, 27, 9, 14, 13, 9, 10, 13, 9, 12, 7,
     //     11, 5, 5, 6, 9]
-    data: [117, 126, 99,123, 73,104,126, 87, 71,72, 43]
+    data: [126, 99,123, 73,104,126, 87, 71,72, 43,51]
         }
         
 ]}
