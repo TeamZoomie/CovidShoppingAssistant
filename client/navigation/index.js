@@ -17,7 +17,7 @@ const DrawerContent = ({ navigation, state }) => (
         <DrawerItem title='Home' />
         <DrawerItem title='COVID-19 Info' />
         <DrawerItem title='Settings' />
-        <DrawerItem title='Demo Screen' />
+        {/*<DrawerItem title='Demo Screen' />*/}
     </Drawer>
 );
 
@@ -28,7 +28,7 @@ export const DrawerNavigator = () => (
         <Screen name='Home' component={HomeNavigator}/>
         <Screen name='Covid Info' component={CovidScreen}/>
         <Screen name='Settings' component={SettingsScreen}/>
-        <Screen name='Demo Screen' component={DemoScreen}/>
+        {/*<Screen name='Demo Screen' component={DemoScreen}/>*/}
     </Navigator>
 );
 
