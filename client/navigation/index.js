@@ -15,8 +15,8 @@ const DrawerContent = ({ navigation, state }) => (
         onSelect={index => navigation.navigate(state.routeNames[index.row])}
     >
         <DrawerItem title='Home' />
-        <DrawerItem title='Settings' />
         <DrawerItem title='COVID-19 Info' />
+        <DrawerItem title='Settings' />
         <DrawerItem title='Demo Screen' />
     </Drawer>
 );
@@ -26,8 +26,8 @@ export const DrawerNavigator = () => (
         drawerContent={props => <DrawerContent {...props}/>}
     >
         <Screen name='Home' component={HomeNavigator}/>
-        <Screen name='Settings' component={SettingsScreen}/>
         <Screen name='Covid Info' component={CovidScreen}/>
+        <Screen name='Settings' component={SettingsScreen}/>
         <Screen name='Demo Screen' component={DemoScreen}/>
     </Navigator>
 );

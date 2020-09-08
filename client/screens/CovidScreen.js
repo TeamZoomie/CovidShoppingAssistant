@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 
 const chartConfig = {
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    backgroundGradientFrom: "#FFFFFF",
-    backgroundGradientTo: "#FFFFFF",
+    backgroundGradientFrom: "transparent",
+    backgroundGradientTo: "transparent",
     decimalPlaces:0,
     propsForDots: { r: '6', strokeWidth: '2', stroke: '#DEB887', }
   };
@@ -117,7 +117,10 @@ export const CovidScreen = ({ navigation }) => {
                 />
             </View>
             <Layout style={styles.box}>
-                <Text category='h6'>
+                <Text style={{
+                         fontSize: 20,
+                         fontWeight: "700"
+                          }}>
                     Selected date: {date.toLocaleDateString()}
                 </Text>
 
@@ -125,40 +128,39 @@ export const CovidScreen = ({ navigation }) => {
                     date={date}
                     onSelect={nextDate => setDate(nextDate)}
                 />
-                <Divider/>
+                
                 <View style={styles.covid}>
                 {isLoading ? <ActivityIndicator/> : (
                      <Text style={{
-                         fontSize: 22,
+                         fontSize: 20,
                          fontWeight: "700"
                           }}>
-                         {data.country}
-                         {'\n'}
+                         Daily Update for {data.country}
                             <Text style={{
                             fontSize: 17
                             }}>
-                                {'\n'}Cases: {data.cases} | 
-                                Today: {data.todayCases} |
-                                Active: {data.active} {'\n'}
-                                Deaths: {data.deaths} |
-                                Today: {data.todayDeaths}{'\n'}
-                                Recovered: {data.recovered} |
-                                Critical: {data.critical}
+                                {'\n'}Total Cases: {data.cases} | 
+                                Cases Today: {data.todayCases} |
+                                Total Active: {data.active} {'\n'}
+                                Total Deaths: {data.deaths} |
+                                Deaths Today: {data.todayDeaths}{'\n'}
+                                Total Recovered: {data.recovered} |
+                                Total Critical: {data.critical}
                             </Text>
                     </Text>
                 )}
                 </View>
                 
-                <Divider/>
+                
                 <Text style={{
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight:"700"
                 }}>
-                    Number of New COVID-19 Cases Per Day
+                    Number of New COVID-19 Cases in Australia Per Day
                 </Text> 
                 <View style = {styles.content}>
                     <Text>
-                        {'\n'}From 27th of August to 7th of September
+                        {'\n'}Currently displaying the last 10 days
                     </Text>
                 </View>
                 <LineChart
@@ -169,7 +171,9 @@ export const CovidScreen = ({ navigation }) => {
                     withVerticalLabels={false}
                     withHorizontalLines={false}
                     withVerticalLines={false}
+                    backgroundColor="transparent"
                 />
+                {/*
                 <Divider/>
                 <PieChart
                     style={styles.container}
@@ -182,6 +186,7 @@ export const CovidScreen = ({ navigation }) => {
                     absolute
                     backgroundColor="transparent"
                 />
+                */}
             </Layout>
         </SafeAreaView>
     );
