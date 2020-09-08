@@ -4,6 +4,7 @@ import { Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 import { List, ListItem, Divider } from '@ui-kitten/components';
 import { Datepicker, Layout, Text } from '@ui-kitten/components';
 import { LineChart, PieChart } from "react-native-chart-kit";
+import Heading from '../components/Heading';
 
 const styles = StyleSheet.create({
     root: {
@@ -11,6 +12,10 @@ const styles = StyleSheet.create({
     },
     box:{
         padding:16,
+    },
+    heading: {
+        paddingBottom: 8,
+        fontWeight:"700"
     },
     container: {
         maxHeight: 200
@@ -117,12 +122,9 @@ export const CovidScreen = ({ navigation }) => {
                 />
             </View>
             <Layout style={styles.box}>
-                <Text style={{
-                         fontSize: 20,
-                         fontWeight: "700"
-                          }}>
+                     <Heading category="h6" style={styles.heading}>
                     Selected date: {date.toLocaleDateString()}
-                </Text>
+                    </Heading>
 
                 <Datepicker
                     date={date}
@@ -131,10 +133,7 @@ export const CovidScreen = ({ navigation }) => {
                 
                 <View style={styles.covid}>
                 {isLoading ? <ActivityIndicator/> : (
-                     <Text style={{
-                         fontSize: 20,
-                         fontWeight: "700"
-                          }}>
+                     <Heading category="h6" style={styles.heading}>
                          Daily Update for {data.country}
                             <Text style={{
                             fontSize: 17
@@ -147,17 +146,14 @@ export const CovidScreen = ({ navigation }) => {
                                 Total Recovered: {data.recovered} |
                                 Total Critical: {data.critical}
                             </Text>
-                    </Text>
+                    </Heading>
                 )}
                 </View>
                 
                 
-                <Text style={{
-                    fontSize: 20,
-                    fontWeight:"700"
-                }}>
+                <Heading category="h6" style={styles.heading}>
                     Number of New COVID-19 Cases in Australia Per Day
-                </Text> 
+                </Heading> 
                 <View style = {styles.content}>
                     <Text>
                         {'\n'}Currently displaying the last 10 days
