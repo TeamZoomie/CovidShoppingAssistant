@@ -8,12 +8,10 @@ import requests
 
 class CovidViewSet(viewsets.ModelViewSet):
     """
-    API endpoint
+    API endpoint for gathering latest covid data
     """
-    queryset = CovidAustralia.objects.all(
+    queryset = CovidAustralia.objects.all()
     serializer_class = CovidSerializer
-
-    CovidAustralia.objects.all().delete()
 
 data = requests.get('https://coronavirus-19-api.herokuapp.com/countries/Australia')
 update = {'country': data.json()['country'], 
@@ -25,11 +23,11 @@ update = {'country': data.json()['country'],
             'active': data.json()['active'],                    
             'critical': data.json()['critical'],                
             'casesPerOneMillion': data.json()['casesPerOneMillion'],
-            'deathsPerOneMillion': data.json()['deathsPerOneMillion'],                                                                'totalTests': data.json()['totalTests'],            
+            'deathsPerOneMillion': data.json()['deathsPerOneMillion'],
+            'totalTests': data.json()['totalTests'],            
             'testsPerOneMillion': data.json()['testsPerOneMillion']}
-        
 try:                                                               
-    obj = CovidAustralia.objects.get(country='Australia')          
+    obj = CovidAustralia.objects.get(country='Australia')  
     for key, value in update.items():                              
         setattr(obj, key, value)                                   
         obj.save()                                                     

@@ -16,5 +16,3 @@ class CovidAustralia(models.Model):
 
     def __str__(self):
         return self.country
-
-# Create your models here.
