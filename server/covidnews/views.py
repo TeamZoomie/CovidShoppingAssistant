@@ -13,19 +13,19 @@ class CovidNewsViewSet(viewsets.ModelViewSet):
     queryset = CovidNews.objects.all()
     serializer_class = CovidNewsSerializer
 
-topic = 'covid-19'
-hl = 'en-AU'
-ceid = 'AU:en'
-sort = 'date'
-region = 'AU'
-num = 5
-output = 'rss'
+#topic = 'covid-19'
+#hl = 'en-AU'
+#ceid = 'AU:en'
+#sort = 'date'
+#region = 'AU'
+#num = 5
+#output = 'rss'
 
-url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
+#url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
 
-feed = ParseFeed(url)
-articles = feed.parse()
+#feed = ParseFeed(url)
+#articles = feed.parse()
 
-createdObj, created = CovidNews.objects.update_or_create(
-        version='0', json=articles,
-        )
+#createdObj, created = CovidNews.objects.update_or_create(
+#        version='0', json=articles,
+#        )
