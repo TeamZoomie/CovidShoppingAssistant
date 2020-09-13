@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
+    'lists.apps.ListsConfig',
     'rest_framework',
     'requests',
     'json',
