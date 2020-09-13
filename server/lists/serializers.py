@@ -1,7 +1,14 @@
 from rest_framework import serializers
-from .models import ListModel
+from .models import ListModel, ItemModel
+import json
 
-class ListSerializer(serializers.HyperlinkedModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemModel
+        fields = ['name', 'category', 'quantity', 'checked']
+
+class ListSerializer(serializers.ModelSerializer):
+    items = ItemSerializer(many=True)
     class Meta:
         model = ListModel
-        fields = ['idField']
+        fields = ('idField', 'name', 'date', 'dueDate', 'colour', 'items')
