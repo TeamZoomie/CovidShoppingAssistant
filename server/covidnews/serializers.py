@@ -4,4 +4,4 @@ from .models import CovidNews
 class CovidNewsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CovidNews
-        fields = ['version', 'json']
+        fields = ['description', 'publishedDate', 'title', 'url']

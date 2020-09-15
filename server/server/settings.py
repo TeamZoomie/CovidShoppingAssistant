@@ -27,7 +27,7 @@ with open(BASE_DIR / 'server/secretkey.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net']
+ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
+    'lists.apps.ListsConfig',
     'rest_framework',
     'requests',
     'json',
@@ -84,10 +85,8 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-            },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
