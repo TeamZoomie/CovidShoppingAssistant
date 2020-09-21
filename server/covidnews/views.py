@@ -30,7 +30,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for getting the latest covid news
     """
-    update_news()
+    #update_news()
     queryset = CovidNews.objects.all()
     serializer_class = CovidNewsSerializer
     

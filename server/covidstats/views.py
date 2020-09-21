@@ -46,7 +46,7 @@ class CovidViewSet(viewsets.ModelViewSet):
     """
     API endpoint for gathering latest covid data for Australia
     """
-    update_model()
+    #update_model()
     queryset = CovidAustralia.objects.all()
     serializer_class = CovidSerializer
     

@@ -1,4 +1,4 @@
-from django.db import models
+from djongo import models
 
 class CovidAustralia(models.Model):
     country = models.CharField(max_length=60)
@@ -13,6 +13,7 @@ class CovidAustralia(models.Model):
     deathsPerOneMillion = models.IntegerField()
     totalTests = models.IntegerField()
     testsPerOneMillion = models.IntegerField()
+    objects = models.DjongoManager()
 
     def __str__(self):
         return self.country
