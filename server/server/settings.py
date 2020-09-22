@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'covidnews.apps.CovidnewsConfig',
     'lists.apps.ListsConfig',
     'rest_framework',
+    'pymongo',
     'requests',
     'json',
     'feedparser',

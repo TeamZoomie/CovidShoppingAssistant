@@ -11,4 +11,4 @@ class ListSerializer(serializers.ModelSerializer):
     items = ItemSerializer(many=True)
     class Meta:
         model = ListModel
-        fields = ('idField', 'name', 'date', 'dueDate', 'colour', 'items')
+        fields = ['idField', 'name', 'date', 'dueDate', 'colour', 'items']
