@@ -27,7 +27,7 @@ with open(BASE_DIR / 'server/secretkey.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1']
+ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost']
 
 
 # Application definition
