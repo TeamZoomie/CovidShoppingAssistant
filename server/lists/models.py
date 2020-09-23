@@ -21,7 +21,7 @@ class ListModel(models.Model):
     date = models.CharField(max_length=60, default='2020-08-21')
     dueDate = models.CharField(max_length=60, default='2020-09-29')
     colour = models.CharField(max_length=100, default='blue')
-    items = models.EmbeddedField(model_container=ItemModel)
+    items = models.ArrayField(model_container=ItemModel,)
     
     objects = models.DjongoManager()
 

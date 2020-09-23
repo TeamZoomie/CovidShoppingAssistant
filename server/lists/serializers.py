@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import ListModel, ItemModel
 import json
 
-class ItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.Serializer):
     class Meta:
         model = ItemModel
         fields = ['name', 'category', 'quantity', 'checked']
