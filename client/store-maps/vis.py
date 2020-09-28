@@ -5,7 +5,7 @@ import numpy as np
 
 
 def get_colour(value):
-    """Colour"""
+    """Generates a random colour with a seed that makes colours consistent"""
     
     np.random.seed(value)
     colour = [np.random.uniform() for i in range(3)]
@@ -24,21 +24,28 @@ def load_store(filename):
         # Read first character
         char = file.read(1)
         while char:
+            # ; defines a new point
             if char == ";":
                 # The next characters are of the form (x,y,e)
                 char = file.read(1) # left bracket
+
                 char = file.read(1) # x
                 x = char
                 char = file.read(1) # comma or second digit
+
+                # This means x is a two digit number
                 if char != ',':
-                    # Two digit number
+                    # Add the second digit and then cast
                     x += char
                     x = int(x)
                     char = file.read(1) # Now read the comma
                 else:
+                    # One digit number so just cast
                     x = int(x)
-
+                
+                # Follow a similar process for y and e
                 char = file.read(1) # y
+
                 y = char
                 char = file.read(1) # comma or second digit
                 if char != ',':
@@ -57,7 +64,8 @@ def load_store(filename):
                     char = file.read(1)
                 else:
                     e = int(e)
-
+                
+                # Add to the dictionary
                 coords = (x,y)
                 result[(x,y)] = e
 
@@ -66,6 +74,7 @@ def load_store(filename):
 
 
 def plot_results(store):
+    """Visualises the store, colour coded by section"""
     plt.figure()
     c = 0
     for i in store.keys():
