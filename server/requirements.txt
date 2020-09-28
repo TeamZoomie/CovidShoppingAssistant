@@ -1,0 +1,14 @@
+beautifulsoup4==4.9.1
+bs4==0.0.1
+Django==3.1.1
+django-admin==2.0.1
+django-excel-base==1.0.4
+django-excel-response2==3.0.2
+django-filter==2.3.0
+django-mysql==3.8.1
+django-six==1.0.4
+djangorestframework==3.11.1
+feedparser==5.2.1
+Markdown==3.2.2
+requests==2.24.0
+sqlparse==0.3.1
