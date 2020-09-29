@@ -26,6 +26,7 @@ def update_news():
             title=item['Title'], url=item['Url']
         )
 
+
 class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for getting the latest covid news

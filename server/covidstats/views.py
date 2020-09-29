@@ -41,7 +41,6 @@ def update_model():
             obj.save()
 
 
-
 class CovidViewSet(viewsets.ModelViewSet):
     """
     API endpoint for gathering latest covid data for Australia

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
     'lists.apps.ListsConfig',
+    'list.apps.ListConfig',
     'rest_framework',
     'rest_framework_mongoengine',
     'pymongo',
@@ -89,7 +90,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'shoppingAssistant_database'
+        'NAME': 'shoppingAssistantDatabase'
     }
 }
 
@@ -132,3 +133,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+mongoengine.connect('djongo', host='localhost:27017')
