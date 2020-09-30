@@ -17,7 +17,7 @@
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
     "date-fns": "^2.16.0",
-    "expo": "^38.0.9",
+    "expo": "^38.0.10",
     "expo-barcode-scanner": "~8.2.1",
     "expo-cli": "^3.26.2",
     "expo-location": "~8.2.1",
