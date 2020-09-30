@@ -10,7 +10,7 @@ class ParseFeed:
         '''
         Get the text from html and do some cleaning
         '''
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html, features="html.parser")
         text = soup.get_text()
         text = text.replace('\xa0', ' ')
         return text

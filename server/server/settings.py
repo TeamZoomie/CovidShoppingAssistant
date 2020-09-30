@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'shoppingAssistantDatabase'
+        'NAME': 'shoppingAssistantDatabase',
     }
 }
 
