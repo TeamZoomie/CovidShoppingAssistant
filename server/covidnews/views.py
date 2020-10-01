@@ -1,53 +1,56 @@
-from rest_framework import viewsets
-from .serializers import CovidNewsSerializer
-from .models import CovidNews
+from rest_framework import status, viewsets
+from rest_framework.response import Response
+from .serializers import CovidNewsSerializer, ArticleDumpSerializer
+from .models import CovidNews, ArticleDump
 from .article import ParseFeed
 import requests
 import json
+from newsapi import NewsApiClient
+from datetime import datetime, timezone
 
+# API key is hidden by using environment variables. Look at .env.example
+import environ
+env = environ.Env()
+environ.Env.read_env()
+API_KEY = env("API_KEY")
 
 def update_news():
-    topic = 'covid-19'
-    hl = 'en-AU'
-    ceid = 'AU:en'
-    sort = 'date'
-    region = 'AU'
-    num = 5
-    output = 'rss'
-    
-    url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
-    
-    feed = ParseFeed(url)
-    articles = feed.parse()
-    
-    for item in articles:
-        createdObj, created = CovidNews.objects.update_or_create(
-            description=item['Description'], publishedDate=item['Published Date'],
-            title=item['Title'], url=item['Url']
-        )
+    ArticleDump.objects.all().delete()
+    # Update every 30 minutes
+    queryTime = 30 * 60
+    locations = {'au', 'us', 'gb', 'ca', 'fr', 'in', 'br', 'ru', 'mx', 'za',
+            'de', 'se', 'tr', 'it'}
+
+    latest = ArticleDump.objects.order_by('-id').first()
+
+    # Retrieve latest if not found
+    if not latest or (datetime.now(timezone.utc) - latest.addedDate).seconds > queryTime:
+        for loc in locations:
+            newsapi = NewsApiClient(api_key=API_KEY)
+            payload = newsapi.get_top_headlines(q='covid', language='en', country=loc)
+            created = ArticleDump.objects.create(
+                articles=payload['articles'], 
+                addedDate=datetime.now(timezone.utc),
+                country=loc
+            )
 
 class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for getting the latest covid news
     """
     update_news()
-    queryset = CovidNews.objects.all()
-    serializer_class = CovidNewsSerializer
+    queryset = ArticleDump.objects.all()
+    serializer_class = ArticleDumpSerializer
     
-
-#topic = 'covid-19'
-#hl = 'en-AU'
-#ceid = 'AU:en'
-#sort = 'date'
-#region = 'AU'
-#num = 5
-#output = 'rss'
-
-#url = f"http://news.google.com/rss/search?q={topic}&hl={hl}&sort={sort}&gl={region}&ceid={ceid}"
-
-#feed = ParseFeed(url)
-#articles = feed.parse()
-
-#createdObj, created = CovidNews.objects.update_or_create(
-#        version='0', json=articles,
-#        )
+    def get_object(self):
+        country = ArticleDump.objects.get(country=self.kwargs['pk'])
+        return country
+        
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except(ArticleDump.DoesNotExist, KeyError):
+            return Response({"error": "Articles do not exist"}, status=status.HTTP_404_NOT_FOUND)
+        ser = ArticleDumpSerializer(instance)
+        return Response(ser.data)
+        
