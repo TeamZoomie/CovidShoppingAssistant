@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
-    'lists.apps.ListsConfig',
     'list.apps.ListConfig',
     'rest_framework',
     'rest_framework_mongoengine',
