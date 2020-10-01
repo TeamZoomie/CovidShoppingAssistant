@@ -8,6 +8,11 @@ from .serializers import CovidSerializer
 from .models import CovidAustralia
 import requests
 import json
+from datetime import datetime, timezone
+
+# Update the model every 6 hours
+UPDATE_TIME = 43200
+updatedTime = datetime.now(timezone.utc)
 
 def update_model():
     CovidAustralia.objects.all().delete()
@@ -31,6 +36,7 @@ class CovidViewSet(viewsets.ModelViewSet):
     API endpoint for gathering latest covid data for Australia
     """
     update_model()
+    updatedTime = datetime.now(timezone.utc)
     lookup_field = 'country'
     queryset = CovidAustralia.objects.all()
     serializer_class = CovidSerializer
@@ -40,6 +46,8 @@ class CovidViewSet(viewsets.ModelViewSet):
         return country
         
     def retrieve(self, request, *args, **kwargs):
+        if (datetime.now(timezone.utc) - updatedTime).seconds > UPDATE_TIME:
+            update_model()
         try:
             instance = self.get_object()
         except (CovidAustralia.DoesNotExist, KeyError):

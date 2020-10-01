@@ -20,6 +20,7 @@ class ListViewSet(viewsets.ModelViewSet):
         list = ListModel.objects.get(idField=self.kwargs['idField'])
         return list
     
+    
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -29,6 +30,7 @@ class ListViewSet(viewsets.ModelViewSet):
             return Response({"error": "List does not exist"}, status=status.HTTP_404_NOT_FOUND)
         ser = ListSerializer(instance)
         return Response(ser.data)
+        
         
     def patch(self, request, *args, **kwargs):
         try:

@@ -8,7 +8,7 @@ import json
 from newsapi import NewsApiClient
 from datetime import datetime, timezone
 
-# Ask Adrian... but should make this global & hidden from repo
+# API key is hidden by using environment variables. Look at .env.example
 import environ
 env = environ.Env()
 environ.Env.read_env()
