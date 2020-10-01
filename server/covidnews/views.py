@@ -1,5 +1,4 @@
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import CovidNewsSerializer, ArticleDumpSerializer
 from .models import CovidNews, ArticleDump
@@ -10,7 +9,10 @@ from newsapi import NewsApiClient
 from datetime import datetime, timezone
 
 # Ask Adrian... but should make this global & hidden from repo
-API_KEY = ''
+import environ
+env = environ.Env()
+environ.Env.read_env()
+API_KEY = env("API_KEY")
 
 def retrieve_lastest_news():
     # Update every 30 minutes

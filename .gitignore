@@ -2,3 +2,4 @@
 server/server/secretkey.txt
 __pycache__/
 migrations/
+.env
