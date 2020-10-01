@@ -1,9 +1,9 @@
 from django.urls import include, path
-from rest_framework import routers
+from rest_framework_mongoengine import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'', views.CovidViewSet)
+router.register(r'', views.CovidViewSet, basename='CovidAustralia')
 
 urlpatterns = [
     path('', include(router.urls)),

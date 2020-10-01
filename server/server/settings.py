@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'pymongo',
     'requests',
     'json',
+    'newsapi',
     'feedparser',
     'bs4'
 ]

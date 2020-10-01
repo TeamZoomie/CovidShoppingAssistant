@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import viewsets
+from rest_framework_mongoengine import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import CovidSerializer
@@ -30,6 +30,7 @@ class CovidViewSet(viewsets.ModelViewSet):
     API endpoint for gathering latest covid data for Australia
     """
     update_model()
+    lookup_field = 'country'
     queryset = CovidAustralia.objects.all()
     serializer_class = CovidSerializer
     
