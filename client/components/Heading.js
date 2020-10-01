@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     text: {
         fontWeight: "400",
         textAlign: 'left',
-        marginHorizontal: 8
+        // marginHorizontal: 8
     }
 });
 

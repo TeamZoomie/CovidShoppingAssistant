@@ -3,9 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 import { HomeNavigator } from './HomeNavigator';
+import { CovidInfoNavigator } from './CovidInfoNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-import DemoScreen from '../screens/DemoScreen';
-import { CovidScreen } from '../screens/CovidScreen';
+
+// import DemoScreen from '../screens/DemoScreen';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -26,7 +27,7 @@ export const DrawerNavigator = () => (
         drawerContent={props => <DrawerContent {...props}/>}
     >
         <Screen name='Home' component={HomeNavigator}/>
-        <Screen name='Covid Info' component={CovidScreen}/>
+        <Screen name='Covid Info' component={CovidInfoNavigator}/>
         <Screen name='Settings' component={SettingsScreen}/>
         {/*<Screen name='Demo Screen' component={DemoScreen}/>*/}
     </Navigator>
