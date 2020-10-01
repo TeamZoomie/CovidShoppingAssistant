@@ -11,4 +11,4 @@ class ArticleDumpSerializer(serializers.HyperlinkedModelSerializer):
     articles = serializers.JSONField()
     class Meta:
         model = ArticleDump
-        fields = ['addedDate', 'articles']
+        fields = ['country', 'addedDate', 'articles']

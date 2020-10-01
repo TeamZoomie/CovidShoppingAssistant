@@ -13,6 +13,7 @@ class CovidNews(models.Model):
 
 class ArticleDump(models.Model):
     id = models.AutoField(primary_key=True)
+    country = models.CharField(max_length = 100, default='')
     addedDate = models.DateTimeField()
     articles = models.JSONField()
 
