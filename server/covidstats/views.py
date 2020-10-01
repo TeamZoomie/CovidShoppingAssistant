@@ -16,8 +16,8 @@ updatedTime = datetime.now(timezone.utc)
 
 def update_model():
     CovidAustralia.objects.all().delete()
-    locations = {'Australia', 'USA', 'UK', 'Canada', 'Spain', 'India', 'Brazil',
-        'Russia', 'Mexico', 'South Africa', 'Chile', 'Germany', 'Sweden', 'Turkey',
+    locations = {'Australia', 'USA', 'UK', 'Canada', 'France', 'India', 'Brazil',
+        'Russia', 'Mexico', 'South Africa', 'Germany', 'Sweden', 'Turkey',
         'Italy'}
     for loc in locations:
         update = requests.get(f'https://coronavirus-19-api.herokuapp.com/countries/{loc}/').json()

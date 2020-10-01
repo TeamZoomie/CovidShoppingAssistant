@@ -19,8 +19,7 @@ class ListViewSet(viewsets.ModelViewSet):
     def get_object(self):
         list = ListModel.objects.get(idField=self.kwargs['idField'])
         return list
-    
-    
+
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -30,6 +29,22 @@ class ListViewSet(viewsets.ModelViewSet):
             return Response({"error": "List does not exist"}, status=status.HTTP_404_NOT_FOUND)
         ser = ListSerializer(instance)
         return Response(ser.data)
+
+    def create(self, request, *args, **kwargs):
+        instance = request.data
+        idNumber = get_next_id_number()
+        try: 
+            newList = ListModel.objects.create(
+                idField = idNumber,
+                name = instance['name'],
+                date = instance['date'],
+                dueDate =instance['dueDate'],
+                colour = instance['colour'],
+                items = instance['items'],
+            )
+        except:
+            return Response({"error": "An error has occured"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Success": f"{idNumber}"}, status=status.HTTP_201_CREATED)
         
         
     def patch(self, request, *args, **kwargs):
@@ -44,20 +59,11 @@ class ListViewSet(viewsets.ModelViewSet):
             ser.save()
             return Response({"Okay": "List updated"}, status=status.HTTP_202_ACCEPTED)
         return Response({"error": "Wrong parameters"}, status=status.HTTP_400_BAD_REQUEST)
-            
-        
-            
-            
-        #elif request.method == 'POST':
-            # Decide whether to create or update list
-            #updatedLi
-            #list, created = ListModel.objects.update_or_create(
-                #idField = kwargs['idField'],
-            #    defaults = {''}
-            #)
-        
-    #def update(self, request, *args, **kwargs):
-    #    try:
-    #        instance = self.get_object()
-    #    except(ListModel.DoesNotExist, KeyError):
-        #    return Repsonse({"error": ""})
+
+def get_next_id_number():
+    counter = 0
+    while True:
+        if ListModel.objects.filter(idField=counter):
+            counter = counter + 1
+        else:
+            return counter
