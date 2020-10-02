@@ -21,6 +21,7 @@ urlpatterns = [
     path('covidstats/', include('covidstats.urls')),
     path('covidnews/', include('covidnews.urls')),
     path('list/', include('list.urls')),
+    path('usercreate/', include('userlogin.urls')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('admin/', admin.site.urls),
 ]
