@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import ListModel
 from .serializers import ListSerializer
+from .permissions import IsOwnerOrReadOnly
 
 
 
@@ -14,7 +15,7 @@ class ListViewSet(viewsets.ModelViewSet):
     that may be used in Universe workflows.
     '''
     lookup_field = 'idField'
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     serializer_class = ListSerializer
     queryset = ListModel.objects.all()
     
@@ -38,6 +39,7 @@ class ListViewSet(viewsets.ModelViewSet):
         try: 
             newList = ListModel.objects.create(
                 idField = idNumber,
+                owner = request.user,
                 name = instance['name'],
                 date = instance['date'],
                 dueDate =instance['dueDate'],

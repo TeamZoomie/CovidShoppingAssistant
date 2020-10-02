@@ -45,3 +45,15 @@ If you get permission denied, you will have to add an ssh key to your account (M
   
 ### Web Server Location
 `https://deco3801-zoomie.uqcloud.net/`
+
+### Add a user and obtain token
+Please follow the following steps to create a user and obtain a token
+1. Use a POST request to http://deco3801-zoomie.uqcloud.net.au/usercreate/
+	- Needs to contain the Username and Password of the user
+	- {"username": "", "password": ""}
+	- `curl -X POST --data "username=[username]&password=[password]" http://deco3801-zoomie.uqcloud.net.au/usercreate/`
+2. Organize to grab a token from the API using the username and password
+	- `curl -X POST --data "username=[username]&password=[password]" http://deco3801-zoomie.uqcloud.net.au/api-token-auth/`
+3. On all following API requests to the list directory. Add the following header to the requests
+	- Header: "Authorization: Token [token]"
+	- Example: `curl -H "Authorization: Token [token]" http://deco3801-zoomie.uqcloud.net.au/list/`
