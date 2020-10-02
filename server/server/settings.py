@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'list.apps.ListConfig',
     'rest_framework',
     'rest_framework_mongoengine',
+    'rest_framework.authtoken',
     'pymongo',
     'requests',
     'json',

@@ -1,6 +1,7 @@
 from rest_framework_mongoengine import viewsets
 from rest_framework.views import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .models import ListModel
 from .serializers import ListSerializer
@@ -13,6 +14,7 @@ class ListViewSet(viewsets.ModelViewSet):
     that may be used in Universe workflows.
     '''
     lookup_field = 'idField'
+    #permission_classes = (IsAuthenticated,)
     serializer_class = ListSerializer
     queryset = ListModel.objects.all()
     
@@ -60,7 +62,8 @@ class ListViewSet(viewsets.ModelViewSet):
             return Response({"Okay": "List updated"}, status=status.HTTP_202_ACCEPTED)
         return Response({"error": "Wrong parameters"}, status=status.HTTP_400_BAD_REQUEST)
 
-def get_next_id_number():
+# Find next available ID number
+def get_next_id_number():#
     counter = 0
     while True:
         if ListModel.objects.filter(idField=counter):
