@@ -5,3 +5,4 @@ class ListSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ListModel
         fields = ('idField', 'name', 'date', 'dueDate', 'colour', 'items')
+        #read_only_fields = ('owner')

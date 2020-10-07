@@ -39,7 +39,7 @@ class ListViewSet(viewsets.ModelViewSet):
         try: 
             newList = ListModel.objects.create(
                 idField = idNumber,
-                owner = request.user,
+                #owner = request.user,
                 name = instance['name'],
                 date = instance['date'],
                 dueDate =instance['dueDate'],
