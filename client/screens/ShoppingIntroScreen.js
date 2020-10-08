@@ -88,7 +88,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
             >
                 <View style={{ width, height }}>
                     {/* A cool infographic would look nice here */}
-                    <Image source={require('../assets/covidscreen1.jpg')} style={styles.imageStyle} />
+                    <Image source={require('../assets/social_distance_graphic.png')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         <Heading style={styles.subHeading} category="p1">
@@ -96,7 +96,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
                         </Heading>
                         {/* Make this look better / think about display */}
                         <Heading style={styles.subHeading} category="p1">
-                            There has been x cases in that area.
+                            There has been 8 cases in that area.
                         </Heading>
                     </View>
                 </View>

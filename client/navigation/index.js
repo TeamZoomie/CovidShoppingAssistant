@@ -3,10 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 import { HomeNavigator } from './HomeNavigator';
+import { CovidInfoNavigator } from './CovidInfoNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-import DemoScreen from '../screens/DemoScreen';
-import { CovidScreen } from '../screens/CovidScreen';
-import { AddItemScreen } from '../screens/AddItemScreen';
+
+// import DemoScreen from '../screens/DemoScreen';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -18,7 +18,7 @@ const DrawerContent = ({ navigation, state }) => (
         <DrawerItem title='Home' />
         <DrawerItem title='COVID-19 Info' />
         <DrawerItem title='Settings' />
-        <DrawerItem title='AddItemScreen' />
+        {/*<DrawerItem title='AddItemScreen' />/*}
         {/*<DrawerItem title='Demo Screen' />*/}
     </Drawer>
 );
@@ -28,9 +28,9 @@ export const DrawerNavigator = () => (
         drawerContent={props => <DrawerContent {...props}/>}
     >
         <Screen name='Home' component={HomeNavigator}/>
-        <Screen name='Covid Info' component={CovidScreen}/>
+        <Screen name='Covid Info' component={CovidInfoNavigator}/>
         <Screen name='Settings' component={SettingsScreen}/>
-        <Screen name='AddItemScreen' component={AddItemScreen}/>
+        {/*<Screen name='AddItemScreen' component={AddItemScreen}/>*/}
         {/*<Screen name='Demo Screen' component={DemoScreen}/>*/}
     </Navigator>
 );

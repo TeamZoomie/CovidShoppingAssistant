@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import mongoengine
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,13 +23,17 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open(BASE_DIR / 'server/secretkey.txt') as f:
-    SECRET_KEY = f.read().strip()
+env = environ.Env()
+environ.Env.read_env()
+
+SECRET_KEY = env("SECRET_KEY")
+#with open(BASE_DIR / 'server/secretkey.txt') as f:
+#    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost', '10.0.0.79']
 
 
 # Application definition
@@ -41,13 +47,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
-    'lists.apps.ListsConfig',
+    'list.apps.ListConfig',
     'rest_framework',
+    'rest_framework_mongoengine',
+    'rest_framework.authtoken',
+    'pymongo',
     'requests',
     'json',
+    'newsapi',
     'feedparser',
     'bs4'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,8 +101,8 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'shoppingAssistantDatabase',
     }
 }
 
@@ -129,3 +145,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+mongoengine.connect('djongo', host='localhost:27017')

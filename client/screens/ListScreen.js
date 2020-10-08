@@ -33,13 +33,13 @@ const styles = (theme) => ({
     searchField: {
         width: '72%',
         padding: 0,
-        borderColor: theme['background-basic-color-2']
+        // borderColor: theme['background-basic-color-2']
     },
     addTextItem: {
         width: '13%',
-        height: 16,
-        backgroundColor: theme['background-basic-color-2'],
-        borderColor: theme['background-basic-color-2']//'#A3B2C7'
+        height: 18,
+        // backgroundColor: theme['background-basic-color-2'],
+        // borderColor: theme['background-basic-color-2']//'#A3B2C7'
     },
     container: {
         flexDirection: 'row',
@@ -54,7 +54,7 @@ const BackIcon = (props) => (
 );
 
 const AddIcon = () => (
-    <Icon height={25} width={25} name='plus-circle-outline' />
+    <Icon height={16} width={16} fill="white" name='plus-circle-outline' />
 );
 
 const MoreIcon = (props) => (
@@ -64,7 +64,7 @@ const MoreIcon = (props) => (
 const BarcodeIcon = () => (// TODO Make a barcode icon
     <Image 
         source = {require("../assets/barcode-solid.png")}
-        style = {{ width: 35, height: 24 }} 
+        style = {{ width: 24, height: 24, tintColor: 'white' }} 
     />
 );
 
@@ -193,15 +193,14 @@ const ListScreen = ({ route, navigation, eva }) => {
                             />
                             <Button 
                                 style={styles.addTextItem} 
-                                appearance='ghost' 
+                                // appearance='ghost' 
                                 accessoryLeft={AddIcon}
                                 onPress={addListItem}
                             />                           
                             <Button 
-                                accessoryLeft={BarcodeIcon}
-                                appearance='ghost'
-                                onPress={() => setScanMode(true)}
                                 style={styles.addTextItem}
+                                accessoryLeft={BarcodeIcon}
+                                onPress={() => setScanMode(true)}
                             />
                         </Layout>
                     </View>

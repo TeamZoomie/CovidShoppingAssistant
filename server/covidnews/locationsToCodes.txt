@@ -1,0 +1,14 @@
+Australia = au
+USA = us
+UK = gb
+Canada = ca
+France = fr
+India = in
+Brazil = br
+Russia = ru
+Mexico = mx
+SouthAfrica = za
+Germany = de
+Sweden = se
+Turkey = tr
+Italy = it
