@@ -9,8 +9,7 @@ class ItemModel(EmbeddedDocument):
     
 class ListModel(Document):
     idField = fields.IntField(unique=True, required=True)
-    #TODO
-    #owner = fields.ReferenceField('User')
+    ownerToken = fields.StringField(required=True)
     name = fields.StringField(default='Weekly')
     date = fields.StringField(default='2020-08-21')
     dueDate = fields.StringField(default='2020-09-29')

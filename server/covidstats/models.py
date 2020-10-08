@@ -1,7 +1,7 @@
 #from djongo import models
 from mongoengine import Document, fields
 
-class CovidAustralia(Document):
+class CovidInformation(Document):
     country = fields.StringField(max_length=60)
     cases = fields.IntField()
     todayCases = fields.IntField()

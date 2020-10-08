@@ -5,7 +5,7 @@ from rest_framework_mongoengine import viewsets
 from rest_framework.views import status
 from rest_framework.response import Response
 from .serializers import CovidSerializer
-from .models import CovidAustralia
+from .models import CovidInformation
 import requests
 import json
 from datetime import datetime, timezone
@@ -15,7 +15,7 @@ UPDATE_TIME = 43200
 updatedTime = datetime.now(timezone.utc)
 
 def update_model():
-    CovidAustralia.objects.all().delete()
+    CovidInformation.objects.all().delete()
     locations = {'Australia', 'USA', 'UK', 'Canada', 'France', 'India', 'Brazil',
         'Russia', 'Mexico', 'South Africa', 'Germany', 'Sweden', 'Turkey',
         'Italy'}
@@ -25,9 +25,9 @@ def update_model():
             if value is None:
                 update[key] = 0
         try:
-            obj = CovidAustralia.objects.create(**update)
+            obj = CovidInformation.objects.create(**update)
             obj.save()
-        except CovidAustralia.DoesNotExist:
+        except CovidInformation.DoesNotExist:
             pass
 
 
@@ -38,11 +38,11 @@ class CovidViewSet(viewsets.ReadOnlyModelViewSet):
     update_model()
     updatedTime = datetime.now(timezone.utc)
     lookup_field = 'country'
-    queryset = CovidAustralia.objects.all()
+    queryset = CovidInformation.objects.all()
     serializer_class = CovidSerializer
     
     def get_object(self):
-        country = CovidAustralia.objects.get(country=self.kwargs['country'])
+        country = CovidInformation.objects.get(country=self.kwargs['country'])
         return country
         
     def retrieve(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ class CovidViewSet(viewsets.ReadOnlyModelViewSet):
             update_model()
         try:
             instance = self.get_object()
-        except (CovidAustralia.DoesNotExist, KeyError):
+        except (CovidInformation.DoesNotExist, KeyError):
             return Response({"error": "Item does not exist"}, status=status.HTTP_404_NOT_FOUND)
         ser = CovidSerializer(instance)
         return Response(ser.data)

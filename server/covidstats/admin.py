@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import CovidAustralia
+from .models import CovidInformation
 
-admin.register(CovidAustralia)
+admin.register(CovidInformation)

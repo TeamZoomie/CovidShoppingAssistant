@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from .serializers import CovidNewsSerializer, ArticleDumpSerializer
-from .models import CovidNews, ArticleDump
+from .serializers import ArticleDumpSerializer
+from .models import ArticleDump
 from .article import ParseFeed
 import requests
 import json

@@ -1,10 +1,5 @@
 from rest_framework import serializers
-from .models import CovidNews, ArticleDump
-
-class CovidNewsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CovidNews
-        fields = ['description', 'publishedDate', 'title', 'url']
+from .models import ArticleDump
 
 class ArticleDumpSerializer(serializers.HyperlinkedModelSerializer):
 

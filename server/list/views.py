@@ -39,7 +39,7 @@ class ListViewSet(viewsets.ModelViewSet):
         try: 
             newList = ListModel.objects.create(
                 idField = idNumber,
-                #owner = request.user,
+                ownerToken = request.META.get('HTTP_AUTHORIZATION'),
                 name = instance['name'],
                 date = instance['date'],
                 dueDate =instance['dueDate'],
@@ -51,13 +51,16 @@ class ListViewSet(viewsets.ModelViewSet):
         return Response({"Success": f"{idNumber}"}, status=status.HTTP_201_CREATED)
         
         
-    def patch(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         try:
             list = ListModel.objects.get(idField=request.data['idField'])
         except StopIteration:
             pass
         except (ListModel.DoesNotExist, KeyError):
             return Response({"error": "List does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        if list['ownerToken'] != request.META.get('HTTP_AUTHORIZATION'):
+            return Response({"error": "Not the owner of the list"}, status=status.HTTP_304_NOT_MODIFIED)
+        
         ser = ListSerializer(list, data=request.data, partial=True)
         if ser.is_valid():
             ser.save()

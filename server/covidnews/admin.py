@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import CovidNews
+from .models import ArticleDump
 
-admin.site.register(CovidNews)
+admin.site.register(ArticleDump)
