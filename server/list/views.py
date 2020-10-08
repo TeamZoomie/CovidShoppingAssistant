@@ -1,4 +1,4 @@
-from rest_framework_mongoengine import viewsets
+from rest_framework_mongoengine import viewsets, generics
 from rest_framework.views import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -6,8 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 from .models import ListModel
 from .serializers import ListSerializer
 from .permissions import IsOwnerOrReadOnly
-
-
 
 class ListViewSet(viewsets.ModelViewSet):
     '''
