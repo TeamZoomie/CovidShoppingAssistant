@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'covidstats.apps.CovidstatsConfig',
     'covidnews.apps.CovidnewsConfig',
     'list.apps.ListConfig',
+    'livetimes.apps.LivetimesConfig',
     'rest_framework',
     'rest_framework_mongoengine',
     'rest_framework.authtoken',

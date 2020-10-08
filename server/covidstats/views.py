@@ -31,7 +31,7 @@ def update_model():
             pass
 
 
-class CovidViewSet(viewsets.ModelViewSet):
+class CovidViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint for gathering latest covid data for Australia
     """

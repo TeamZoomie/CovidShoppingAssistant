@@ -12,10 +12,10 @@ from datetime import datetime, timezone
 import environ
 env = environ.Env()
 environ.Env.read_env()
-API_KEY = env("API_KEY")
+API_KEY = env("NEWS_API_KEY")
 
 # Update the model every 6 hours
-UPDATE_TIME = 43200
+UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
 def update_news():
