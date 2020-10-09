@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableHighlight } from 'react-native';
+import { View, ScrollView, TouchableHighlight,Image,PixelRatio } from 'react-native';
 import { 
     Button,
     Icon,
@@ -14,23 +14,27 @@ const styles = (theme) => ({
     button: {
         backgroundColor: theme['color-primary-default'],
         border: 'none',
-        padding: 24,
+        padding: 6,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        textAlign: 'center'
+        alignItems: 'center'
+    },
+    imageStyle: {
+        padding:10,
+        marginRight:5,
+        height: PixelRatio.getPixelSizeForLayoutSize(5),
+        width: '10%',
     },
     container: {
         flex: 1, 
         marginBottom: 4,
     },
     highlight: {
-        marginBottom: 8,
+        marginBottom: 0,
         borderRadius: 16,
         flexGrow: 1,
-        marginRight: 24,
-        marginLeft: 24
+        marginRight: 8,
     },
     date: {
         fontWeight: '700', 
@@ -44,9 +48,9 @@ const styles = (theme) => ({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexGrow: 1,
-        paddingRight: 16,
-        paddingLeft: 16,
-        marginBottom: 4
+        paddingRight: 0,
+        paddingLeft: 0,
+        marginBottom: 0
     },
     nextButton: {
         width: 32, 
@@ -67,37 +71,54 @@ const ShoppingLists = (props) => {
         const d2 = new Date(b.date);
         return d2.getTime() - d1.getTime();
     });
+    const images = {
+        p0: require('../assets/shopping.png'),
+        p1: require('../assets/calendar.png'),
+        p2: require('../assets/christmas.png'),
+        p3: require('../assets/party.png')
+    }
+    console.log(images.h)
     
     return (
         <ScrollView style={styles.container}>
             {sortedData.map((list, i) => (
                 <View key={i} style={styles.item}>
-                    <Text category="h6" style={styles.date}>
+                    {/* <Text category="h6" style={styles.date}>
                         {format(list.date, 'dd MMM')}
-                    </Text>
+                    </Text> */}
                     <TouchableHighlight 
                         style={styles.highlight} 
                         activeOpacity={0.8}
                         onPress={() => props.onPress(list.id)}
                     >
                         <View 
-                            style={[styles.button, { backgroundColor: colours[list.colour || 'orange']} ]}>
-                            <Text 
-                                status="control" 
-                                category="h6" 
-                                style={{ fontWeight: '700', }}
-                            >
-                                {list.name}
-                            </Text>
+                            style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']} ]}>
+                            <View style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']} ]}>
+                                <Image source={images['p' + i]} style={styles.imageStyle}/>
+                                <View>
+                                    <Text 
+                                        status="control" 
+                                        category="h6" 
+                                        style={{ fontWeight: '700',color: '#000000' }}
+                                    >
+                                        {list.name}
+                                    </Text>
+                                    <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{
+                                        list.items.length} items
+                                    </Text>
+                                </View>
+                                
+                            </View>
+                            <Button 
+                                    style={styles.nextButton}
+                                    status='basic'
+                                    appearance='ghost' 
+                                    accessoryLeft={NextIcon} 
+                                    onPress={() => props.onPress(list.id)}
+                                />
                         </View>
                     </TouchableHighlight>
-                    <Button 
-                        style={styles.nextButton}
-                        status='basic'
-                        appearance='ghost' 
-                        accessoryLeft={NextIcon} 
-                        onPress={() => props.onPress(list.id)}
-                    />
+                
                 </View>
             ))}
         </ScrollView>

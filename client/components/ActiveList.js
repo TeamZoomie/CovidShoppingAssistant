@@ -14,6 +14,7 @@ const styles = (theme) => ({
         // backgroundColor: theme['color-primary-default'],
         border: 'none',
         padding: 6,
+        paddingRight:15,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -24,6 +25,7 @@ const styles = (theme) => ({
     },
     imageStyle: {
         padding:10,
+        marginRight:5,
         height: PixelRatio.getPixelSizeForLayoutSize(5),
         width: '10%',
     },
@@ -47,12 +49,14 @@ const ActiveList = (props) => {
             <TouchableHighlight onPress={props.onPress} style={styles.highlight}>
                 <View style={[styles.button, props.style]}>
                     <View style={[styles.button, props.style]}>
-                        <Image source={require('../assets/shrimp.png')} style={styles.imageStyle}/>
+                        <Image source={require('../assets/calendar.png')} style={styles.imageStyle}/>
                         <View>
-                        <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
-                                {list.name}
+                            <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
+                                    {list.name}
+                                </Text>
+                            <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{
+                                list.items.length} items
                             </Text>
-                        <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{list.items.length} items</Text>
                         </View>
                     </View>
                     {/* <View>
