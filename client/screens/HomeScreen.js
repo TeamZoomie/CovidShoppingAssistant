@@ -31,7 +31,7 @@ const styles = (theme) => ({
         flex: 1,
     },
     heading_backgroud: {
-        backgroundColor:'#F5B041',
+        backgroundColor:'#87CEEB',
         height:'15%',
         width:'100%',
         flexDirection: 'row',

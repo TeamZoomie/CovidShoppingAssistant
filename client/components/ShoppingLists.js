@@ -34,7 +34,7 @@ const styles = (theme) => ({
         marginBottom: 0,
         borderRadius: 16,
         flexGrow: 1,
-        marginRight: 8,
+        marginRight: 4,
     },
     date: {
         fontWeight: '700', 
@@ -77,7 +77,6 @@ const ShoppingLists = (props) => {
         p2: require('../assets/christmas.png'),
         p3: require('../assets/party.png')
     }
-    console.log(images.h)
     
     return (
         <ScrollView style={styles.container}>
@@ -103,19 +102,25 @@ const ShoppingLists = (props) => {
                                     >
                                         {list.name}
                                     </Text>
-                                    <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{
+                                    <Text status='control' category="c1" style={{ color: '#87CEEB',fontWeight: '700' }}>{
                                         list.items.length} items
                                     </Text>
                                 </View>
                                 
                             </View>
-                            <Button 
+                            <View style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']}]}>
+                                <View>
+                                    <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
+                                    <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.date, 'dd/MM/yy') }</Text>
+                                </View>
+                                <Button 
                                     style={styles.nextButton}
                                     status='basic'
                                     appearance='ghost' 
                                     accessoryLeft={NextIcon} 
                                     onPress={() => props.onPress(list.id)}
                                 />
+                            </View>
                         </View>
                     </TouchableHighlight>
                 

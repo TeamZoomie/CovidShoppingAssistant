@@ -14,7 +14,7 @@ const styles = (theme) => ({
         // backgroundColor: theme['color-primary-default'],
         border: 'none',
         padding: 6,
-        paddingRight:15,
+        paddingRight:8,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -54,23 +54,25 @@ const ActiveList = (props) => {
                             <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
                                     {list.name}
                                 </Text>
-                            <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{
+                            <Text status='control' category="c1" style={{ color: '#87CEEB',fontWeight: '700' }}>{
                                 list.items.length} items
                             </Text>
                         </View>
                     </View>
-                    {/* <View>
-                        <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
-                        <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
-                        
-                    </View> */}
-                    <Button 
+                    <View style={[styles.button, props.style]}>
+                        <View>
+                            <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
+                            <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
+                        </View>
+                        <Button 
                         style={styles.nextButton}
                         status='basic'
                         appearance='ghost' 
                         accessoryLeft={NextIcon} 
                         onPress={ props.onPress}
-                    />
+                        />
+                    </View>
+                    
                     
                 </View>
             </TouchableHighlight>
