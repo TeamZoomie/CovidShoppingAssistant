@@ -35,7 +35,3 @@ export function getPlacesNearby({ keyword, location, rankby, type }) {
     return fetch(API_URL + 'nearbysearch/json?' + body)
         .then(response => response.json());
 }
-
-export function getPlaceDetails({}) {
-
-}

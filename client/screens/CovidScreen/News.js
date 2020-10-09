@@ -90,7 +90,7 @@ const NewsScreen = ({ eva, navigation }) => {
                 setLoading(false);
                 setData(payload.articles);
             })
-            .catch(error => setError(true));
+            .catch(error => {setError(true); console.log(error)});
     }, [countryIndex]);
 
     const onItemPress = (index) => {
