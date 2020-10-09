@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View, TouchableHighlight,Image,PixelRatio } from 'react-native';
 import { 
     Text, 
     withStyles,
+    Button,
+    Icon,
 } from '@ui-kitten/components';
 import { format } from 'date-fns';
 
 
 const styles = (theme) => ({
     button: {
-        backgroundColor: theme['color-primary-default'],
+        // backgroundColor: theme['color-primary-default'],
         border: 'none',
-        padding: 24,
+        padding: 6,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -19,8 +21,22 @@ const styles = (theme) => ({
     },
     highlight: {
         borderRadius: 16
+    },
+    imageStyle: {
+        padding:10,
+        height: PixelRatio.getPixelSizeForLayoutSize(5),
+        width: '10%',
+    },
+    nextButton: {
+        width: 32, 
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
+
+const NextIcon = (props) => {
+    return <Icon {...props} height={24} width={24} fill="black" name="arrow-ios-forward-outline"/>
+};
 
 const ActiveList = (props) => {
     const styles = props.eva.style;
@@ -30,18 +46,31 @@ const ActiveList = (props) => {
         <View style={props.containerStyle}>
             <TouchableHighlight onPress={props.onPress} style={styles.highlight}>
                 <View style={[styles.button, props.style]}>
-                    <View>
-                        <Text status='control' category="h5" style={{ fontWeight: '700' }}>
-                            {list.name}
-                        </Text>
-                        <Text status='control' category="c1" style={{ fontWeight: '700' }}>Due Date</Text>
-                        <Text status='control' category="c1">{ format(list.duedate, 'dd/MM/yy') }</Text>
+                    <View style={[styles.button, props.style]}>
+                        <Image source={require('../assets/shrimp.png')} style={styles.imageStyle}/>
+                        <View>
+                        <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
+                                {list.name}
+                            </Text>
+                        <Text status='control' category="c1" style={{ color: '#F5B041',fontWeight: '700' }}>{list.items.length} items</Text>
+                        </View>
                     </View>
-                    <View>
-                        <Text status='control' category="p1">{ format(list.date, 'dd/MM') }</Text>
-                    </View>
+                    {/* <View>
+                        <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
+                        <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
+                        
+                    </View> */}
+                    <Button 
+                        style={styles.nextButton}
+                        status='basic'
+                        appearance='ghost' 
+                        accessoryLeft={NextIcon} 
+                        onPress={ props.onPress}
+                    />
+                    
                 </View>
             </TouchableHighlight>
+                
         </View>
     );
 };

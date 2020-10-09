@@ -2,7 +2,7 @@ export default {
     lists: {
         0: {
             id: 0,
-            name: 'Weekly', 
+            name: 'Weekly Shop', 
             date: new Date('2020-08-21'),
             duedate: new Date('2020-09-29'),
             colour: 'green',

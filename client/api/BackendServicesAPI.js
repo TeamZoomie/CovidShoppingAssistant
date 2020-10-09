@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 
 // To access locally.. This is a bit tricky. Consult Adrian
 const { manifest } = Constants;
-const BACKEND_URL = `http://${manifest.debuggerHost.split(':').shift()}:8000`;
+const BACKEND_URL = `127.0.0.1:8000`;
 
 
 export function getCovidNews(country='Australia') {

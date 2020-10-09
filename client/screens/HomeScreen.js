@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View,BottomMenu, Item,Image,PixelRatio } from 'react-native';
 import { 
     Text, 
     Input, 
@@ -25,10 +25,27 @@ const styles = (theme) => ({
         // backgroundColor: theme['background-basic-color-1']
     },
     content: {
-        padding: 24,
+        padding: 12,
         height: '100%',
         backgroundColor: theme['background-basic-color-1'],
         flex: 1,
+    },
+    heading_backgroud: {
+        backgroundColor:'#F5B041',
+        height:'15%',
+        width:'100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding:15
+    },
+    heading_font:{
+        color: '#FFFFFF',
+        fontWeight:'700'
+    },
+    imageStyle: {
+        height: PixelRatio.getPixelSizeForLayoutSize(29),
+        width: '25%',
     },
     heading: {
         paddingBottom: 8
@@ -74,14 +91,24 @@ const HomeScreen = ({ eva, navigation }) => {
                 accessoryLeft={DrawerAction}
                 accessoryRight={CreateAction}
             />
-            <Divider/>
+            <View style = {[styles.heading_backgroud]}>
+
+                    <Text category="h2" style={styles.heading_font}>
+                        ShopSafe
+                    </Text>
+                <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
+                
+            </View>
             <Layout style={styles.content}>
-                <Heading category="h6" style={styles.heading}>My Active List</Heading>
+                {/* <ActiveList 
+                    list={activeList}
+                    onPress={() => navigation.navigate('List', { listId: activeList.id })}
+                /> */}
+                <Heading category="h6" style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}>Your Lists</Heading>
                 <ActiveList 
                     list={activeList}
                     onPress={() => navigation.navigate('List', { listId: activeList.id })}
                 />
-                <Heading category="h6" style={[styles.heading, { paddingTop: 24 }]}>Recent Lists</Heading>
                 <ShoppingLists
                     data={listsContext.lists} 
                     onPress={listId => {
@@ -106,6 +133,7 @@ const HomeScreen = ({ eva, navigation }) => {
                 </Modal>
             </Layout>
         </View>
+        
     );
 }
 
