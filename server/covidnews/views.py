@@ -1,15 +1,18 @@
+'''
+Contains information on the views that requests go to when accessing the API.
+'''
+
+from datetime import datetime, timezone
+import environ
+
+from newsapi import NewsApiClient
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+
 from .serializers import CovidArticlesSerializer
 from .models import CovidArticles
-from .article import ParseFeed
-import requests
-import json
-from newsapi import NewsApiClient
-from datetime import datetime, timezone
 
 # API key is hidden by using environment variables. Look at .env.example
-import environ
 env = environ.Env()
 environ.Env.read_env()
 API_KEY = env("NEWS_API_KEY")
@@ -18,8 +21,10 @@ API_KEY = env("NEWS_API_KEY")
 UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
-
 def get_next_id_number():
+    '''
+    Returns the next id number using linear probing.
+    '''
     counter = 0
     while True:
         if CovidArticles.objects.filter(idField=counter):
@@ -28,22 +33,26 @@ def get_next_id_number():
             return counter
 
 def update_news():
+    '''
+    Updates the objects of CovidArticles by grabbing new news articles from the NewsAPIClient.
+    '''
     CovidArticles.objects.all().delete()
     # Update every 30 minutes
     locations = {'au', 'us', 'gb', 'ca', 'fr', 'in', 'br', 'ru', 'mx', 'za',
                  'de', 'se', 'tr', 'it'}
 
     newsapi = NewsApiClient(api_key=API_KEY)
+    # Loops through all country locations and updates each model with news articles
     for loc in locations:
         payload = newsapi.get_top_headlines(q='covid', language='en', country=loc)
-        idNumber = get_next_id_number()
+        id_number = get_next_id_number()
         created = CovidArticles.objects.create(
-            idField = idNumber,
-            articles=payload['articles'], 
+            idField=id_number,
+            articles=payload['articles'],
             addedDate=datetime.now(timezone.utc),
             country=loc
             )
-            
+
 
 class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -53,7 +62,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     updatedTime = datetime.now(timezone.utc)
     queryset = CovidArticles.objects.all()
     serializer_class = CovidArticlesSerializer
-    
+
     def get_object(self):
         countryCodeMap = {
             'Australia': 'au',
@@ -73,7 +82,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
         }
         country = CovidArticles.objects.get(country=countryCodeMap[self.kwargs['pk']])
         return country
-        
+
     def retrieve(self, request, *args, **kwargs):
         if (datetime.now(timezone.utc) - updatedTime).seconds > UPDATE_TIME:
             update_news()
@@ -84,5 +93,3 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
         ser = CovidArticlesSerializer(instance)
         return Response(ser.data)
         
-
-
