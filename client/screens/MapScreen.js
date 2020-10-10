@@ -48,7 +48,7 @@ const MapScreen = ({ eva, navigation }) => {
         <View style={styles.root}>
             <Layout style={styles.content}>
                 <View>
-                    <Heading category="c2">Map Screen</Heading>
+                    <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>Coles</Heading>
                     <Map/>
                     {/* <Input
                         placeholder="List name"
