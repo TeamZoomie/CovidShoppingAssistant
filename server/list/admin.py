@@ -1,6 +1,7 @@
+'''
+Register the ListModel model with the admin page
+'''
 from django.contrib import admin
-
-# Register your models here.
 from .models import ListModel
 
 admin.register(ListModel)

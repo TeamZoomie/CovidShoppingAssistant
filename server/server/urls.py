@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
+# List all the available aps that a requester can access.
 urlpatterns = [
     path('covidstats/', include('covidstats.urls')),
     path('covidnews/', include('covidnews.urls')),

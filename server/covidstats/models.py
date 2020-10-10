@@ -1,7 +1,12 @@
-#from djongo import models
+'''
+This file contains the CovidInformation model.
+'''
 from mongoengine import Document, fields
 
 class CovidInformation(Document):
+    '''
+    Stores covid stats from different countries.
+    '''
     country = fields.StringField(max_length=60)
     cases = fields.IntField()
     todayCases = fields.IntField()

@@ -63,6 +63,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CovidArticles.objects.all()
     serializer_class = CovidArticlesSerializer
 
+    # Custom get_object to return object by country
     def get_object(self):
         countryCodeMap = {
             'Australia': 'au',
@@ -83,12 +84,15 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
         country = CovidArticles.objects.get(country=countryCodeMap[self.kwargs['pk']])
         return country
 
+    # Override retrieve so that it updates the model at a certain time
     def retrieve(self, request, *args, **kwargs):
+        # Update CovidArticles if 6 hours have passed since the last update
         if (datetime.now(timezone.utc) - updatedTime).seconds > UPDATE_TIME:
             update_news()
         try:
             instance = self.get_object()
         except(CovidArticles.DoesNotExist, KeyError):
+            # Return an error if the object does not exist
             return Response({"error": "Articles do not exist"}, status=status.HTTP_404_NOT_FOUND)
         ser = CovidArticlesSerializer(instance)
         return Response(ser.data)
