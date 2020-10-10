@@ -1,6 +1,7 @@
 import feedparser
 from bs4 import BeautifulSoup
 
+
 class ParseFeed:
 
     def __init__(self, link):

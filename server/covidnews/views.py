@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from .serializers import ArticleDumpSerializer
-from .models import ArticleDump
+from .serializers import CovidArticlesSerializer
+from .models import CovidArticles
 from .article import ParseFeed
 import requests
 import json
@@ -18,20 +18,32 @@ API_KEY = env("NEWS_API_KEY")
 UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
+
+def get_next_id_number():
+    counter = 0
+    while True:
+        if CovidArticles.objects.filter(idField=counter):
+            counter = counter + 1
+        else:
+            return counter
+
 def update_news():
-    ArticleDump.objects.all().delete()
+    CovidArticles.objects.all().delete()
     # Update every 30 minutes
     locations = {'au', 'us', 'gb', 'ca', 'fr', 'in', 'br', 'ru', 'mx', 'za',
-            'de', 'se', 'tr', 'it'}
+                 'de', 'se', 'tr', 'it'}
 
     newsapi = NewsApiClient(api_key=API_KEY)
     for loc in locations:
         payload = newsapi.get_top_headlines(q='covid', language='en', country=loc)
-        created = ArticleDump.objects.create(
+        idNumber = get_next_id_number()
+        created = CovidArticles.objects.create(
+            idField = idNumber,
             articles=payload['articles'], 
             addedDate=datetime.now(timezone.utc),
             country=loc
             )
+            
 
 class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -39,8 +51,8 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     update_news()
     updatedTime = datetime.now(timezone.utc)
-    queryset = ArticleDump.objects.all()
-    serializer_class = ArticleDumpSerializer
+    queryset = CovidArticles.objects.all()
+    serializer_class = CovidArticlesSerializer
     
     def get_object(self):
         countryCodeMap = {
@@ -59,7 +71,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
             'Turkey': 'tr',
             'Italy': 'it'
         }
-        country = ArticleDump.objects.get(country=countryCodeMap[self.kwargs['pk']])
+        country = CovidArticles.objects.get(country=countryCodeMap[self.kwargs['pk']])
         return country
         
     def retrieve(self, request, *args, **kwargs):
@@ -67,8 +79,10 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
             update_news()
         try:
             instance = self.get_object()
-        except(ArticleDump.DoesNotExist, KeyError):
+        except(CovidArticles.DoesNotExist, KeyError):
             return Response({"error": "Articles do not exist"}, status=status.HTTP_404_NOT_FOUND)
-        ser = ArticleDumpSerializer(instance)
+        ser = CovidArticlesSerializer(instance)
         return Response(ser.data)
         
+
+

@@ -1,9 +1,8 @@
-from rest_framework import serializers
-from .models import ArticleDump
+from rest_framework_mongoengine import serializers
+from .models import CovidArticles
 
-class ArticleDumpSerializer(serializers.HyperlinkedModelSerializer):
+class CovidArticlesSerializer(serializers.DocumentSerializer):
 
-    articles = serializers.JSONField()
     class Meta:
-        model = ArticleDump
+        model = CovidArticles
         fields = ['country', 'addedDate', 'articles']
