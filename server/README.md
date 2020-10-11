@@ -2,8 +2,8 @@
 ## covidnews/
 This application grabs the latest covid news articles from different countries and presents them in a format that the client app can receive.
 
-Accepted Methods: GET
-Example request. `GET ../covidnews/Australia/`
+Accepted Methods: GET  
+Example request. `GET ../covidnews/Australia/`  
 On a successful request, returns:
 ```json
 {
@@ -30,9 +30,9 @@ On a successful request, returns:
 ## covidstats/
 This application grabs the latest covid statistics from an API and presents them in a format that the client app can receive.
 
-Accepted Methods: GET
-Example request. `GET ../covidstats/Australia`
-On a successful request, returns:
+Accepted Methods: GET    
+Example request. `GET ../covidstats/Australia`  
+On a successful request, returns:  
 ```json
 {
     "country": "Australia",
@@ -53,10 +53,10 @@ On a successful request, returns:
 ## list/
 This application stores users list so that they can be used as a backup or to share lists.
 
-Accepted Methods: GET, POST, PATCH
-In order to access any requests in this application, the request needs the Authorization header, with a Token. The Token can be aquired from http://../api-token-auth. List expects the Token to presented in the Authorization header as `"Authorization: Token [token]"`
+Accepted Methods: GET, POST, PATCH  
+In order to access any requests in this application, the request needs the Authorization header, with a Token. The Token can be aquired from http://../api-token-auth. List expects the Token to presented in the Authorization header as `"Authorization: Token [token]"`  
 
-A successful GET request will return the list from the server where the last value is the ID of the list. Example: `curl -X GET http://../list/0/`
+A successful GET request will return the list from the server where the last value is the ID of the list. Example: `curl -X GET http://../list/0/`  
 Returns: 
 ```json
 {
@@ -76,16 +76,16 @@ Returns:
 }
 ```
 
-A successful POST request will create a new list on the server. The `idField` value does not need to be set (could be set to anything) as the server will assign an ID to the created list. The server will return the ID of the list if the request is successful. The Post request needs to be formated similar to the list above. THe request should be sent to http://../list/
+A successful POST request will create a new list on the server. The `idField` value does not need to be set (could be set to anything) as the server will assign an ID to the created list. The server will return the ID of the list if the request is successful. The Post request needs to be formated similar to the list above. THe request should be sent to http://../list/.
 
-A successful PATCH request will modify a list already on the server. The returned message will be either be `{ "Okay": "List updated" }`, if the requester is the owner of the list, or  `{ "error": "Not the owner of the list" }`, if the requester is not the owner of the list. The patch message should contain the correct `idField` value which matches whats put in the url. E.g., http://../list/0/ with `{"idField": 0,..}`
+A successful PATCH request will modify a list already on the server. The returned message will be either be `{ "Okay": "List updated" }`, if the requester is the owner of the list, or  `{ "error": "Not the owner of the list" }`, if the requester is not the owner of the list. The patch message should contain the correct `idField` value which matches whats put in the url. E.g., http://../list/0/ with `{"idField": 0,..}`.
 
 ## livetimes/
 This application grabs the live location data of places specified by a PlaceID.
 
-Accepted Methods: GET
-Example request. `GET ../livetimes/ChIJL5mtadOvEmsRSmzg_zk92N8/`
-On a successful request, returns:
+Accepted Methods: GET  
+Example request. `GET ../livetimes/ChIJL5mtadOvEmsRSmzg_zk92N8/`  
+On a successful request, returns:  
 ```json
 {
     "place_id": "ChIJL5mtadOvEmsRSmzg_zk92N8",
@@ -302,8 +302,8 @@ On a successful request, returns:
 ## usercreate/
 This application creates a user to use with the API, by taking a username and password.
 
-Accepted Methods: POST
-Example request: `curl -d '{"username": "[username]", "password": "[password]"}' -H "Content-Type: application/json" -X POST http://../usercreate/`
+Accepted Methods: POST  
+Example request: `curl -d '{"username": "[username]", "password": "[password]"}' -H "Content-Type: application/json" -X POST http://../usercreate/`  
 On a successful request, returns:
 ```json
 {
@@ -312,10 +312,10 @@ On a successful request, returns:
 ```
 
 ## api-token-auth/
-This application grants the user an API token to use with requests to the list application. The user must exist in the database in order to create and use a token. To create a user, see usercreate/
+This application grants the user an API token to use with requests to the list application. The user must exist in the database in order to create and use a token. To create a user, see usercreate/  
 
-Accepted Methods: POST
-Example request: `curl -d  '{"username": "[username]", "password": "[password]"}' -H "Content-Type: application/json" -X POST http://../api-token-auth/
+Accepted Methods: POST  
+Example request: `curl -d  '{"username": "[username]", "password": "[password]"}' -H "Content-Type: application/json" -X POST http://../api-token-auth/`  
 On a sucessful request, returns:
 ```json
 {
@@ -324,4 +324,6 @@ On a sucessful request, returns:
 ```
 
 ## admin/
-Can only be accessed from a web browser to access the administrator portal. Can update, delete and create models. To access, you need to use a django superuser account, created on the server with the following command, `python manage.py createsuperuser`.
+Can only be accessed from a web browser to access the administrator portal. Can update, delete and create models. To access, you need to use a django superuser account, created on the server with the following command,  
+
+`python manage.py createsuperuser`.
