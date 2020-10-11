@@ -18,7 +18,7 @@ class ListViewSet(viewsets.ModelViewSet):
     that may be used in Universe workflows.
     '''
     lookup_field = 'idField'
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ListSerializer
     queryset = ListModel.objects.all()
 
@@ -31,6 +31,7 @@ class ListViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
+            print(instance['ownerToken'])
         except StopIteration: # Skip over if this error occurs.
             pass
         except (ListModel.DoesNotExist, KeyError): 
@@ -62,16 +63,18 @@ class ListViewSet(viewsets.ModelViewSet):
     # update the list.
     def update(self, request, *args, **kwargs):
         try:
-            list = ListModel.objects.get(idField=request.data['idField'])
+            obj = self.get_object()
+            print(obj['ownerToken'])
+            print(request.META.get('HTTP_AUTHORIZATION'))
         except StopIteration: # Skip if this error occurs.
             pass
         except (ListModel.DoesNotExist, KeyError):
             return Response({"error": "List does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        if list['ownerToken'] != request.META.get('HTTP_AUTHORIZATION'):
+        if obj['ownerToken'] != request.META.get('HTTP_AUTHORIZATION'):
             # Return Not_Modified if requester is not the owner of the list
             return Response({"error": "Not the owner of the list"}, status=status.HTTP_304_NOT_MODIFIED)
         
-        ser = ListSerializer(list, data=request.data, partial=True)
+        ser = ListSerializer(obj, data=request.data, partial=True)
         if ser.is_valid():
             ser.save()
             return Response({"Okay": "List updated"}, status=status.HTTP_202_ACCEPTED)
