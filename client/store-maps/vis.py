@@ -41,6 +41,7 @@ def load_store(filename):
                     char = file.read(1) # Now read the comma
                 else:
                     # One digit number so just cast
+                    print(char)
                     x = int(x)
                 
                 # Follow a similar process for y and e
@@ -89,5 +90,5 @@ def main(args):
     plot_results(store)
 
 
-if __name__=='__main__':
-    main(sys.argv[1:])
+# if __name__=='__main__':
+#     main(sys.argv[1:])

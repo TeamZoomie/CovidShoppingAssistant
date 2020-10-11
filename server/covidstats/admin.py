@@ -1,6 +1,7 @@
+'''
+Register the CovidInformation model with the admin page.
+'''
 from django.contrib import admin
+from .models import CovidInformation
 
-# Register your models here.
-from .models import CovidAustralia
-
-admin.register(CovidAustralia)
+admin.register(CovidInformation)

@@ -27,8 +27,6 @@ env = environ.Env()
 environ.Env.read_env()
 
 SECRET_KEY = env("SECRET_KEY")
-#with open(BASE_DIR / 'server/secretkey.txt') as f:
-#    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -103,7 +101,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'shoppingAssistantDatabase',
+        'NAME': 'serverDatabase',
     }
 }
 
@@ -146,5 +144,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Connect to the MongoEngine Database
 
 mongoengine.connect('djongo', host='localhost:27017')
