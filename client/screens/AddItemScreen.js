@@ -9,14 +9,17 @@ const styles = (theme) => ({
         backgroundColor: theme['background-basic-color-2']
     },
     content: {
-        flex: 1,
+        flex: 1
     }
 })
 
-const AddItemScreen = ({ eva, navigation}) => {
+const AddItemScreen = ({ eva, navigation }) => {
+
+    const styles = eva.style;
+
     return (
         <View style={styles.root}>
-            <Layout>
+            <Layout style={styles.content}>
                 <Text>Test</Text>
             </Layout>
         </View>
