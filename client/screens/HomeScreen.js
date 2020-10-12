@@ -60,6 +60,10 @@ const styles = (theme) => ({
     backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
+
+    bottomNavigation: {
+        marginVertical: 8,
+    },
 });
 
 const HamburgerIcon = (props) => (
@@ -75,7 +79,7 @@ const HomeScreen = ({ eva, navigation }) => {
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
     const activeList = listsContext.activeList;
-
+    
     const DrawerAction = () => (
         <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
     );
@@ -87,12 +91,13 @@ const HomeScreen = ({ eva, navigation }) => {
     const [visible, setVisible] = React.useState(false);
     return (
         <View style={styles.root}>
+            {/*}
             <TopNavigation 
                 title='Home' 
                 alignment='center' 
                 accessoryLeft={DrawerAction}
                 accessoryRight={CreateAction}
-            />
+            />*/}
             <View style = {[styles.heading_backgroud]}>
 
                     <Text category="h2" style={styles.heading_font}>

@@ -10,7 +10,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import MapScreen from '../screens/MapScreen';
 
 // import DemoScreen from '../screens/DemoScreen';
-
+/*
 const { Navigator, Screen } = createDrawerNavigator();
 
 const DrawerContent = ({ navigation, state }) => (
@@ -43,8 +43,10 @@ export const TopAppNavigator = () => (
         <DrawerNavigator/>
     </NavigationContainer>
 );
-
+*/
 
 export const AppNavigator = () => (
-    <BottomHomeNavigator/>
+    <NavigationContainer>
+        <BottomHomeNavigator/>
+    </NavigationContainer>
 );

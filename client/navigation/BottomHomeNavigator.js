@@ -39,20 +39,13 @@ const BottomTabBar = ({ navigation, state }) => (
     </BottomNavigation>
   );
 
-const TabNavigator = () => (
-    <Navigator tabBar={props => <BottomTabBar {...props} />}>
-            <Screen name="Home" component={HomeScreen} />
-            <Screen name="Covid Info" component={CovidScreen} />
-            <Screen name="Settings" component={SettingsScreen}/>
-    </Navigator>
-);
-
-
 
 export const BottomHomeNavigator = () => {
     return (
-        <NavigationContainer>
-            <TabNavigator/>
-        </NavigationContainer>
+        <Navigator tabBar={props => <BottomTabBar {...props} />}>
+            <Screen name="Home" component={HomeScreen} />
+            <Screen name="Covid Info" component={CovidScreen}/>
+            <Screen name="Settings" component={SettingsScreen}/>
+        </Navigator>
     );
 };
