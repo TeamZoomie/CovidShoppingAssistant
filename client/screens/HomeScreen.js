@@ -11,7 +11,9 @@ import {
     withStyles,
     Button,
     Modal,
-    Card
+    Card,
+    BottomNavigation,
+    BottomNavigationTab
 } from '@ui-kitten/components';
 import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
