@@ -1,4 +1,8 @@
+'''
+Contains a class that checks whether a user has permission to edit or read an object.
+'''
 from rest_framework import permissions
+
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -12,3 +16,4 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Write permissions are only allowed to the owner
         return obj.owner == request.user
+        

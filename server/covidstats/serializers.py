@@ -1,8 +1,15 @@
+'''
+This file contains the serializer for the covid statistics model.
+'''
 from rest_framework_mongoengine import serializers
-from .models import CovidAustralia
+from .models import CovidInformation
+
 
 class CovidSerializer(serializers.DocumentSerializer):
+    '''
+    The serializer for the document CovidInformation.
+    '''
     class Meta:
-        model = CovidAustralia
+        model = CovidInformation
         fields = ['country', 'cases', 'todayCases', 'deaths', 'todayDeaths', 'recovered', 'active', 'critical',
-                    'casesPerOneMillion', 'deathsPerOneMillion', 'totalTests', 'testsPerOneMillion']
+                  'casesPerOneMillion', 'deathsPerOneMillion', 'totalTests', 'testsPerOneMillion']

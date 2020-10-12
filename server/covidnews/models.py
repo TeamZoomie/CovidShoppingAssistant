@@ -1,21 +1,42 @@
-from djongo import models
-from datetime import datetime
+'''
+Contains information about the model that stores information gathered from
+news sites.
+'''
+from mongoengine import Document, EmbeddedDocument, fields
 
-# Create your models here.
-class CovidNews(models.Model):
-    description = models.CharField(max_length = 400, default='desc')
-    publishedDate = models.CharField(max_length = 200, default='date')
-    title = models.CharField(max_length = 200, default='title')
-    url = models.CharField(max_length = 200, default='url')
 
-    def __str__(self):
-        return self.description
+class SourceField(EmbeddedDocument):
+    '''
+    Contains fields needed to grab a docuemnt from the NewsApiClient.
+    '''
+    id = fields.StringField()
+    name = fields.StringField()
 
-class ArticleDump(models.Model):
-    id = models.AutoField(primary_key=True)
-    country = models.CharField(max_length = 100, default='')
-    addedDate = models.DateTimeField()
-    articles = models.JSONField()
+
+class ArticleModel(EmbeddedDocument):
+    '''
+    Contains headers that all articles contain when grabbing them from the
+    NewsApiClient.
+    '''
+    source = fields.EmbeddedDocumentField(SourceField)
+    author = fields.StringField()
+    title = fields.StringField()
+    description = fields.StringField()
+    url = fields.StringField()
+    urlToImage = fields.StringField()
+    publishedAt = fields.StringField()
+    content = fields.StringField()
+
+
+class CovidArticles(Document):
+    '''
+    Is the base model of the app that stores all information from the
+    NewsApiClient.
+    '''
+    idField = fields.IntField(primary_key=True)
+    country = fields.StringField(max_length=100, default='', unique=True)
+    addedDate = fields.DateTimeField()
+    articles = fields.ListField(fields.EmbeddedDocumentField(ArticleModel))
 
     def __str__(self):
         return "Artcile Dump " + str(self.addedDate)

@@ -1,3 +1,4 @@
+# This contains a list of countries to their ISO-2 country codes, needed to operate an API
 Australia = au
 USA = us
 UK = gb

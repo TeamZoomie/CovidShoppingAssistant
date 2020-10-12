@@ -43,6 +43,34 @@ If you get permission denied, you will have to add an ssh key to your account (M
 	1. Install UQ VPN or EAIT VPN
 	2. `ssh <student number>@deco3801-zoomie.zones.eait.uq.edu.au`
   
+## How to install local copy of Web-server  
+1. Install python 3 onto your computer. This will vary depending on your operating system. (Just google it please)
+	- Please do not install python 3.8.x or later, this will not work. Choose python 3.7.x please.
+2. Install MongoDB server by following the instructions on the website. https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/.
+	- The instructions are for Windows but MacOS and Linux setup is similar.
+3. Create a virtual python environment in the directory of your choice. 
+	- Linux (and Mac): `python3 -m venv env`
+	- Windows: `python -m venv env`
+4. Activate virtual environment.
+	- Linux: `source env/bin/activate`
+	- Windows: `env\Scripts\Activate`
+5. Clone the git repository. `git clone https://github.com/TeamZoomie/CovidShoppingAssistant.git`
+	- This will probably require you to have signed into git onto your computer. Random link to setting it up: [link](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration)
+6. Navigate to the server/ directory
+	- Linux: `cd server/`
+	- Windows: `cd server/`
+7. Install list of required python packages
+	- `pip install -r requirements.txt`
+8. Get secret values from Calum or Adrian for the server
+	- NEWS_API key in the covidnews folder
+	- GOOGLE_API key in the livetimes folder
+	- SECRET_KEY for Django in the settings folder
+9. Navigate back to the server/ directory
+10. Run the following commands to start the server
+	- `python manage.py makemigrations covidnews covidstats list livetimes userlogin`
+	- `python manage.py migrate`
+	- `python manage.py runserver`
+
 ### Web Server Location
 `https://deco3801-zoomie.uqcloud.net/`
 

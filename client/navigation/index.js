@@ -4,7 +4,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 import { HomeNavigator } from './HomeNavigator';
 import { CovidInfoNavigator } from './CovidInfoNavigator';
+import AddItemScreen from '../screens/AddItemScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import MapScreen from '../screens/MapScreen';
 
 // import DemoScreen from '../screens/DemoScreen';
 
@@ -18,7 +20,8 @@ const DrawerContent = ({ navigation, state }) => (
         <DrawerItem title='Home' />
         <DrawerItem title='COVID-19 Info' />
         <DrawerItem title='Settings' />
-        {/*<DrawerItem title='Demo Screen' />*/}
+        <DrawerItem title='AddItemScreen' />
+        <DrawerItem title='Map' />
     </Drawer>
 );
 
@@ -29,7 +32,8 @@ export const DrawerNavigator = () => (
         <Screen name='Home' component={HomeNavigator}/>
         <Screen name='Covid Info' component={CovidInfoNavigator}/>
         <Screen name='Settings' component={SettingsScreen}/>
-        {/*<Screen name='Demo Screen' component={DemoScreen}/>*/}
+        <Screen name='AddItemScreen' component={AddItemScreen}/>
+        <Screen name="Map" component={MapScreen} />
     </Navigator>
 );
 
