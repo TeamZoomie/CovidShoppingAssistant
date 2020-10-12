@@ -33,7 +33,7 @@ const styles = (theme) => ({
         flex: 1,
     },
     heading_backgroud: {
-        backgroundColor:'#87CEEB',
+        backgroundColor:'#4169E1',
         height:'15%',
         width:'100%',
         flexDirection: 'row',
@@ -116,7 +116,8 @@ const HomeScreen = ({ eva, navigation }) => {
                     list={activeList}
                     onPress={() => navigation.navigate('List', { listId: activeList.id })}
                 />
-                <ShoppingLists
+                <Divider style={{height: 3}} />
+                <ShoppingLists 
                     data={listsContext.lists} 
                     onPress={listId => {
                         navigation.navigate('List', { listId });
