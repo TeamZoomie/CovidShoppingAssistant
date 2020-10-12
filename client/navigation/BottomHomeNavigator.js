@@ -12,8 +12,9 @@ import ShoppingIntroScreen from '../screens/ShoppingIntroScreen';
 import StoreSelectorScreen from '../screens/StoreSelectorScreen';
 import AddItemScreen from '../screens/AddItemScreen';
 import MapScreen from '../screens/MapScreen';
-import CovidScreen from '../screens/CovidScreen/CovidTabBar';
 import SettingsScreen from '../screens/SettingsScreen';
+import CovidScreen from '../screens/CovidScreen/CovidTabBar';
+import { CovidInfoNavigator } from './CovidInfoNavigator';
 
 const ListsIcon = (props) => (
     <Icon {...props} name='list-outline'/>
@@ -44,7 +45,7 @@ export const BottomHomeNavigator = () => {
     return (
         <Navigator tabBar={props => <BottomTabBar {...props} />}>
             <Screen name="Home" component={HomeScreen} />
-            <Screen name="Covid Info" component={CovidScreen}/>
+            <Screen name="Covid Info" component={CovidInfoNavigator}/>
             <Screen name="Settings" component={SettingsScreen}/>
         </Navigator>
     );
