@@ -7,7 +7,7 @@ class CovidInformation(Document):
     '''
     Stores covid stats from different countries.
     '''
-    country = fields.StringField(max_length=60)
+    country = fields.StringField(max_length=60, unique=True)
     cases = fields.IntField()
     todayCases = fields.IntField()
     deaths = fields.IntField()

@@ -67,7 +67,7 @@ If you get permission denied, you will have to add an ssh key to your account (M
 	- SECRET_KEY for Django in the settings folder
 9. Navigate back to the server/ directory
 10. Run the following commands to start the server
-	- `python manage.py makemigrations covidstats list livetimes userlogin`
+	- `python manage.py makemigrations covidnews covidstats list livetimes userlogin`
 	- `python manage.py migrate`
 	- `python manage.py runserver`
 

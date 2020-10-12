@@ -12,7 +12,7 @@ from .serializers import CovidSerializer
 from .models import CovidInformation
 
 # Update the model every 6 hours
-UPDATE_TIME = 43200
+UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
 def update_model():

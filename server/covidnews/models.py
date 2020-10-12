@@ -34,7 +34,7 @@ class CovidArticles(Document):
     NewsApiClient.
     '''
     idField = fields.IntField(primary_key=True)
-    country = fields.StringField(max_length=100, default='')
+    country = fields.StringField(max_length=100, default='', unique=True)
     addedDate = fields.DateTimeField()
     articles = fields.ListField(fields.EmbeddedDocumentField(ArticleModel))
 
