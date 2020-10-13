@@ -76,7 +76,7 @@ If you get permission denied, you will have to add an ssh key to your account (M
 
 ### Add a user and obtain token
 Please follow the following steps to create a user and obtain a token
-1. Use a POST request to http://deco3801-zoomie.uqcloud.net.au/usercreate/
+1. Use a POST request to http://deco3801-zoomie.uqcloud.net/usercreate/
 	- Needs to contain the Username and Password of the user
 	- {"username": "", "password": ""}
 	- `curl -X POST --data "username=[username]&password=[password]" http://deco3801-zoomie.uqcloud.net/usercreate/`
