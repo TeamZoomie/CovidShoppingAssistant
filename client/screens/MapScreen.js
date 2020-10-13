@@ -49,19 +49,7 @@ const MapScreen = ({ eva, navigation }) => {
             <Layout style={styles.content}>
                 <View>
                     <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>Coles</Heading>
-                    <Map/>
-                    {/* <Input
-                        placeholder="List name"
-                        value={name}
-                        onChangeText={nextValue => setName(nextValue)}
-                        style={{ paddingBottom: 24 }}
-                    />
-                    <Heading category="c2">Due Date</Heading>
-                    <Datepicker
-                        date={dueDate}
-                        onSelect={nextDate => setDueDate(nextDate)}
-                        style={{ paddingBottom: 24 }}
-                    /> */}
+                    <Map tasks={['gardenAccessories', 'kitchenAccessories', 'fruitVeg', 'canned']}/>
                 </View>
             </Layout>
         </View>

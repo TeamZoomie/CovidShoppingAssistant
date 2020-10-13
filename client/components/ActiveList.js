@@ -54,7 +54,7 @@ const ActiveList = (props) => {
                             <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
                                     {list.name}
                                 </Text>
-                            <Text status='control' category="c1" style={{ color: '#87CEEB',fontWeight: '700' }}>{
+                            <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>{
                                 list.items.length} items
                             </Text>
                         </View>

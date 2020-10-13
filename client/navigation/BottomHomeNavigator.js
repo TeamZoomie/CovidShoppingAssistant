@@ -12,8 +12,8 @@ import ShoppingIntroScreen from '../screens/ShoppingIntroScreen';
 import StoreSelectorScreen from '../screens/StoreSelectorScreen';
 import AddItemScreen from '../screens/AddItemScreen';
 import MapScreen from '../screens/MapScreen';
-import CovidScreen from '../screens/CovidScreen/CovidTabBar';
 import SettingsScreen from '../screens/SettingsScreen';
+import CovidScreen from '../screens/CovidScreen/CovidTabBar';
 import { CovidInfoNavigator } from './CovidInfoNavigator';
 
 const ListsIcon = (props) => (
