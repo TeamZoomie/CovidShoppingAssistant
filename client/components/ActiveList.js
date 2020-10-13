@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 
 const styles = (theme) => ({
     button: {
-        // backgroundColor: theme['color-primary-default'],
         border: 'none',
         padding: 6,
         paddingRight:8,
@@ -19,9 +18,6 @@ const styles = (theme) => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
-    },
-    highlight: {
-        borderRadius: 16
     },
     imageStyle: {
         padding:10,
@@ -46,7 +42,11 @@ const ActiveList = (props) => {
 
     return (
         <View style={props.containerStyle}>
-            <TouchableHighlight onPress={props.onPress} style={styles.highlight}>
+            <TouchableHighlight 
+                style={styles.highlight} 
+                underlayColor='#eee'
+                onPress={props.onPress} 
+            >
                 <View style={[styles.button, props.style]}>
                     <View style={[styles.button, props.style]}>
                         <Image source={require('../assets/calendar.png')} style={styles.imageStyle}/>
@@ -65,11 +65,11 @@ const ActiveList = (props) => {
                             <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
                         </View>
                         <Button 
-                        style={styles.nextButton}
-                        status='basic'
-                        appearance='ghost' 
-                        accessoryLeft={NextIcon} 
-                        onPress={ props.onPress}
+                            style={styles.nextButton}
+                            status='basic'
+                            appearance='ghost' 
+                            accessoryLeft={NextIcon} 
+                            onPress={props.onPress}
                         />
                     </View>
                     

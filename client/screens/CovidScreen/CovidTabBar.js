@@ -38,14 +38,10 @@ const CovidScreen = ({  navigation, state }) => {
 
     return (
         <View style={{ backgroundColor: theme['background-basic-color-1'] }}>
-            <TopNavigation 
-                title='COVID-19 Information' 
-                alignment='center' 
-                accessoryLeft={DrawerAction}
-            />
             <TabBar 
                 selectedIndex={state.index}
                 onSelect={onTabSelect}
+                style={{ height:  55 }}
             >
                 <Tab icon={BarChartIcon}/>
                 <Tab icon={GlobeIcon}/>

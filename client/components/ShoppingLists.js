@@ -32,7 +32,7 @@ const styles = (theme) => ({
     },
     highlight: {
         marginBottom: 0,
-        borderRadius: 16,
+        // borderRadius: 16,
         flexGrow: 1,
         marginRight: 4,
     },
@@ -50,7 +50,8 @@ const styles = (theme) => ({
         flexGrow: 1,
         paddingRight: 0,
         paddingLeft: 0,
-        marginBottom: 0
+        marginBottom: 0,
+        backgroundColor: 'white'
     },
     nextButton: {
         width: 32, 
@@ -78,6 +79,7 @@ const ShoppingLists = (props) => {
         p3: require('../assets/party.png')
     }
     
+    const backgroundColor = colours['white' || list.colour || 'orange']
     return (
         <ScrollView style={styles.container}>
             {sortedData.map((list, i) => (
@@ -87,12 +89,12 @@ const ShoppingLists = (props) => {
                     </Text> */}
                     <TouchableHighlight 
                         style={styles.highlight} 
-                        activeOpacity={0.8}
                         onPress={() => props.onPress(list.id)}
+                        underlayColor='#eee'
                     >
                         <View 
-                            style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']} ]}>
-                            <View style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']} ]}>
+                            style={[styles.button, { backgroundColor } ]}>
+                            <View style={[styles.button, { backgroundColor } ]}>
                                 <Image source={images['p' + i]} style={styles.imageStyle}/>
                                 <View>
                                     <Text 
@@ -102,13 +104,13 @@ const ShoppingLists = (props) => {
                                     >
                                         {list.name}
                                     </Text>
-                                    <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>{
-                                        list.items.length} items
+                                    <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>
+                                        {list.items.length} items
                                     </Text>
                                 </View>
                                 
                             </View>
-                            <View style={[styles.button, { backgroundColor: colours['white'||list.colour || 'orange']}]}>
+                            <View style={[styles.button, { backgroundColor }]}>
                                 <View>
                                     <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
                                     <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.date, 'dd/MM/yy') }</Text>

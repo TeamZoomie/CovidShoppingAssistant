@@ -1,5 +1,10 @@
 import React from 'react';
-import { ScrollView, View,BottomMenu, Item,Image,PixelRatio } from 'react-native';
+import { 
+    View,
+    Image,
+    PixelRatio,
+    Dimensions 
+} from 'react-native';
 import { 
     Text, 
     Input, 
@@ -12,14 +17,13 @@ import {
     Button,
     Modal,
     Card,
-    BottomNavigation,
-    BottomNavigationTab
 } from '@ui-kitten/components';
 import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
 import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const WIN_DIM = Dimensions.get('window');
 
 const styles = (theme) => ({
     root: {
@@ -32,22 +36,23 @@ const styles = (theme) => ({
         backgroundColor: theme['background-basic-color-1'],
         flex: 1,
     },
-    heading_backgroud: {
-        backgroundColor:'#4169E1',
-        height:'15%',
-        width:'100%',
+    headingBackground: {
+        backgroundColor: theme['color-primary-default'],
+        height: WIN_DIM.height * 0.15,
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding:15
+        padding: 20
     },
-    heading_font:{
+    headingFont:{
         color: '#FFFFFF',
         fontWeight:'700'
     },
     imageStyle: {
-        height: PixelRatio.getPixelSizeForLayoutSize(29),
-        width: '25%',
+        height: WIN_DIM.height * 0.15 - 40,
+        width: WIN_DIM.height * 0.15,
+        resizeMode: 'contain'
     },
     heading: {
         paddingBottom: 8
@@ -98,19 +103,17 @@ const HomeScreen = ({ eva, navigation }) => {
                 accessoryLeft={DrawerAction}
                 accessoryRight={CreateAction}
             />*/}
-            <View style = {[styles.heading_backgroud]}>
-
-                    <Text category="h2" style={styles.heading_font}>
-                        ShopSafe
-                    </Text>
-                <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
-                
+            <View style={styles.headingBackground}>
+                <Text category="h2" style={styles.headingFont}>
+                    ShopSafe
+                </Text>
+                <View>
+                    <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
+                </View>
+                {/* <View style={{ maxHeight: '100%' }}>
+                </View> */}
             </View>
             <Layout style={styles.content}>
-                {/* <ActiveList 
-                    list={activeList}
-                    onPress={() => navigation.navigate('List', { listId: activeList.id })}
-                /> */}
                 <Heading category="h6" style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}>Your Lists</Heading>
                 <ActiveList 
                     list={activeList}
