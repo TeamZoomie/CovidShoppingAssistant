@@ -1,23 +1,18 @@
 import React from 'react';
+
 import { 
     View,
     Image,
-    PixelRatio,
     Dimensions 
 } from 'react-native';
+
 import { 
     Text, 
-    Input, 
     Divider, 
-    Icon, 
     Layout, 
-    TopNavigation, 
-    TopNavigationAction, 
     withStyles,
-    Button,
-    Modal,
-    Card,
 } from '@ui-kitten/components';
+
 import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
 import Heading from '../components/Heading';
@@ -27,6 +22,7 @@ import { FloatingAction } from 'react-native-floating-action';
 
 const WIN_DIM = Dimensions.get('window');
 
+// Define the necessary styling variables for different components
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -73,14 +69,7 @@ const styles = (theme) => ({
     },
 });
 
-const HamburgerIcon = (props) => (
-    <Icon {...props} name='menu-outline' />
-);
-
-const AddIcon = (props) => (
-    <Icon {...props} name='plus-outline' />
-);
-
+// Actions for the floating button to do
 const floatingButtonActions = [
     {
         text: 'Add a list',
@@ -94,18 +83,12 @@ const HomeScreen = ({ eva, navigation }) => {
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
     const activeList = listsContext.activeList;
-    
-    const DrawerAction = () => (
-        <TopNavigationAction icon={HamburgerIcon} onPress={() => navigation.openDrawer()}/>
-    );
-    const CreateAction = () => (
-        <TopNavigationAction icon={AddIcon} onPress={() => navigation.navigate('CreateList')}/>
-    );
 
     // For the modal pop up warning
     const [visible, setVisible] = React.useState(false);
     return (
         <View style={styles.root}>
+            {/* The top header bar */}
             <View style={styles.headingBackground}>
                 <Text category="h2" style={styles.headingFont}>
                     ShopSafe
@@ -113,9 +96,8 @@ const HomeScreen = ({ eva, navigation }) => {
                 <View>
                     <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
                 </View>
-                {/* <View style={{ maxHeight: '100%' }}>
-                </View> */}
             </View>
+            {/* The list display */}
             <Layout style={styles.content}>
                 <Heading category="h6" style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}>Your Lists</Heading>
                 <ActiveList 
@@ -130,6 +112,7 @@ const HomeScreen = ({ eva, navigation }) => {
                     }}
                 />
             </Layout>
+            {/* The button to create lists */}
             <FloatingAction
                 actions={floatingButtonActions}
                 onPressItem={name => {
