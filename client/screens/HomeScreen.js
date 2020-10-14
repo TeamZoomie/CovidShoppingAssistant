@@ -22,6 +22,8 @@ import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
 import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
+import { FloatingAction } from 'react-native-floating-action';
+
 
 const WIN_DIM = Dimensions.get('window');
 
@@ -79,6 +81,14 @@ const AddIcon = (props) => (
     <Icon {...props} name='plus-outline' />
 );
 
+const floatingButtonActions = [
+    {
+        text: 'Add a list',
+        icon: require("../assets/list-24px.svg"),
+        position: 1
+    }
+]
+
 const HomeScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
@@ -96,13 +106,6 @@ const HomeScreen = ({ eva, navigation }) => {
     const [visible, setVisible] = React.useState(false);
     return (
         <View style={styles.root}>
-            {/*}
-            <TopNavigation 
-                title='Home' 
-                alignment='center' 
-                accessoryLeft={DrawerAction}
-                accessoryRight={CreateAction}
-            />*/}
             <View style={styles.headingBackground}>
                 <Text category="h2" style={styles.headingFont}>
                     ShopSafe
@@ -126,23 +129,13 @@ const HomeScreen = ({ eva, navigation }) => {
                         navigation.navigate('List', { listId });
                     }}
                 />
-                
-                {/* Warning */}
-                <Modal
-                    visible={visible}
-                    backdropStyle={styles.backdrop}
-                    onBackdropPress={() => setVisible(false)}
-                >
-                    <Card disabled={true}>
-                    <Text>Be sure to stay away from people and don't
-                        touch your face.
-                    </Text>
-                    <Button onPress={() => setVisible(false)}>
-                        Begin Shopping
-                    </Button>
-                    </Card>
-                </Modal>
             </Layout>
+            <FloatingAction
+                actions={floatingButtonActions}
+                onPressItem={name => {
+                    navigation.navigate('CreateList');
+                }}
+            />
         </View>
         
     );
