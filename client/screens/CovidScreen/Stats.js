@@ -23,7 +23,7 @@ const styles = (theme) => ({
     content: {
         padding: 16,
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     text: {
         fontWeight: "700",
@@ -32,6 +32,9 @@ const styles = (theme) => ({
     },
     errorText: {
         color: theme['color-primary-default']
+    },
+    container:{
+        marginBottom:25
     }
 });
 
@@ -89,31 +92,33 @@ const StatsScreen = ({ eva, navigation }) => {
                 >
                     {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
                 </Select>
-                <View style={loading || error ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
-                    {loading || error ? (
-                        error ? (
-                            <Fragment>
-                                <Heading category="h6" style={styles.errorText}>
-                                    Could not get data.
-                                </Heading>
-                                <Text category="c1" style={{ fontWeight: "300" }}>
-                                    An error occured...
-                                </Text>
-                            </Fragment>
+                <View style = {{marginBottom:20}}> 
+                    <View style={loading || error ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                        {loading || error ? (
+                            error ? (
+                                <Fragment>
+                                    <Heading category="h6" style={styles.errorText}>
+                                        Could not get data.
+                                    </Heading>
+                                    <Text category="c1" style={{ fontWeight: "300" }}>
+                                        An error occured...
+                                    </Text>
+                                </Fragment>
+                            ) : (
+                                <Spinner size='giant'/>
+                            )
                         ) : (
-                            <Spinner size='giant'/>
-                        )
-                    ) : (
-                        <Fragment>
-                            <Heading category="c2">Statistics</Heading>
-                            <List
-                                style={styles.container}
-                                data={Object.entries(data).map(([title, value]) => ({ title, value }))}
-                                ItemSeparatorComponent={Divider}
-                                renderItem={renderItem}
-                            />
-                        </Fragment>
-                    )}
+                            <Fragment>
+                                <Heading category="c2">Statistics</Heading>
+                                <List
+                                    style={styles.container}
+                                    data={Object.entries(data).map(([title, value]) => ({ title, value }))}
+                                    ItemSeparatorComponent={Divider}
+                                    renderItem={renderItem}
+                                />
+                            </Fragment>
+                        )}
+                    </View>
                 </View>
             </Layout>
         </View>

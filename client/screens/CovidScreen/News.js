@@ -40,7 +40,7 @@ const styles = (theme) => ({
     container: {
         flex: 1,
     },
-      list: {
+    list: {
         flex: 1,
     },
     listContent: {
@@ -149,7 +149,7 @@ const NewsScreen = ({ eva, navigation }) => {
                     selectedIndex={countryIndex}
                     onSelect={i => setCountryIndex(i)}
                     value={countries[countryIndex - 1]}
-                    style={{ paddingBottom: 24 }}
+                    style={{ paddingBottom: 18 }}
                 >
                     {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
                 </Select>
