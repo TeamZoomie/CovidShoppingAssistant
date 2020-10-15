@@ -18,6 +18,7 @@ import ShoppingList from '../components/ShoppingList';
 import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
 import { BarCodeScanner} from 'expo-barcode-scanner';
+import { FloatingAction } from 'react-native-floating-action';
 
 
 const styles = (theme) => ({
@@ -31,7 +32,7 @@ const styles = (theme) => ({
         padding: 16,
     },
     searchField: {
-        width: '72%',
+        width: '100%',
         padding: 0,
         // borderColor: theme['background-basic-color-2']
     },
@@ -67,6 +68,22 @@ const BarcodeIcon = () => (// TODO Make a barcode icon
         style = {{ width: 24, height: 24, tintColor: 'white' }} 
     />
 );
+
+// Actions for the floating button to do
+const floatingButtonActions = [
+    {
+        text: 'Enter a product name',
+        name: 'TextButton',
+        icon: require("../assets/list-24px.svg"),
+        position: 1
+    },
+    {
+        text: 'Scan a barcode',
+        name: 'BarcodeButton',
+        icon: require("../assets/list-24px.svg"),
+        position: 2
+    }
+]
 
 const ListScreen = ({ route, navigation, eva }) => {
 
@@ -191,17 +208,6 @@ const ListScreen = ({ route, navigation, eva }) => {
                                 onChangeText={nextValue => setAddText(nextValue)}
                                 onSubmitEditing={addListItem}
                             />
-                            <Button 
-                                style={styles.addTextItem} 
-                                // appearance='ghost' 
-                                accessoryLeft={AddIcon}
-                                onPress={addListItem}
-                            />                           
-                            <Button 
-                                style={styles.addTextItem}
-                                accessoryLeft={BarcodeIcon}
-                                onPress={() => setScanMode(true)}
-                            />
                         </Layout>
                     </View>
                     <ScrollView 
@@ -236,6 +242,19 @@ const ListScreen = ({ route, navigation, eva }) => {
                                 Start Shopping
                             </Button>
                         )}
+                        <FloatingAction
+                            actions={floatingButtonActions}
+                            onPressItem={name => {
+                                if (name === "TextButton") {
+                                    listsContext.addListItem(listId, 
+                                                            { name: addText, 
+                                                              checked: false });
+                                    setAddText('')
+                                } else {
+                                    setScanMode(true);
+                                }
+                            }}
+                        />
                     </View>
                 </Layout>
             </View>
