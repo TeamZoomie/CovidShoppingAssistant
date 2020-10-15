@@ -14,7 +14,7 @@ const styles = (theme) => ({
     button: {
         backgroundColor: theme['color-primary-default'],
         border: 'none',
-        padding: 6,
+        padding: 8,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -32,9 +32,9 @@ const styles = (theme) => ({
     },
     highlight: {
         marginBottom: 0,
-        // borderRadius: 16,
+        borderRadius: 16,
         flexGrow: 1,
-        marginRight: 4,
+        marginRight: 0,
     },
     date: {
         fontWeight: '700', 

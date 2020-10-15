@@ -13,7 +13,7 @@ const styles = (theme) => ({
     button: {
         border: 'none',
         padding: 6,
-        paddingRight:8,
+        paddingRight:12,
         borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -52,7 +52,7 @@ const ActiveList = (props) => {
     const { list } = props;
 
     return (
-        <View style={props.containerStyle}>
+        <View style={[styles.container,props.containerStyle]}>
             <TouchableHighlight 
                 style={styles.highlight} 
                 underlayColor='#eee'
