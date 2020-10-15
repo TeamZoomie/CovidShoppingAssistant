@@ -29,12 +29,23 @@ const styles = (theme) => ({
         width: 32, 
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    starIcon: {
+        width: 22,
+        height: 22,
+        marginRight: 10
     }
 });
 
 const NextIcon = (props) => {
     return <Icon {...props} height={24} width={24} fill="black" name="arrow-ios-forward-outline"/>
 };
+
+// Star icon for active list
+const StarIcon = (props) => (
+    <Icon {...props} name='star'/>
+  );
+
 
 const ActiveList = (props) => {
     const styles = props.eva.style;
@@ -50,6 +61,7 @@ const ActiveList = (props) => {
                 <View style={[styles.button, props.style]}>
                     <View style={[styles.button, props.style]}>
                         <Image source={require('../assets/calendar.png')} style={styles.imageStyle}/>
+                        
                         <View>
                             <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
                                     {list.name}
@@ -57,23 +69,30 @@ const ActiveList = (props) => {
                             <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>{
                                 list.items.length} items
                             </Text>
+                        
                         </View>
                     </View>
-                    <View style={[styles.button, props.style]}>
-                        <View>
-                            <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
-                            <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
-                        </View>
-                        <Button 
-                            style={styles.nextButton}
-                            status='basic'
-                            appearance='ghost' 
-                            accessoryLeft={NextIcon} 
-                            onPress={props.onPress}
-                        />
-                    </View>
-                    
-                    
+                    <View style={[{},props.style]}>
+                
+                        <View style={[styles.button, props.style]}>
+                        <Icon
+                                style={styles.starIcon}
+                                fill='#4169E1'
+                                name='star'
+                            />
+                            <View>
+                                <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
+                                <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
+                            </View>
+                            <Button 
+                                style={styles.nextButton}
+                                status='basic'
+                                appearance='ghost' 
+                                accessoryLeft={NextIcon} 
+                                onPress={props.onPress}
+                            />
+                        </View>  
+                    </View>       
                 </View>
             </TouchableHighlight>
                 

@@ -34,7 +34,7 @@ const styles = (theme) => ({
         color: theme['color-primary-default']
     },
     container:{
-        marginBottom:25
+        marginBottom:20
     }
 });
 
@@ -88,7 +88,7 @@ const StatsScreen = ({ eva, navigation }) => {
                     selectedIndex={countryIndex}
                     onSelect={i => setCountryIndex(i)}
                     value={countries[countryIndex - 1]}
-                    style={{ paddingBottom: 24 }}
+                    style={{ paddingBottom: 18 }}
                 >
                     {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
                 </Select>

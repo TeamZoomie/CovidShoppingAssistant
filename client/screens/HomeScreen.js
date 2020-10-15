@@ -73,6 +73,7 @@ const styles = (theme) => ({
 const floatingButtonActions = [
     {
         text: 'Add a list',
+        name:'createList Button',
         icon: require("../assets/list-24px.svg"),
         position: 1
     }
