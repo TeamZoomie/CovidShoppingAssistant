@@ -29,8 +29,8 @@ const BottomTabBar = ({ navigation, state }) => (
         selectedIndex={state.index}
         onSelect={index => navigation.navigate(state.routeNames[index])}
     >
-        <BottomNavigationTab title='My Lists' icon={ListsIcon}/>
         <BottomNavigationTab title='News' icon={NewsIcon}/>
+        <BottomNavigationTab title='My Lists' icon={ListsIcon}/>
         <BottomNavigationTab title='Settings' icon={SettingsIcon}/>
     </BottomNavigation>
   );
@@ -39,8 +39,8 @@ const BottomTabBar = ({ navigation, state }) => (
 export const BottomHomeNavigator = () => {
     return (
         <Navigator tabBar={props => <BottomTabBar {...props} />}>
-            <Screen name="Home" component={HomeNavigator} />
             <Screen name="Covid Info" component={CovidInfoNavigator}/>
+            <Screen name="Home" component={HomeNavigator} />
             <Screen name="Settings" component={SettingsScreen}/>
         </Navigator>
     );
