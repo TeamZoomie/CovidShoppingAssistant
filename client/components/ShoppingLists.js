@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableHighlight,Image,PixelRatio } from 'react-native';
+import { View, ScrollView, TouchableHighlight, Image, PixelRatio } from 'react-native';
 import { 
     Button,
     Icon,
@@ -9,13 +9,14 @@ import {
 } from '@ui-kitten/components';
 import { format } from 'date-fns';
 import { colours } from '../colours';
+import { iconImages } from '../icon-images';
 
 const styles = (theme) => ({
     button: {
         backgroundColor: theme['color-primary-default'],
         border: 'none',
         padding: 8,
-        borderRadius: 16,
+        // borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -32,7 +33,7 @@ const styles = (theme) => ({
     },
     highlight: {
         marginBottom: 0,
-        borderRadius: 16,
+        // borderRadius: 16,
         flexGrow: 1,
         marginRight: 0,
     },
@@ -51,7 +52,7 @@ const styles = (theme) => ({
         paddingRight: 0,
         paddingLeft: 0,
         marginBottom: 0,
-        backgroundColor: 'white'
+        backgroundColor: theme['background-basic-color-1']
     },
     nextButton: {
         width: 32, 
@@ -61,50 +62,45 @@ const styles = (theme) => ({
 });
 
 const NextIcon = (props) => {
-    return <Icon {...props} height={24} width={24} fill="black" name="arrow-ios-forward-outline"/>
+    return <Icon {...props} height={24} width={24} fill={props.colour} name="arrow-ios-forward-outline"/>
 };
 
 const ShoppingLists = (props) => {
     const styles = props.eva.style;
     const theme = useTheme();
-    const sortedData = Object.values(props.data).sort((a, b) => {
+    let sortedData = Object.values(props.data).sort((a, b) => {
         const d1 = new Date(a.date);
         const d2 = new Date(b.date);
         return d2.getTime() - d1.getTime();
     });
-    const images = {
-        p0: require('../assets/shopping.png'),
-        p1: require('../assets/calendar.png'),
-        p2: require('../assets/christmas.png'),
-        p3: require('../assets/party.png')
+    if (props.activeList) {
+        sortedData = sortedData.filter(list => list.id != props.activeList.id);
     }
-    
+
+    // const backgroundColor = theme['background-basic-color-1'];
+    // const back
     const backgroundColor = colours['white' || list.colour || 'orange']
     return (
         <ScrollView style={styles.container}>
             {sortedData.map((list, i) => (
                 <View key={i} style={styles.item}>
-                    {/* <Text category="h6" style={styles.date}>
-                        {format(list.date, 'dd MMM')}
-                    </Text> */}
                     <TouchableHighlight 
                         style={styles.highlight} 
                         onPress={() => props.onPress(list.id)}
-                        underlayColor='#eee'
+                        underlayColor={theme['background-basic-color-2']}
                     >
                         <View 
                             style={[styles.button, { backgroundColor } ]}>
                             <View style={[styles.button, { backgroundColor } ]}>
-                                <Image source={images['p' + i]} style={styles.imageStyle}/>
+                                <Image source={iconImages[list.icon]} style={styles.imageStyle}/>
                                 <View>
                                     <Text 
-                                        status="control" 
                                         category="h6" 
-                                        style={{ fontWeight: '700',color: '#000000' }}
+                                        style={{ fontWeight: '700'}}
                                     >
                                         {list.name}
                                     </Text>
-                                    <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>
+                                    <Text category="c1" style={{ color: theme['color-primary-default'], fontWeight: '700' }}>
                                         {list.items.length} items
                                     </Text>
                                 </View>
@@ -112,20 +108,18 @@ const ShoppingLists = (props) => {
                             </View>
                             <View style={[styles.button, { backgroundColor }]}>
                                 <View>
-                                    <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
-                                    <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.date, 'dd/MM/yy') }</Text>
+                                    <Text category="c1" style={{ fontWeight: '700' }}>Due Date</Text>
+                                    <Text category="c1" style={{ fontWeight: '700' }}>{ format(list.date, 'dd/MM/yy') }</Text>
                                 </View>
                                 <Button 
                                     style={styles.nextButton}
-                                    status='basic'
+                                    accessoryLeft={() => <NextIcon colour={theme['background-alternative-color-1']}/>} 
                                     appearance='ghost' 
-                                    accessoryLeft={NextIcon} 
                                     onPress={() => props.onPress(list.id)}
                                 />
                             </View>
                         </View>
                     </TouchableHighlight>
-                
                 </View>
             ))}
         </ScrollView>

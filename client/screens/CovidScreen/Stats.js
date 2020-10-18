@@ -35,7 +35,7 @@ const styles = (theme) => ({
     },
     container:{
         marginBottom:20
-    }
+    },
 });
 
 const StatsScreen = ({ eva, navigation }) => {
@@ -56,11 +56,8 @@ const StatsScreen = ({ eva, navigation }) => {
         let title = info.item.title.replace( /([A-Z])/g, " $1" );
         title = title.charAt(0).toUpperCase() + title.slice(1);
         return (
-            <Card
-                style={styles.item}
-                status='basic'
-            >
-                    <Text category='p1'>
+            <Card>
+                <Text category='p1'>
                     { title }
                 </Text>
                 <Text category='c1'>

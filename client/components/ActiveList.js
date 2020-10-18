@@ -5,9 +5,10 @@ import {
     withStyles,
     Button,
     Icon,
+    useTheme
 } from '@ui-kitten/components';
 import { format } from 'date-fns';
-
+import { iconImages } from '../icon-images';
 
 const styles = (theme) => ({
     button: {
@@ -38,64 +39,55 @@ const styles = (theme) => ({
 });
 
 const NextIcon = (props) => {
-    return <Icon {...props} height={24} width={24} fill="black" name="arrow-ios-forward-outline"/>
+    return <Icon {...props} fill={props.colour} height={24} width={24} name="arrow-ios-forward-outline"/>
 };
-
-// Star icon for active list
-const StarIcon = (props) => (
-    <Icon {...props} name='star'/>
-  );
-
 
 const ActiveList = (props) => {
     const styles = props.eva.style;
     const { list } = props;
-
+    const theme = useTheme();
     return (
         <View style={[styles.container,props.containerStyle]}>
             <TouchableHighlight 
                 style={styles.highlight} 
-                underlayColor='#eee'
+                underlayColor={theme['background-basic-color-2']}
                 onPress={props.onPress} 
             >
                 <View style={[styles.button, props.style]}>
                     <View style={[styles.button, props.style]}>
-                        <Image source={require('../assets/calendar.png')} style={styles.imageStyle}/>
-                        
+                        <Image source={iconImages[list.icon]} style={styles.imageStyle}/>
                         <View>
-                            <Text status='control' category="h6" style={{ color: '#000000',fontWeight: '700' }}>
+                            <Text category="h6" style={{ fontWeight: '700' }}>
                                     {list.name}
                                 </Text>
-                            <Text status='control' category="c1" style={{ color: '#4169E1',fontWeight: '700' }}>{
+                            <Text category="c1" style={{ color: theme['color-primary-default'], fontWeight: '700' }}>{
                                 list.items.length} items
                             </Text>
                         
                         </View>
                     </View>
-                    <View style={[{},props.style]}>
-                
+                    <View style={props.style}>
                         <View style={[styles.button, props.style]}>
                         <Icon
-                                style={styles.starIcon}
-                                fill='#4169E1'
-                                name='star'
-                            />
+                            style={styles.starIcon}
+                            fill={theme['color-primary-default']}
+                            name='star'
+                        />
                             <View>
-                                <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>Due Date</Text>
-                                <Text status='control' category="c1" style={{color: '#000000',fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
+                                <Text category="c1" style={{ fontWeight: '700' }}>Due Date</Text>
+                                <Text category="c1" style={{ fontWeight: '700' }}>{ format(list.duedate, 'dd/MM/yy') }</Text>
                             </View>
                             <Button 
                                 style={styles.nextButton}
-                                status='basic'
+                                color="white"
                                 appearance='ghost' 
-                                accessoryLeft={NextIcon} 
+                                accessoryLeft={() => <NextIcon colour={theme['background-alternative-color-1']}/>} 
                                 onPress={props.onPress}
                             />
                         </View>  
                     </View>       
                 </View>
             </TouchableHighlight>
-                
         </View>
     );
 };

@@ -1,18 +1,16 @@
-import React from 'react';
-
+import React, { Fragment } from 'react';
 import { 
     View,
     Image,
     Dimensions 
 } from 'react-native';
-
 import { 
     Text, 
     Divider, 
     Layout, 
     withStyles,
+    Icon
 } from '@ui-kitten/components';
-
 import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
 import Heading from '../components/Heading';
@@ -73,8 +71,8 @@ const styles = (theme) => ({
 const floatingButtonActions = [
     {
         text: 'Add a list',
-        name:'createList Button',
-        icon: require("../assets/list-24px.svg"),
+        name:'createListButton',
+        icon: require('../assets/list-24px.svg'),
         position: 1
     }
 ]
@@ -101,13 +99,18 @@ const HomeScreen = ({ eva, navigation }) => {
             {/* The list display */}
             <Layout style={styles.content}>
                 <Heading category="h6" style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}>Your Lists</Heading>
-                <ActiveList 
-                    list={activeList}
-                    onPress={() => navigation.navigate('List', { listId: activeList.id })}
-                />
-                <Divider style={{height: 3}} />
+                {activeList && (
+                    <Fragment>
+                        <ActiveList 
+                            list={activeList}
+                            onPress={() => navigation.navigate('List', { listId: activeList.id })}
+                        />
+                        <Divider style={{height: 3}} />
+                    </Fragment>
+                )}
                 <ShoppingLists 
-                    data={listsContext.lists} 
+                    data={listsContext.lists}
+                    activeList={activeList}
                     onPress={listId => {
                         navigation.navigate('List', { listId });
                     }}

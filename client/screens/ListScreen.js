@@ -131,13 +131,12 @@ const ListScreen = ({ route, navigation, eva }) => {
     const removeItem = (index) => {
         listsContext.removeListItem(listId, index);
     };
-
     const removeList = () => {
         setSettingsVisible(false);
         navigation.navigate("Home");
         listsContext.removeList(listId);
-
     };
+
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
@@ -160,7 +159,14 @@ const ListScreen = ({ route, navigation, eva }) => {
             >
                 <MenuItem title='Edit List'/>
                 <MenuItem title='Share'/>
-                <MenuItem title='Print' onPress={() => print()}/>
+                <MenuItem title='Print'/>
+                <MenuItem
+                    title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkgreen' }]}>Set default</Text>}
+                    onPress={() => {
+                        setSettingsVisible(false);
+                        listsContext.setListActive(listId);
+                    }}
+                />
                 <MenuItem
                     title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkred' }]}>Delete</Text>}
                     onPress={removeList}

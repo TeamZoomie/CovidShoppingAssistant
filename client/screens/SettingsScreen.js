@@ -35,11 +35,6 @@ const styles = (theme) => ({
     }
 });
 
-// Create icon for the menu
-const HamburgerIcon = (props) => (
-    <Icon {...props} name='menu-outline' />
-);
-
 const SettingsScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
@@ -61,60 +56,20 @@ const SettingsScreen = ({ eva, navigation }) => {
         settingsContext.toggleTheme();
     };
 
-    const renderOption = (title, id) => (
-        <SelectItem key={id} title={title}/>
-      );
-
-    // For the toggle of themes between light and dark
-    const [lightTheme, setLightTheme] = React.useState(false);
-
-    const themeChange = (isChecked) => {
-        setLightTheme(isChecked);
-        settingsContext.toggleTheme();  
-    };
-
     // Username
     const [username, setUsername] = React.useState(settingsContext.username);
-
-    // For the radio buttons
-    const [selectedRadioIndex, setSelectedRadioIndex] = React.useState(0);
-
-    const themeRadioChange = (index) => {
-        setSelectedRadioIndex(index);
-        settingsContext.toggleTheme();
-    };
-
-    // For the checkboxes
-    const [checkedBoxes, setCheckedBoxes] = React.useState(false);
-
-    const themeBoxChange = (isChecked) => {
-        setCheckedBoxes(isChecked);
-        settingsContext.toggleTheme();
-    };
-
-    // Define the drawer action
-    const DrawerAction = () => (
-        <TopNavigationAction icon={HamburgerIcon} onPress={() => 
-            navigation.openDrawer()}/>
-    );
-    
     return (
         <View style={styles.root}>
-            <TopNavigation title='Settings' alignment='center' accessoryLeft={DrawerAction}/>
-            <Divider/>
             <Layout style={styles.content}>
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>{'Theme'}</Text>}
                     value={displayValue}
                     onSelect={index => themeSelectChange(index)}>
-                    {data.map(renderOption)}
+                    {data.map((title, id) => (
+                        <SelectItem key={id} title={title}/>
+                    ))}
                 </Select>    
-                {/*
-                <Toggle checked={lightTheme} onChange={themeChange}>
-                        {'Dark Theme'}
-                </Toggle> 
-                */}
                 <Divider/>
                 <Text category='h6'>Username is {username}</Text>
                 <Input
@@ -122,28 +77,6 @@ const SettingsScreen = ({ eva, navigation }) => {
                     value={username}
                     onChangeText={nextValue => setUsername(nextValue)}
                 />
-                {/*       
-                <Divider/>
-                <Text style={styles.text} category='h6'>
-                    {'Set Theme'}
-                </Text>
-                <RadioGroup
-                    selectedIndex={selectedRadioIndex}
-                    onChange={index => themeRadioChange(index)}
-                >
-                    <Radio>Light Theme</Radio>
-                    <Radio>Dark Theme</Radio>
-                </RadioGroup>
-                <Divider/>
-                <CheckBox 
-                    checked={checkedBoxes} 
-                    value={checkedBoxes}
-                    onValueChange={nextChecked => themeBoxChange(nextChecked)}>
-                </CheckBox>
-                <Text style={styles.text} category='h6'>
-                    {checkedBoxes ? "Dark Theme Selected" : "Light Theme Selected"}
-                </Text>
-                */}
             </Layout>
         </View>
     );

@@ -30,7 +30,7 @@ export default class App extends React.PureComponent {
 		this.setState(prevState => ({ theme: prevState.theme === 'light' ? 'dark' : 'light' }));
 	}
 
-	addList = ({ name, duedate, active }, cb) => {
+	addList = ({ name, duedate, active, icon }, cb) => {
 		this.setState(prevState => ({
 			lists: { 
 				...prevState.lists, 
@@ -40,6 +40,7 @@ export default class App extends React.PureComponent {
 					duedate,
 					active,
 					date: new Date(),
+					icon,
 					items: []
 				},
 			},
@@ -80,17 +81,14 @@ export default class App extends React.PureComponent {
 		}));
 	}
 
+	setListActive = (listId) => {
+		this.setState({ activeList: listId });
+	}
+
 	removeList = (listId) => {
 		const { [listId]: value, ...listsWithout } = this.state.lists;
 		this.setState({ lists: listsWithout });
 	};
-
-
-	test = () => {
-		this.setState({
-			test: 'updated'
-		})
-	}
 
 	render() {
 		const listContextValues = {
@@ -100,7 +98,7 @@ export default class App extends React.PureComponent {
 			removeListItem: this.removeListItem,
 			removeList: this.removeList,
 			lists: this.state.lists,
-			test: this.test
+			setListActive: this.setListActive
 		};
 		const settingsContextValues = {
 			theme: this.state.theme, 

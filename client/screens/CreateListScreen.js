@@ -1,21 +1,24 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image, PixelRatio } from 'react-native';
 import { 
     Button,
     CheckBox,
     Datepicker,
     Divider, 
     Input,
+    IndexPath,
     Icon, 
     Layout, 
     TopNavigation, 
     TopNavigationAction,
     Text,
+    Select,
+    SelectItem,
     withStyles
 } from '@ui-kitten/components';
 import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
-
+import { iconImages } from '../icon-images';
 
 const styles = (theme) => ({
     root: {
@@ -33,6 +36,12 @@ const styles = (theme) => ({
         fontWeight: "700",
         textAlign: 'left',
         marginHorizontal: 8
+    },
+    imageStyle: {
+        padding: 10,
+        marginRight: 5,
+        height: PixelRatio.getPixelSizeForLayoutSize(5),
+        width: '10%',
     }
 });
 
@@ -45,11 +54,15 @@ const CreateListScreen = ({ eva, navigation }) => {
     const styles = eva.style;
     const [name, setName] = React.useState('');
     const [dueDate, setDueDate] = React.useState(new Date());
+    const [iconName, setIconName] = React.useState('Shopping');
+    const [inconIndex, setIconIndex] = React.useState(new IndexPath(0));
+
+    const icons = ['Shopping', 'Christmas', 'Party', 'Calendar', 'Shrimp'];
 
     const listsContext = React.useContext(ListsContext);
 
     const createList = () => {
-        listsContext.addList({ name, dueDate, active: true }, listId => {
+        listsContext.addList({ name, dueDate, active: true, icon: iconName }, listId => {
             navigation.pop();
             navigation.navigate("List", { listId });
         });
@@ -59,6 +72,13 @@ const CreateListScreen = ({ eva, navigation }) => {
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
     );  
 
+    const IconListItem = (props) => (
+        <View style={{ flexDirection: 'row' }}>
+            <Image source={iconImages[props.name]} style={styles.imageStyle}/>
+            <Text>{props.name}</Text>
+        </View>
+    );
+    
     return (
         <View style={styles.root}>
             <TopNavigation 
@@ -74,14 +94,30 @@ const CreateListScreen = ({ eva, navigation }) => {
                         placeholder="List name"
                         value={name}
                         onChangeText={nextValue => setName(nextValue)}
-                        style={{ paddingBottom: 24 }}
+                        style={{ paddingBottom: 8 }}
                     />
                     <Heading category="c2">Due Date</Heading>
                     <Datepicker
                         date={dueDate}
                         onSelect={nextDate => setDueDate(nextDate)}
-                        style={{ paddingBottom: 24 }}
+                        style={{ paddingBottom: 8 }}
                     />
+                    <Heading category="c2">Icon</Heading>
+                    <Select
+                        selectedIndex={inconIndex}
+                        onSelect={index => {
+                            setIconIndex(index);
+                            setIconName(icons[index - 1])
+                        }}
+                        value={() => <IconListItem name={iconName} />}
+                    >
+                        {icons.map((name, i) => (
+                            <SelectItem
+                                key={i} 
+                                title={() => <IconListItem name={name} />} 
+                            />
+                        ))}
+                    </Select>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
                     <Button
