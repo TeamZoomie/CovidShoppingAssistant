@@ -91,6 +91,7 @@ const ListScreen = ({ route, navigation, eva }) => {
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
+    
     const listData = {};
     for (let item of list.items) {
         if (!(item.category in listData)) {

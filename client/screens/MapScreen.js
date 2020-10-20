@@ -1,23 +1,18 @@
-import React, { Fragment, useState, useRef } from 'react';
-import { View, Dimensions, Animated, TouchableHighlight, StyleSheet } from 'react-native';
+import React, { Fragment, useState, useContext } from 'react';
+import { View, Dimensions } from 'react-native';
 import {
-    CheckBox,
-    Button, 
     Icon, 
     Text,
-    Menu, 
-    MenuGroup, 
-    MenuItem,
     Layout, 
     withStyles,
     Divider,
     useTheme
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
-import { FlatList } from 'react-native-gesture-handler';
-import { TouchableHighlight as RNGHTouchableHighlight } from "react-native-gesture-handler";
 import Heading from '../components/Heading';
 import Map from '../components/Map';
+import Collapsible from '../components/RNGHCollapsible';
+import { ListsContext } from '../lists-context';
 
 const { width, height } = Dimensions.get('window')
 const styles = (theme) => ({
@@ -49,6 +44,8 @@ const styles = (theme) => ({
         backgroundColor: theme['background-basic-color-1'],
     },
     header: {
+        paddingBottom: 8, 
+        height: 65,
         alignItems: 'center',
         backgroundColor: theme['background-basic-color-1'],
         paddingVertical: 15,
@@ -61,6 +58,14 @@ const styles = (theme) => ({
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.8,
         shadowRadius: 2,  
+    },
+    headerContainer: {
+        flex: 1, 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        width: '100%', 
+        paddingRight: 24, 
+        paddingLeft: 24
     },
     panelHandle: {
         width: 30,
@@ -75,6 +80,10 @@ const styles = (theme) => ({
         alignItems: 'center',
         marginVertical: 10,
     },
+    alignRowCentre: {
+        flexDirection: 'row', 
+        alignItems: 'center'
+    }
 });
 
 const lightMapTheme = {
@@ -94,24 +103,49 @@ const lightMapTheme = {
     tooltipBorder: '#656565'
 };
 
-const BottomSheetTouchable = (props) => {
-    if (Platform.OS === "android") {
-      return (
-        <RNGHTouchableHighlight {...props} />
-      );
-    }
-    return <TouchableHighlight {...props} />
-};
+const Handle = (props) => {
 
-const MapScreen = ({ eva, navigation }) => {
+    const styles = props.eva.style;
+    return (
+        <Fragment>
+            <View style={styles.header}>
+                <View style={styles.panelHandle} />
+                <View style={styles.headerContainer}>
+                    <View style={styles.alignRowCentre}>
+                        <Text style={{ paddingLeft: 8 }}>
+                            17 items
+                        </Text>
+                    </View>
+                    <View style={styles.alignRowCentre}>
+                        <Icon width={16} height={16} fill="black" name="pin-outline" />
+                        <Text style={{ paddingLeft: 4, fontWeight: 'bold' }}>
+                            4 stops
+                        </Text>
+                    </View>
+                </View>
+            </View>
+            <Divider/>
+        </Fragment>
+    );
+}
+
+const ThemedHandle = withStyles(Handle, styles);
+
+const MapScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
-    const [selectedIndex, setSelectedIndex] = React.useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const listsContext = useContext(ListsContext);
+
+    // const { listId } = route.params;
+    // const list = listsContext.lists[listId];
 
     // Not the best way, but easiest.
     const theme = useTheme();
-
     navigation.setOptions({ tabBarVisible: false })
+    const updateSection = (sectionId, item) => {
+
+    };
 
     return (
         <View style={styles.root}>
@@ -127,27 +161,7 @@ const MapScreen = ({ eva, navigation }) => {
                         componentType="FlatList"
                         snapPoints={[128, '50%', '70%']}
                         initialSnapIndex={2}
-                        renderHandle={() => (
-                            <Fragment>
-                                <View style={[styles.header, { paddingBottom: 8, height: 65 }]}>
-                                    <View style={styles.panelHandle} />
-                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingRight: 24, paddingLeft: 24 }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ paddingLeft: 8 }}>
-                                                17 items
-                                            </Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Icon width={16} height={16} fill="black" name="pin-outline" />
-                                            <Text style={{ paddingLeft: 4, fontWeight: 'bold' }}>
-                                                4 stops
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </View>
-                                <Divider/>
-                            </Fragment>
-                        )}
+                        renderHandle={() => <ThemedHandle />}
                         data={Array.from({ length: 10 }).map((_, i) => ({ 
                             id: i, 
                             header: "Header " + String(i), 
@@ -155,7 +169,10 @@ const MapScreen = ({ eva, navigation }) => {
                         }))}
                         keyExtractor={item => String(item.id)}
                         renderItem={({ item }) => (
-                            <DropDownMenu header={item.header} subItems={item.subItems} theme={theme} />
+                            <Collapsible 
+                                header={item.header} 
+                                subItems={item.subItems} 
+                            />
                         )}
                         contentContainerStyle={styles.contentContainerStyle}
                     />
@@ -164,116 +181,5 @@ const MapScreen = ({ eva, navigation }) => {
         </View>
     )
 };
-
-
-const DropDownItem = (props) => {
-
-    const [checked, setChecked] = React.useState(false);
-    const theme = useTheme();
-
-    return (
-        <BottomSheetTouchable 
-            {...props}
-            underlayColor={theme['background-basic-color-2']}
-            onPress={() => {
-                if (props.onPressItem) {
-                    props.onPressItem(props.id);
-                }
-                setChecked(!checked);
-            }}
-        >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
-                <CheckBox
-                    checked={checked}
-                    style={{ overflow: 'hidden' }}
-                >
-                    <Text style={checked ? { textDecorationLine: 'line-through' } : {}}>
-                        {props.text}
-                    </Text>
-                </CheckBox>
-            </View>
-        </BottomSheetTouchable>
-    );
-}
-
-class DropDownMenu extends React.Component {
-    
-    state = {
-        expanded: this.props.expanded || false,
-        expandAnimation: new Animated.Value(this.props.expanded ? 1 : 0),
-        sectionChecked: false
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.expanded !== this.props.expanded) {
-            this.setState({ expanded: this.props.expanded}, () => this.createAnimation(this.props.expanded ? 1 : 0));
-        }
-    }
-
-    createAnimation = (value) => {
-        Animated.timing(this.state.expandAnimation, {
-            toValue: value,
-            duration: 200,
-            useNativeDriver: false,
-        }).start();
-    }
-
-    onPressHeader = () => {
-        this.setState({ expanded: !this.state.expanded }, () => {
-            this.createAnimation(this.state.expanded ? 1 : 0);
-        });
-    }
-
-    onPressItem = (id) => {
-        console.log(id);
-    }
-
-    renderItems() {
-        return this.props.subItems.map((subItem, id) => (
-            <DropDownItem {...subItem} key={id} id={id} />
-        ));
-    }
-
-    render() {
-        const interpolateRotation = this.state.expandAnimation.interpolate({
-            inputRange: [-1, 0],
-            outputRange: [`-180deg`, `0deg`],
-        });
-        const interpolateMenu = this.state.expandAnimation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 100],
-        });
-        const completed = this.props.completed || false;
-        const unknown = this.props.unknown || true;
-        return (
-            <Fragment>
-                <BottomSheetTouchable 
-                    underlayColor={this.props.theme['background-basic-color-2']}
-                    onPress={this.onPressHeader}
-                >   
-                    <View
-                        style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {completed && <Icon name="checkmark-square-outline" width={18} height={18} fill={this.props.theme['color-primary-default']}/>}
-                            {!completed && <Icon name="pin-outline" width={18} height={18} fill="darkred" />}
-                            {/* {unknown && <Icon name="question-mark-circle-outline" width={18} height={18} fill="black" />} */}
-                            <Text category="p1">
-                                {this.props.header}
-                            </Text>
-                        </View>
-                        <Animated.View style={{ transform: [{ rotate: interpolateRotation }] }}>
-                            <Icon name="chevron-down-outline" width={18} height={18} fill="grey"/>
-                        </Animated.View>
-                    </View>
-                </BottomSheetTouchable>
-                <Animated.View style={{ overflow: 'hidden', height: interpolateMenu }}>
-                    {this.renderItems()}
-                </Animated.View>
-                <Divider/>
-            </Fragment>
-        );
-    }
-}
 
 export default withStyles(MapScreen, styles);
