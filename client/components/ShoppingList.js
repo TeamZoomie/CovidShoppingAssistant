@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
 const RemoveIcon = (props) => (
     <Icon {...props} height={16} name='trash-outline' />
 );
-const ListItem = (props) => {
-    const [checked, setChecked] = React.useState(false);
+export const ShoppingListItem = (props) => {
+    const [checked, setChecked] = React.useState(props.checked || false);
     return (
         <View style={styles.contentContainer}>
             <View>
@@ -71,10 +71,10 @@ export default function ShoppingList(props) {
     return (
         <View style={styles.container}>
             {props.data.map((item, i) => (
-                <Fragment key={i}>
-                    <ListItem name={item.name} onRemoveItem={() => props.onRemoveItem(i)}/>
+                <View key={i} style={{ backgroundColor: 'white' }}>
+                    <ShoppingListItem name={item.name} onRemoveItem={() => props.onRemoveItem(i)}/>
                     { i !== props.datalength - 1 && <Divider/>}
-                </Fragment>
+                </View>
             ))}
         </View>
     );

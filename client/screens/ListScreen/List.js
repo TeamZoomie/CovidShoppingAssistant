@@ -14,23 +14,15 @@ import {
     withStyles,
     useTheme
 } from '@ui-kitten/components';
-import ShoppingList from '../components/ShoppingList';
-import Heading from '../components/Heading';
-import { ListsContext } from '../lists-context';
+import ShoppingList, { ShoppingListItem } from '../../components/ShoppingList';
+import Heading from '../../components/Heading';
+import Page from '../../components/Page';
+import { ListsContext } from '../../lists-context';
 import { BarCodeScanner} from 'expo-barcode-scanner';
 import { FloatingAction } from 'react-native-floating-action';
-
+import { InteractiveSectionList } from 'react-native-expo-interactive-section-list';
 
 const styles = (theme) => ({
-    root: {
-        flex: 1,
-        backgroundColor: theme['background-basic-color-2'],
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-    },
     searchField: {
         width: '100%',
         padding: 0,
@@ -50,10 +42,6 @@ const styles = (theme) => ({
     }
 });
 
-const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back-outline' />
-);
-
 const AddIcon = () => (
     <Icon height={16} width={16} fill="white" name='plus-circle-outline' />
 );
@@ -64,7 +52,7 @@ const MoreIcon = (props) => (
 
 const BarcodeIcon = () => (// TODO Make a barcode icon
     <Image 
-        source = {require("../assets/barcode-solid.png")}
+        source = {require("../../assets/barcode-solid.png")}
         style = {{ width: 24, height: 24, tintColor: 'white' }} 
     />
 );
@@ -74,13 +62,13 @@ const floatingButtonActions = [
     {
         text: 'Enter a product name',
         name: 'TextButton',
-        icon: require("../assets/list-24px.svg"),
+        icon: require("../../assets/list-24px.svg"),
         position: 1
     },
     {
         text: 'Scan a barcode',
         name: 'BarcodeButton',
-        icon: require("../assets/list-24px.svg"),
+        icon: require("../../assets/list-24px.svg"),
         position: 2
     }
 ]
@@ -92,6 +80,7 @@ const ListScreen = ({ route, navigation, eva }) => {
     const theme = useTheme();
 
     const [addText, setAddText] = React.useState('');
+    const [itemCategory, setItemCategory] = React.useState('');
     const [settingsVisible, setSettingsVisible] = React.useState(false);
     const [shoppingMode, setShoppingMode] = React.useState(route.params?.shoppingMode || false);
 
@@ -102,7 +91,25 @@ const ListScreen = ({ route, navigation, eva }) => {
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
+    const listData = {};
+    for (let item of list.items) {
+        if (!(item.category in listData)) {
+            listData[item.category] = {
+                title: item.category,
+                data: []
+            }
+        } 
+        listData[item.category].data.push(item);
+    }
     
+    useEffect(() => {
+        if (route.params.category != undefined && itemCategory !== route.params?.category) {
+            setItemCategory(route.params.category);
+            addListItem();
+            navigation.setParams({ category: undefined });
+        }
+    }, [route.params?.category]);
+
     useEffect(() => {
         if (shoppingMode !== route.params?.shoppingMode) {
             setShoppingMode(route.params.shoppingMode);
@@ -122,10 +129,13 @@ const ListScreen = ({ route, navigation, eva }) => {
     }, []);
 
     const addListItem = () => {
-        if (addText !== '') {
-            listsContext.addListItem(listId, { name: addText, checked: false });
-            setAddText('');
-        }
+        listsContext.addListItem(listId, { 
+            name: addText, 
+            category: itemCategory, 
+            checked: false 
+        });
+        setAddText('');
+        setItemCategory('');
     };
 
     const removeItem = (index) => {
@@ -137,18 +147,12 @@ const ListScreen = ({ route, navigation, eva }) => {
         listsContext.removeList(listId);
     };
 
-
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setScanMode(false);
         alert(`Bar code with type ${type} and data ${data} has been scanned!`);
         listsContext.addListItem(listId, { name: `${data}`, checked: false });
     };
-
-    const BackAction = () => (
-        <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
-    );
-
     const AddAction = () => (
         <View style={styles.buttonContainer}>
             <OverflowMenu
@@ -196,74 +200,83 @@ const ListScreen = ({ route, navigation, eva }) => {
                 </Button>
             </View>
         ) : (
-            <View style={styles.root}>
-                <TopNavigation 
-                    title={list.name} 
-                    alignment='center' 
-                    accessoryLeft={BackAction}
-                    accessoryRight={AddAction}
-                />
-                <Divider/>
-                <Layout style={styles.content}>
-                    <View>
-                        <Layout style={styles.container}>
-                            <Input
-                                style={styles.searchField}
-                                placeholder='Add new item...'
-                                value={addText}
-                                onChangeText={nextValue => setAddText(nextValue)}
-                                onSubmitEditing={addListItem}
-                            />
-                        </Layout>
-                    </View>
-                    <ScrollView 
-                        contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
-                    >
-                        {list.items.length === 0 ? (
-                            <View style={{ textAlign: 'center', alignItems: 'center' }}>
-                                <Heading category="h6" style={{ color: theme['color-primary-default'] }}>
-                                    Your list is empty.
-                                </Heading>
-                                <Text category="c1" style={{ fontWeight: "300" }}>
-                                    Add an item by entering a name into the field above.
-                                </Text>
-                            </View>
-                        ) : (
-                            <ShoppingList data={list.items} onRemoveItem={removeItem}/>
-                        )}
-                    </ScrollView>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-                        {shoppingMode ? (
-                            <Button 
-                                style={{ width: '50%' }} 
-                                onPress={() => {
-                                    setShoppingMode(false);
-                                    navigation.setParams({ shoppingMode: false })
-                                }}
-                            >
-                                Finished
-                            </Button>
-                        ) : (
-                            <Button style={{ width: '50%' }} onPress={() => navigation.navigate("StoreSelector")}>
-                                Start Shopping
-                            </Button>
-                        )}
-                        <FloatingAction
-                            actions={floatingButtonActions}
-                            onPressItem={name => {
-                                if (name === "TextButton") {
-                                    listsContext.addListItem(listId, 
-                                                            { name: addText, 
-                                                              checked: false });
-                                    setAddText('')
-                                } else {
-                                    setScanMode(true);
-                                }
+            <Page
+                navigation={navigation}
+                header={list.name}
+                AccessoryRight={AddAction}
+            >
+                <View>
+                    <Layout style={styles.container}>
+                        <View style={{ width: '100%', paddingBottom: 8 }} >
+                            {shoppingMode ? (
+                                <Button 
+                                    style={{ width: '100%' }} 
+                                    onPress={() => {
+                                        setShoppingMode(false);
+                                        navigation.setParams({ shoppingMode: false })
+                                    }}
+                                >
+                                    Finished
+                                </Button>
+                            ) : (
+                                <Button style={{ width: '100%' }} onPress={() => navigation.navigate("StoreSelector")}>
+                                    Start Shopping
+                                </Button>
+                            )}
+                        </View>
+                        <Input
+                            style={styles.searchField}
+                            placeholder='Add new item...'
+                            value={addText}
+                            onChangeText={nextValue => setAddText(nextValue)}
+                            onSubmitEditing={() => {
+                                navigation.navigate('Categories');
                             }}
                         />
-                    </View>
-                </Layout>
-            </View>
+                    </Layout>
+                </View>
+                {/* <InteractiveSectionList
+                    data={Object.values(listData)}
+                    renderItem={({ item }) => <ShoppingListItem {...item} />}
+                    itemHeight={100}
+                    // renderSectionHeader={({ section }) => <Text>{section.title}</Text>} // OPTIONAL
+                    tabbarItemWidth={100}  // OPTIONAL
+                    // tabbarItemSpaceBetween={8}  // OPTIONAL
+                    tabbarItemActiveColor={theme['color-primary-default']}  // OPTIONAL
+                    tabbarItemInactiveColor='#FFF'  // OPTIONAL
+                    tabbarItemTitleActiveColor='white' // OPTIONAL
+                /> */}
+                <ScrollView 
+                    contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
+                >
+                    {list.items.length === 0 ? (
+                        <View style={{ textAlign: 'center', alignItems: 'center' }}>
+                            <Heading category="h6" style={{ color: theme['color-primary-default'] }}>
+                                Your list is empty.
+                            </Heading>
+                            <Text category="c1" style={{ fontWeight: "300" }}>
+                                Add an item by entering a name into the field above.
+                            </Text>
+                        </View>
+                    ) : (
+                        <ShoppingList data={list.items} onRemoveItem={removeItem}/>
+                    )}
+                </ScrollView>
+                <FloatingAction
+                    actions={floatingButtonActions}
+                    onPressItem={name => {
+                        if (name === "TextButton") {
+                            listsContext.addListItem(listId, { 
+                                name: addText, 
+                                checked: false 
+                            });
+                            setAddText('')
+                        } else {
+                            setScanMode(true);
+                        }
+                    }}
+                />
+            </Page>
         )
     );
 }

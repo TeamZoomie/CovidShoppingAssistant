@@ -6,7 +6,7 @@ import StatsScreen from '../screens/CovidScreen/Stats';
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 
-export const CovidInfoNavigator = () => (
+export const CovidNavigator = () => (
     <Navigator tabBar={props => <CovidTabBar {...props}/>}>
       <Screen name='CovidStats' component={StatsScreen}/>
       <Screen name='CovidNews' component={NewsScreen}/>

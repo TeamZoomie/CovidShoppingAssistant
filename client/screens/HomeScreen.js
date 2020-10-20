@@ -103,7 +103,7 @@ const HomeScreen = ({ eva, navigation }) => {
                     <Fragment>
                         <ActiveList 
                             list={activeList}
-                            onPress={() => navigation.navigate('List', { listId: activeList.id })}
+                            onPress={() => navigation.navigate('List', { screen: 'Main', params: { listId: activeList.id }})}
                         />
                         <Divider style={{height: 3}} />
                     </Fragment>
@@ -112,7 +112,10 @@ const HomeScreen = ({ eva, navigation }) => {
                     data={listsContext.lists}
                     activeList={activeList}
                     onPress={listId => {
-                        navigation.navigate('List', { listId });
+                        navigation.navigate('List', { 
+                            screen: 'Main',
+                            params: { listId }
+                        });
                     }}
                 />
             </Layout>

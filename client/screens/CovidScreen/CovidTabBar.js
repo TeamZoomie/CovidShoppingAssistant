@@ -4,16 +4,10 @@ import {
     Icon,
     Tab, 
     TabBar, 
-    TopNavigation, 
-    TopNavigationAction, 
     useTheme, 
-    withStyles 
 } from '@ui-kitten/components';
 
 
-const HamburgerIcon = (props) => (
-    <Icon {...props} name='menu-outline' />
-);
 const GlobeIcon = (props) => (
     <Icon {...props} name='globe-2-outline' />
 );
@@ -24,14 +18,6 @@ const BarChartIcon = (props) => (
 const CovidScreen = ({  navigation, state }) => {
 
     const theme = useTheme();
-    const DrawerAction = () => (
-        <TopNavigationAction 
-            icon={HamburgerIcon} 
-            onPress={() => 
-            navigation.openDrawer()}
-        />
-    ); 
-
     const onTabSelect = (index) => {
         navigation.navigate(state.routeNames[index]);
     };

@@ -25,6 +25,12 @@ export default {
                     category: 'Fruit & Vegetables',
                     quantity: 1,
                     checked: true
+                },
+                {
+                    name: 'Cookies',
+                    category: 'Snack',
+                    quantity: 10,
+                    checked: false
                 }
             ]
         },

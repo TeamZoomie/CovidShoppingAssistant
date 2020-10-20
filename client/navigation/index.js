@@ -7,10 +7,9 @@ import {
     Icon 
 } from '@ui-kitten/components';
 import { HomeNavigator } from './HomeNavigator';
-import { CovidInfoNavigator } from './CovidInfoNavigator';
+import { CovidNavigator } from './CovidNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-// import AddItemScreen from '../screens/AddItemScreen';
-// import MapScreen from '../screens/MapScreen';
+import MapScreen from '../screens/MapScreen';
 
 const ListsIcon = (props) => (
     <Icon {...props} name='list-outline'/>
@@ -32,6 +31,7 @@ const BottomTabBar = ({ navigation, state }) => (
         <BottomNavigationTab title='My Lists' icon={ListsIcon}/>
         <BottomNavigationTab title='News' icon={NewsIcon}/>
         <BottomNavigationTab title='Settings' icon={SettingsIcon}/>
+        <BottomNavigationTab title='Map' icon={SettingsIcon}/>
     </BottomNavigation>
   );
 
@@ -40,8 +40,9 @@ export const BottomHomeNavigator = () => {
     return (
         <Navigator tabBar={props => <BottomTabBar {...props} />}>
             <Screen name="Home" component={HomeNavigator} />
-            <Screen name="Covid Info" component={CovidInfoNavigator}/>
+            <Screen name="Covid Info" component={CovidNavigator}/>
             <Screen name="Settings" component={SettingsScreen}/>
+            <Screen name="Map" component={MapScreen}/>
         </Navigator>
     );
 };

@@ -28,21 +28,21 @@ const styles = StyleSheet.create({
     },
 });
 
-const theme = {
-    background: '#E6E6E6',
-    base: '#fff',
-    shelves: '#DDDDDD',
-    registers: '#ADADAD',
-    categories: {
-        fruitVeg: '#A1FFBC',
-        naturalWholeFoods: '#68A379',
-        kitchenAccessories: '#5C5C5C',
-        canned: '#5C5C5C',
-        gardenAccessories: '#C9F3BF'
-    },
-    path: '#3b8ada',
-    tooltipBorder: '#656565'
-};
+// const theme = {
+//     background: '#E6E6E6',
+//     base: '#fff',
+//     shelves: '#DDDDDD',
+//     registers: '#ADADAD',
+//     categories: {
+//         fruitVeg: '#A1FFBC',
+//         naturalWholeFoods: '#68A379',
+//         kitchenAccessories: '#5C5C5C',
+//         canned: '#5C5C5C',
+//         gardenAccessories: '#C9F3BF'
+//     },
+//     path: '#3b8ada',
+//     tooltipBorder: '#656565'
+// };
 
 
 const SCALE_FACTOR = 15;
@@ -52,7 +52,7 @@ function rescale(geo) {
 }
 
 function Tooltip(props) {
-    const { text, geo, width, height, position } = props;
+    const { text, geo, width, height, position, theme } = props;
     const [x, y] = position;
     const [pointerWidth, pointerHeight] = [20, 7];
     const pointer = [
@@ -216,6 +216,7 @@ class MapSVG extends Component {
                     ))} */}
                     {selected && (
                         <Tooltip 
+                            theme={theme}
                             width={130}
                             height={40}
                             text={labels[this.state.selected.type]} 
@@ -399,13 +400,14 @@ export default class Map extends Component {
 
     render() {
         const { constrain, constraints } = this.state;
+        const { theme } = this.props;
         return (
-            <View style={{ backgroundColor: theme.background }} onPress={this.onBackgroundPress}>
+            <View style={{ backgroundColor: theme.background, height: this.props.height }} onPress={this.onBackgroundPress}>
                 <ZoomableSvg
                     vbWidth={500}
-                    vbHeight={500}
+                    vbHeight={this.props.height}
                     width={width}
-                    height={height}
+                    height={this.props.height}
                     initialTop={-150}
                     initialLeft={-50}
                     initialZoom={1}
