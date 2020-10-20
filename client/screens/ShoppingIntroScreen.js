@@ -22,7 +22,7 @@ const styles = (theme) => ({
         marginVertical: 30,
     },
     imageStyle: {
-        height: PixelRatio.getPixelSizeForLayoutSize(135),
+        height: PixelRatio.getPixelSizeForLayoutSize(180),
         width: '100%',
     },
     paginationWrapper: {

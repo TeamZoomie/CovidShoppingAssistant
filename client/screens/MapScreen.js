@@ -5,8 +5,7 @@ import {
     Text,
     Layout, 
     withStyles,
-    Divider,
-    useTheme
+    Divider
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Heading from '../components/Heading';
@@ -138,10 +137,21 @@ const MapScreen = ({ eva, navigation, route }) => {
     const listsContext = useContext(ListsContext);
 
     // const { listId } = route.params;
-    // const list = listsContext.lists[listId];
+    const list = listsContext.lists[0];
+    const listData = {};
+    for (let [id, item] of Object.entries(list.items)) {
+        if (!(item.category in listData)) {
+            listData[item.category] = {
+                id,
+                header: item.category,
+                subItems: []
+            }
+        } 
+        listData[item.category].subItems.push({ text: item.name  });
+    }
+    // console.log(listData);
 
     // Not the best way, but easiest.
-    const theme = useTheme();
     navigation.setOptions({ tabBarVisible: false })
     const updateSection = (sectionId, item) => {
 
@@ -162,11 +172,12 @@ const MapScreen = ({ eva, navigation, route }) => {
                         snapPoints={[128, '50%', '70%']}
                         initialSnapIndex={2}
                         renderHandle={() => <ThemedHandle />}
-                        data={Array.from({ length: 10 }).map((_, i) => ({ 
-                            id: i, 
-                            header: "Header " + String(i), 
-                            subItems: Array.from({ length: 2 }).map((_, j) => ({ text: 'Item ' + String(j) }))
-                        }))}
+                        data={Object.values(listData)}
+                        // data={Array.from({ length: 10 }).map((_, i) => ({ 
+                        //     id: i, 
+                        //     header: "Header " + String(i), 
+                        //     subItems: Array.from({ length: 2 }).map((_, j) => ({ text: 'Item ' + String(j) }))
+                        // }))}
                         keyExtractor={item => String(item.id)}
                         renderItem={({ item }) => (
                             <Collapsible 

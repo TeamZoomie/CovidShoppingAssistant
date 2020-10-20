@@ -113,8 +113,8 @@ class CollapsibleMenu extends Component {
                         style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {completed && <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>}
-                            {!completed && <Icon name="pin-outline" width={18} height={18} fill="darkred" />}
+                            {!completed && <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>}
+                            {/* {!completed && <Icon name="pin-outline" width={18} height={18} fill="darkred" />} */}
                             {/* {unknown && <Icon name="question-mark-circle-outline" width={18} height={18} fill="black" />} */}
                             <Text category="p1">
                                 {this.props.header}

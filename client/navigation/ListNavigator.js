@@ -5,17 +5,6 @@ import CategoriesScreen from '../screens/ListScreen/Categories';
 
 const { Navigator, Screen } = createStackNavigator();
 
-// const MainStack = createStackNavigator();
-
-// function MainStackScreen() {
-//     return (
-//       <MainStack.Navigator>
-//             <MainStack.Screen name="List" component={ListScreen} />
-//             <MainStack.Screen name="Details" component={DetailsScreen} />
-//       </MainStack.Navigator>
-//     );
-// }
-
 export const ListNavigator = () => {
     return (
       <Navigator mode="modal">

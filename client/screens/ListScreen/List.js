@@ -20,7 +20,6 @@ import Page from '../../components/Page';
 import { ListsContext } from '../../lists-context';
 import { BarCodeScanner} from 'expo-barcode-scanner';
 import { FloatingAction } from 'react-native-floating-action';
-import { InteractiveSectionList } from 'react-native-expo-interactive-section-list';
 
 const styles = (theme) => ({
     searchField: {
@@ -91,7 +90,7 @@ const ListScreen = ({ route, navigation, eva }) => {
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
-    
+
     const listData = {};
     for (let item of list.items) {
         if (!(item.category in listData)) {
