@@ -4,7 +4,7 @@ import {
     Button,
     withStyles,
 } from '@ui-kitten/components';
-import Heading from '../components/Heading';
+import Heading from '../../components/Heading';
 
 const styles = (theme) => ({
     root: {
@@ -53,7 +53,7 @@ const styles = (theme) => ({
     }
 });
 
-const ShoppingIntroScreen = ({ eva, navigation }) => {
+const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
     const styles = eva.style;
     const { width, height } = Dimensions.get('window');
@@ -74,6 +74,13 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
     
     const { currentPage: pageIndex } = sliderState;
 
+    const gotoMap = () => {
+        navigation.navigate('Map', { 
+            store: route.params.store,
+            listId: route.params.listId 
+        });
+    };
+
     return (
         <View style={styles.root}>
             <ScrollView
@@ -88,7 +95,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
             >
                 <View style={{ width, height }}>
                     {/* A cool infographic would look nice here */}
-                    <Image source={require('../assets/social_distance_graphic.png')} style={styles.imageStyle} />
+                    <Image source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         <Heading style={styles.subHeading} category="p1">
@@ -101,7 +108,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <Image source={require('../assets/covidscreen1.jpg')} style={styles.imageStyle} />
+                    <Image source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Scan barcodes!</Heading>
                         <Heading style={styles.subheading} category="p1">You will be reminded every 5 minutes!</Heading>
@@ -114,7 +121,7 @@ const ShoppingIntroScreen = ({ eva, navigation }) => {
                 ))}
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32, paddingBottom: 48 }}>
-                <Button style={{ width: '50%' }} onPress={() => navigation.navigate("List", { shoppingMode: true })}>
+                <Button style={{ width: '50%' }} onPress={gotoMap}>
                     Let me shop!
                 </Button>
             </View>

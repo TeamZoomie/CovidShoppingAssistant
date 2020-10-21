@@ -41,15 +41,18 @@ const RemoveIcon = (props) => (
     <Icon {...props} height={16} name='trash-outline' />
 );
 export const ShoppingListItem = (props) => {
-    const [checked, setChecked] = React.useState(props.checked || false);
+    // const [checked, setChecked] = React.useState(props.checked || false);
     return (
         <View style={styles.contentContainer}>
             <View>
                 <CheckBox
-                    checked={checked}
-                    onChange={nextChecked => setChecked(nextChecked)}
+                    checked={props.checked}
+                    onChange={nextChecked => {
+                        // setChecked(nextChecked);
+                        props.onItemChecked(nextChecked);
+                    }}
                 >
-                    <Text style={checked ? { textDecorationLine: 'line-through' } : {}}>
+                    <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
                         {props.name}
                     </Text>
                 </CheckBox>
@@ -89,6 +92,7 @@ export default function ShoppingList(props) {
 
     return (
         <View style={styles.container}>
+
             <FlatList
                 style={{}}
                 data={Object.values(listData)}
@@ -101,6 +105,7 @@ export default function ShoppingList(props) {
                         )}
             /> 
             
+
         </View>
     );
 }

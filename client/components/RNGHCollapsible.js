@@ -23,27 +23,22 @@ const BottomSheetTouchable = (props) => {
 
 const CollapsibleItem = (props) => {
 
-    const [checked, setChecked] = React.useState(false);
+    // const [checked, setChecked] = React.useState(false);
     const theme = useTheme();
-
+    
     return (
         <BottomSheetTouchable 
             {...props}
             underlayColor={theme['background-basic-color-2']}
-            onPress={() => {
-                if (props.onPressItem) {
-                    props.onPressItem(props.id);
-                }
-                setChecked(!checked);
-            }}
+            onPress={() => props.onPress(!props.checked)}
         >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
                 <CheckBox
-                    checked={checked}
+                    checked={props.checked}
                     style={{ overflow: 'hidden' }}
                 >
-                    <Text style={checked ? { textDecorationLine: 'line-through' } : {}}>
-                        {props.text}
+                    <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
+                        {props.name}
                     </Text>
                 </CheckBox>
             </View>
@@ -81,13 +76,15 @@ class CollapsibleMenu extends Component {
         });
     }
 
-    onPressItem = (id) => {
-        console.log(id);
-    }
-
     renderItems() {
         return this.props.subItems.map((subItem, id) => (
-            <CollapsibleItem {...subItem} key={id} id={id} />
+            <CollapsibleItem 
+                {...subItem} 
+                checked={subItem.checked}
+                key={id} 
+                id={id} 
+                onPress={nextChecked => this.props.onItemPress(id, nextChecked)}
+            />
         ));
     }
 
@@ -102,21 +99,26 @@ class CollapsibleMenu extends Component {
             outputRange: [0, this.ITEM_HEIGHT * this.props.subItems.length],
         });
         const completed = this.props.completed || false;
-        const unknown = this.props.unknown || true;
+        const unknown = this.props.unknown !== false;
         return (
             <Fragment>
                 <BottomSheetTouchable 
                     underlayColor={theme['background-basic-color-2']}
                     onPress={this.onPressHeader}
+                    style={{ height: this.ITEM_HEIGHT }}
                 >   
                     <View
                         style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {!completed && <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>}
-                            {/* {!completed && <Icon name="pin-outline" width={18} height={18} fill="darkred" />} */}
-                            {/* {unknown && <Icon name="question-mark-circle-outline" width={18} height={18} fill="black" />} */}
-                            <Text category="p1">
+                            {completed ? (
+                                <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>
+                            ) : unknown ? (
+                                    <Icon name="question-mark-circle-outline" width={18} height={18} fill={theme['background-alternative-color-1']} />
+                            ) : (
+                                <Icon name="pin-outline" width={18} height={18} fill="darkred" />
+                            )}
+                            <Text style={{ paddingLeft: 8 }} category="p1">
                                 {this.props.header}
                             </Text>
                         </View>

@@ -16,7 +16,7 @@ import polylabel from 'polylabel';
 import classifyPoint from 'robust-point-in-polygon';
 import { Permutation } from 'js-combinatorics';
 import PF from 'pathfinding';
-import stores from '../store-maps/stores';
+
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -54,7 +54,8 @@ function rescale(geo) {
 function Tooltip(props) {
     const { text, geo, width, height, position, theme } = props;
     const [x, y] = position;
-    const [pointerWidth, pointerHeight] = [20, 7];
+    const pointerWidth = props.pointerWidth || 20;
+    const pointerHeight = props.pointerHeight || 7;
     const pointer = [
         [x - pointerWidth / 2, y - pointerHeight], 
         [x, y], 
@@ -108,25 +109,15 @@ class MapSVG extends Component {
     }
 
     onPress = (id, type) => {
-        console.log('selected geo ' + id + ' type ' + type)
         this.setState({ selected: { id, type } })
     }
 
     onBackgroundPress = () => {
-        console.log('background press')
         this.setState({ selected: undefined });
     }
 
     render() {
         const { store, theme, path, tooltips, entrance, transform } = this.props;
-        const labels = {
-            fruitVeg: 'Fruit & Vegetables',
-            naturalWholeFoods: 'Natural & Whole foods',
-            kitchenAccessories: 'Kitchen Accessories',
-            gardenAccessories: 'Garden Accessories',
-            canned: 'Canned Foods'
-        };
-
         const debug = this.props.debug || false;
         let selected = this.state.selected !== undefined;
         const selectedGeo = selected ? 
@@ -184,9 +175,9 @@ class MapSVG extends Component {
                         />
                     )}
                     <Rect
-                        x={entrance[0] - 30}
+                        x={entrance[0] - 25}
                         y={entrance[1] - 25}
-                        width={60}
+                        width={50}
                         height={30}
                         rx={5}
                         fill="#fff"
@@ -204,22 +195,23 @@ class MapSVG extends Component {
                     >
                         Entry
                     </Text>
-                    {/* {tooltips && tooltips.map((tooltip, i) => (
+                    {tooltips && tooltips.map((tooltip, i) => (
                         <Tooltip 
                             key={i}
-                            width={130}
-                            height={40}
-                            text={labels[tooltip.category]} 
+                            theme={theme}
+                            width={25}
+                            height={25}
+                            pointerWidth={10}
+                            text={i + 1} 
                             position={tooltip.position}
-                            // geo={tooltip.geo}
                         />
-                    ))} */}
+                    ))}
                     {selected && (
                         <Tooltip 
                             theme={theme}
                             width={130}
                             height={40}
-                            text={labels[this.state.selected.type]} 
+                            text={this.state.selected.type} 
                             position={polylabel([selectedGeo], 1.0).map(e => e * SCALE_FACTOR)}
                         />
                     )}
@@ -250,7 +242,6 @@ export default class Map extends Component {
         walkablePoints: [],
         entryPoints: [],
         path: [],
-        store: stores.coles,
         width: 62,
         height: 26,
     };
@@ -261,11 +252,11 @@ export default class Map extends Component {
     }
 
     isWalkable(point, includeBorder=false) {
-        if (classifyPoint(this.state.store.background, point) >= 0) {
+        if (classifyPoint(this.props.store.background, point) >= 0) {
             return false;
         }
         for (let geoType of ['shelves', 'registers', 'selfServe']) {
-            for (const entry of this.state.store[geoType]) {
+            for (const entry of this.props.store[geoType]) {
                 const geo = entry.geo || entry;
                 const result = classifyPoint(geo, point);
                 if (!includeBorder) {
@@ -296,7 +287,7 @@ export default class Map extends Component {
     generatePath(grid_data, tasks) {
         let geoCentres = []
         for (let task of tasks) {
-            const geo = this.state.store.categories[task][0].geo;
+            const geo = this.props.store.categories[task][0].geo;
             geoCentres.push(polylabel([geo], 1.0));
         }
 
@@ -353,7 +344,7 @@ export default class Map extends Component {
         }
 
         // Just hardcode the first one for now
-        let [ex, ey] = this.state.store.entries[0];
+        let [ex, ey] = this.props.store.entries[0];
         let entrancePaths = Array(tasks.length).fill([]);
         let entranceDist = Array(tasks.length).fill([]);
 
@@ -402,25 +393,28 @@ export default class Map extends Component {
         const { constrain, constraints } = this.state;
         const { theme } = this.props;
         return (
-            <View style={{ backgroundColor: theme.background, height: this.props.height }} onPress={this.onBackgroundPress}>
+            <View 
+                style={{ backgroundColor: theme.background, height: this.props.height }} 
+                onPress={this.onBackgroundPress}
+            >
                 <ZoomableSvg
                     vbWidth={500}
                     vbHeight={this.props.height}
                     width={width}
                     height={this.props.height}
-                    initialTop={-150}
-                    initialLeft={-50}
+                    initialTop={50}
+                    initialLeft={50}
                     initialZoom={1}
                     // doubleTapThreshold={300}
                     meetOrSlice="meet"
                     svgRoot={MapSVG}
                     childProps={{ 
-                        store: stores.coles, 
+                        store: this.props.store, 
                         theme,
                         path: this.state.path,
                         tooltips: this.state.tooltips,
                         debug: false,
-                        entrance: this.state.store.entries[0].map(e => e * SCALE_FACTOR)
+                        entrance: this.props.store.entries[0].map(e => e * SCALE_FACTOR)
                     }}
                     constrain={constrain ? constraints : null}
                 />

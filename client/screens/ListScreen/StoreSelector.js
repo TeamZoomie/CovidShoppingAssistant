@@ -14,9 +14,9 @@ import {
     Spinner
 } from '@ui-kitten/components';
 import * as Location from 'expo-location';
-import Heading from '../components/Heading';
-import StoreList from '../components/StoreList';
-import { getPlacesNearby } from '../api/GooglePlacesAPI';
+import Heading from '../../components/Heading';
+import StoreList from '../../components/StoreList';
+import { getPlacesNearby } from '../../api/GooglePlacesAPI';
 
 const styles = (theme) => ({
     root: {
@@ -43,7 +43,7 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back-outline' />
 );
 
-const StoreSelectorScreen = ({ eva, navigation }) => {
+const StoreSelectorScreen = ({ route, eva, navigation }) => {
 
     const styles = eva.style;
     const [searchText, setSearchText] = useState('');
@@ -72,7 +72,10 @@ const StoreSelectorScreen = ({ eva, navigation }) => {
     }, []);
 
     const confirmStore = (id) => {
-        navigation.navigate("ShoppingIntro", stores[id]);
+        navigation.navigate('ShoppingIntro', {
+            store: stores[id],
+            listId: route.params.listId
+        });
     };
 
     const getStores = (location) => {
@@ -101,19 +104,31 @@ const StoreSelectorScreen = ({ eva, navigation }) => {
             })
             .catch(error => setError(true));
     };
+
+    // Need to setup debounce.
     const onSearchTextChange = (value) => {
-        // Need to setup debounce.
         if (value !== '' && value.length > 3) {
             getStores(location)
         }
         setSearchText(value);
     };
+
     const BackAction = () => (
-        <TopNavigationAction icon={BackIcon} onPress={() => navigation.navigate("List", { shoppingMode: false })}/>
+        <TopNavigationAction 
+            icon={BackIcon} 
+            onPress={() => {
+                navigation.navigate('List', { 
+                    screen: 'Main',
+                    params: { shoppingMode: false }
+                })
+            }} 
+        />
     );
+
     const ConfirmAction = () => (
         <TopNavigationAction icon={ConfirmIcon} onPress={confirmStore}/>
     );
+    
     return (
         <View style={styles.root}>
             <TopNavigation 
