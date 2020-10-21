@@ -27,7 +27,7 @@ export default function GridList(props) {
             style={styles.item}
             onPress={() => props.onPress(content.index)}
         >
-            {content.item.icon({ width: 32, height: 32, alignSelf: 'center' })}
+            {content.item.icon({ width: 64, height: 64, alignSelf: 'center', resizeMode: 'contain'})}
             <Text
                 style={styles.itemTitle}
                 category='s2'>
