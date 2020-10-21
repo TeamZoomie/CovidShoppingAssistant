@@ -1,6 +1,9 @@
-import React, { Fragment } from 'react';
-import {  View, StyleSheet } from 'react-native';
+import React, { Fragment, useState, useContext } from 'react';
+import {  View, StyleSheet,FlatList } from 'react-native';
 import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
+import Collapsible from '../components/listItemCollapsible';
+import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
+import { ListsContext } from '../lists-context';
 
 const styles = StyleSheet.create({
     item: {
@@ -68,14 +71,36 @@ export const ShoppingListItem = (props) => {
 };
 
 export default function ShoppingList(props) {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const listsContext = useContext(ListsContext);
+    const list = listsContext.lists[props.data.id];
+    const listData = {};
+    for (let [id, item] of Object.entries(list.items)) {
+        if (!(item.category in listData)) {
+            listData[item.category] = {
+                id,
+                header: item.category,
+                subItems: []
+            }
+        } 
+        listData[item.category].subItems.push({ text: item.name, i: id,list:props});
+    }
+    console.log(props.data)
+
     return (
         <View style={styles.container}>
-            {props.data.map((item, i) => (
-                <View key={i} style={{ backgroundColor: 'white' }}>
-                    <ShoppingListItem name={item.name} onRemoveItem={() => props.onRemoveItem(i)}/>
-                    { i !== props.datalength - 1 && <Divider/>}
-                </View>
-            ))}
+            <FlatList
+                style={{}}
+                data={Object.values(listData)}
+                keyExtractor={item => String(item.id)}
+                renderItem={({ item }) => (
+                <Collapsible 
+                                header={item.header} 
+                                subItems={item.subItems} 
+                            />
+                        )}
+            /> 
+            
         </View>
     );
 }

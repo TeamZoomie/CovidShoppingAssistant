@@ -252,7 +252,9 @@ const ListScreen = ({ route, navigation, eva }) => {
                             </Text>
                         </View>
                     ) : (
-                        <ShoppingList data={list.items} onRemoveItem={removeItem}/>
+        
+                        <ShoppingList
+                         data={list} onRemoveItem={removeItem}/>
                     )}
                 </ScrollView>
                 <FloatingAction
