@@ -60,7 +60,7 @@ const floatingButtonActions = [
     {
         text: 'Scan a barcode',
         name: 'BarcodeButton',
-        icon: require("../../assets/barcode.png"),
+        icon: require("../../assets/list.png"),
         position: 2
     }
 ]
