@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Image } from 'react-native';
 import { 
     Icon,
     Text,
@@ -13,42 +13,82 @@ const categories = [
     {
         title: 'Dairy',
         category: 'Dairy',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
+        icon: (style) => <Image 
+            source={require('../../assets/categories/dairy.png')} 
+            fill="black" style={style} 
+        />
     },
     {
         title: 'Meat',
         category: 'Meat',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
+        icon: (style) => <Image 
+            source={require('../../assets/categories/meat.png')} 
+            fill="black" style={style} 
+        />
     },
     {
         title: 'Fruit & Vegetables',
         category: 'fruitVeg',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
+        icon: (style) => <Image 
+            source={require('../../assets/categories/fruit.png')} 
+            fill="black" style={style} 
+        />
     },
     {
-        title: 'Create List',
-        category: 'List',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
+        title: 'Bakery',
+        category: 'bakery',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/bakery.png')} 
+            fill="black" style={style} 
+        />
     },
     {
-        title: 'Start Shopping',
-        category: 'List',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
+        title: 'Bread',
+        category: 'bread',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/bread.png')} 
+            fill="black" style={style} 
+        />
     },
     {
-        title: 'Create List',
-        category: 'List',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
+        title: 'Laundry Accessories',
+        category: 'laundry',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/cleaning.png')} 
+            fill="black" style={style} 
+        />
     },
     {
-        title: 'Start Shopping',
-        category: 'List',
-        icon: (style) => <Icon name='shopping-bag-outline' fill="black" style={style} />
+        title: 'Clothes',
+        category: 'clothes',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/clothes.png')} 
+            fill="black" style={style} 
+        />
     },
     {
-        title: 'Create List',
-        category: 'List',
-        icon: (style) => <Icon name='plus-circle-outline' fill="black" style={style} />
+        title: 'Frozen',
+        category: 'frozen',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/frozen.png')} 
+            fill="black" style={style} 
+        />
+    },
+    {
+        title: 'Natural',
+        category: 'natural',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/natural.png')} 
+            fill="black" style={style} 
+        />
+    },
+    {
+        title: 'Hygiene',
+        category: 'soap',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/soap.png')} 
+            fill="black" style={style} 
+        />
     }
 ];
 

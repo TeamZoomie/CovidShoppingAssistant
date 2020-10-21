@@ -49,25 +49,18 @@ const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
-const BarcodeIcon = () => (// TODO Make a barcode icon
-    <Image 
-        source = {require("../../assets/barcode-solid.png")}
-        style = {{ width: 24, height: 24, tintColor: 'white' }} 
-    />
-);
-
 // Actions for the floating button to do
 const floatingButtonActions = [
     {
         text: 'Enter a product name',
         name: 'TextButton',
-        icon: require("../../assets/list-24px.svg"),
+        icon: require("../../assets/barcode.png"),
         position: 1
     },
     {
         text: 'Scan a barcode',
         name: 'BarcodeButton',
-        icon: require("../../assets/list-24px.svg"),
+        icon: require("../../assets/barcode.png"),
         position: 2
     }
 ]
