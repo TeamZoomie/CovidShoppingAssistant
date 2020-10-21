@@ -84,22 +84,22 @@ const ListScreen = ({ route, navigation, eva }) => {
     const { listId } = route.params;
     const list = listsContext.lists[listId];
 
-    const listData = {};
-    for (let item of list.items) {
-        if (!(item.category in listData)) {
-            listData[item.category] = {
-                title: item.category,
-                data: []
-            }
-        } 
-        listData[item.category].data.push(item);
-    }
+    // const listData = {};
+    // for (let item of list.items) {
+    //     if (!(item.category in listData)) {
+    //         listData[item.category] = {
+    //             title: item.category,
+    //             data: []
+    //         }
+    //     } 
+    //     listData[item.category].data.push(item);
+    // }
     
     useEffect(() => {
-        if (route.params.category != undefined && itemCategory !== route.params?.category) {
-            setItemCategory(route.params.category);
-            addListItem();
+        if (addText !== '' && route.params?.category !== undefined) {
+            addListItem(addText, route.params?.category);
             navigation.setParams({ category: undefined });
+            setAddText('');
         }
     }, [route.params?.category]);
 
@@ -121,19 +121,26 @@ const ListScreen = ({ route, navigation, eva }) => {
 		})();
     }, []);
 
-    const addListItem = () => {
-        listsContext.addListItem(listId, { 
-            name: addText, 
-            category: itemCategory, 
-            checked: false 
-        });
-        setAddText('');
-        setItemCategory('');
+    const itemChecked = (index, checked) => {
+        let item = list.items[index];
+        if (item.checked !== checked) {
+            item.checked = checked;
+        }
+        listsContext.updateListItem(listId, index, item);
     };
 
+    const addListItem = (name, category) => {
+        listsContext.addListItem(listId, { 
+            name, 
+            category, 
+            checked: false 
+        });
+    };
+    
     const removeItem = (index) => {
         listsContext.removeListItem(listId, index);
     };
+
     const removeList = () => {
         setSettingsVisible(false);
         navigation.navigate("Home");
@@ -146,6 +153,7 @@ const ListScreen = ({ route, navigation, eva }) => {
         alert(`Bar code with type ${type} and data ${data} has been scanned!`);
         listsContext.addListItem(listId, { name: `${data}`, checked: false });
     };
+
     const AddAction = () => (
         <View style={styles.buttonContainer}>
             <OverflowMenu
@@ -212,7 +220,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                                     Finished
                                 </Button>
                             ) : (
-                                <Button style={{ width: '100%' }} onPress={() => navigation.navigate("StoreSelector")}>
+                                <Button style={{ width: '100%' }} onPress={() => navigation.navigate('StoreSelector', { listId })}>
                                     Start Shopping
                                 </Button>
                             )}
@@ -228,17 +236,6 @@ const ListScreen = ({ route, navigation, eva }) => {
                         />
                     </Layout>
                 </View>
-                {/* <InteractiveSectionList
-                    data={Object.values(listData)}
-                    renderItem={({ item }) => <ShoppingListItem {...item} />}
-                    itemHeight={100}
-                    // renderSectionHeader={({ section }) => <Text>{section.title}</Text>} // OPTIONAL
-                    tabbarItemWidth={100}  // OPTIONAL
-                    // tabbarItemSpaceBetween={8}  // OPTIONAL
-                    tabbarItemActiveColor={theme['color-primary-default']}  // OPTIONAL
-                    tabbarItemInactiveColor='#FFF'  // OPTIONAL
-                    tabbarItemTitleActiveColor='white' // OPTIONAL
-                /> */}
                 <ScrollView 
                     contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
                 >
@@ -252,7 +249,11 @@ const ListScreen = ({ route, navigation, eva }) => {
                             </Text>
                         </View>
                     ) : (
-                        <ShoppingList data={list.items} onRemoveItem={removeItem}/>
+                        <ShoppingList 
+                            data={list.items} 
+                            onItemChecked={itemChecked}
+                            onRemoveItem={removeItem}
+                        />
                     )}
                 </ScrollView>
                 <FloatingAction

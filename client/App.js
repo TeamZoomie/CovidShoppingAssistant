@@ -16,7 +16,7 @@ export default class App extends React.PureComponent {
 		super(props);
 		this.state = {
 			theme: 'light',
-			lists: Object.assign(data.lists),
+			lists: Object.assign({}, data.lists),
 			activeList: 0,
 			username: 'Zoomie',
 			// Do this for now, but eventually generate serverside
@@ -30,7 +30,7 @@ export default class App extends React.PureComponent {
 		this.setState(prevState => ({ theme: prevState.theme === 'light' ? 'dark' : 'light' }));
 	}
 
-	addList = ({ name, duedate, active, icon }, cb) => {
+	addList = ({ name, duedate, active, icon, category }, cb) => {
 		this.setState(prevState => ({
 			lists: { 
 				...prevState.lists, 
@@ -67,8 +67,15 @@ export default class App extends React.PureComponent {
 		}));
 	}
 
-	updateListItem = (listId, itemIndex) => {
-
+	updateListItem = (listId, itemIndex, newItem) => {
+		if (!(listId in this.state.lists)) {
+			return;
+		}
+		const list = this.state.lists[listId];
+		const items = list.items.map((item, i) => i == itemIndex ? newItem : item);
+		this.setState(prevState => ({
+			lists: { ...prevState.lists, [listId]: { ...list, items }}
+		}));
 	}
 
 	removeListItem = (listId, itemIndex) => {
@@ -76,7 +83,7 @@ export default class App extends React.PureComponent {
 		this.setState(prevState => ({
 			lists: { 
 				...prevState.lists, 
-				[listId]: { ...list, items:list.items.filter((el, index) => index != itemIndex) }
+				[listId]: { ...list, items: list.items.filter((_, index) => index != itemIndex) }
 			}
 		}));
 	}
@@ -97,8 +104,9 @@ export default class App extends React.PureComponent {
 			addListItem: this.addListItem,
 			removeListItem: this.removeListItem,
 			removeList: this.removeList,
+			updateListItem: this.updateListItem,
 			lists: this.state.lists,
-			setListActive: this.setListActive
+			setListActive: this.setListActive,
 		};
 		const settingsContextValues = {
 			theme: this.state.theme, 

@@ -5,13 +5,15 @@ import {
     Text,
     Layout, 
     withStyles,
-    Divider
+    Divider,
+    useTheme
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
-import Heading from '../components/Heading';
-import Map from '../components/Map';
-import Collapsible from '../components/RNGHCollapsible';
-import { ListsContext } from '../lists-context';
+import Heading from '../../components/Heading';
+import Map from '../../components/Map';
+import Collapsible from '../../components/RNGHCollapsible';
+import { ListsContext } from '../../lists-context';
+import stores from '../../store-maps/stores';
 
 const { width, height } = Dimensions.get('window')
 const styles = (theme) => ({
@@ -41,6 +43,7 @@ const styles = (theme) => ({
     contentContainerStyle: {
         padding: 16,
         backgroundColor: theme['background-basic-color-1'],
+        height: '100%'
     },
     header: {
         paddingBottom: 8, 
@@ -92,19 +95,20 @@ const lightMapTheme = {
     shelves: '#DDDDDD',
     registers: '#ADADAD',
     categories: {
-        fruitVeg: '#A1FFBC',
-        naturalWholeFoods: '#68A379',
-        kitchenAccessories: '#5C5C5C',
-        canned: '#5C5C5C',
-        gardenAccessories: '#C9F3BF'
+        // 'Fruit & Vegetables': '#A1FFBC',
+        // 'Natural': '#68A379',
+        // 'Laundry Accessories': '#5C5C5C',
+        // 'Meat': '#5C5C5C',
+        // 'Bakery': '#C9F3BF'
     },
-    path: '#3b8ada',
+    path: '#598BFF',
     tooltipBorder: '#656565'
 };
 
 const Handle = (props) => {
 
     const styles = props.eva.style;
+    const theme = useTheme();
     return (
         <Fragment>
             <View style={styles.header}>
@@ -112,13 +116,13 @@ const Handle = (props) => {
                 <View style={styles.headerContainer}>
                     <View style={styles.alignRowCentre}>
                         <Text style={{ paddingLeft: 8 }}>
-                            17 items
+                            {props.itemCount} items
                         </Text>
                     </View>
                     <View style={styles.alignRowCentre}>
-                        <Icon width={16} height={16} fill="black" name="pin-outline" />
+                        <Icon width={16} height={16} fill={theme['background-alternative-color-1']} name="pin-outline" />
                         <Text style={{ paddingLeft: 4, fontWeight: 'bold' }}>
-                            4 stops
+                            {props.stopCount} stops
                         </Text>
                     </View>
                 </View>
@@ -133,29 +137,54 @@ const ThemedHandle = withStyles(Handle, styles);
 const MapScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
-    const [selectedIndex, setSelectedIndex] = useState(null);
     const listsContext = useContext(ListsContext);
+    const store = stores.coles;
 
-    // const { listId } = route.params;
-    const list = listsContext.lists[0];
-    const listData = {};
+    const { listId } = route.params;
+    const list = listsContext.lists[listId];
+    const listGroups = {};
     for (let [id, item] of Object.entries(list.items)) {
-        if (!(item.category in listData)) {
-            listData[item.category] = {
-                id,
+        if (!(item.category in listGroups)) {
+            listGroups[item.category] = {
+                id: Object.keys(listGroups).length,
                 header: item.category,
-                subItems: []
+                category: item.category,
+                subItems: [],
             }
         } 
-        listData[item.category].subItems.push({ text: item.name  });
+        listGroups[item.category].subItems.push({ ...item, id });
     }
-    // console.log(listData);
+    
 
     // Not the best way, but easiest.
-    navigation.setOptions({ tabBarVisible: false })
-    const updateSection = (sectionId, item) => {
-
+    // navigation.setOptions({ tabBarVisible: false })
+    const updateSection = (sectionName, itemIndex, checked) => {
+        const index = listGroups[sectionName].subItems[itemIndex].id;
+        let item = list.items[index];
+        if (item.checked !== checked) {
+            item.checked = checked;
+        }
+        listsContext.updateListItem(listId, index, item);
     };
+
+    const allChecked = (items) => {
+        for (let item of items) {
+            if (!item.checked) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
+
+    // Make this actually work in order....
+    const listData = Object.values(listGroups);
+    listData.sort((a, b) => {
+        let ax = avaiableMapTasks.includes(a.category) ? 1 : 0;
+        let bx = avaiableMapTasks.includes(b.category) ? 1 : 0;
+        return bx - ax;
+    })
 
     return (
         <View style={styles.root}>
@@ -163,26 +192,30 @@ const MapScreen = ({ eva, navigation, route }) => {
                 <View style={{ height: '100%' }}>
                     <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>Coles</Heading>
                     <Map 
+                        store={store}
                         height={height} 
                         theme={lightMapTheme}
-                        tasks={['gardenAccessories', 'kitchenAccessories', 'fruitVeg', 'canned']}
+                        tasks={avaiableMapTasks}
                     />
                     <ScrollBottomSheet
                         componentType="FlatList"
                         snapPoints={[128, '50%', '70%']}
                         initialSnapIndex={2}
-                        renderHandle={() => <ThemedHandle />}
-                        data={Object.values(listData)}
-                        // data={Array.from({ length: 10 }).map((_, i) => ({ 
-                        //     id: i, 
-                        //     header: "Header " + String(i), 
-                        //     subItems: Array.from({ length: 2 }).map((_, j) => ({ text: 'Item ' + String(j) }))
-                        // }))}
+                        renderHandle={() => (
+                            <ThemedHandle 
+                                itemCount={list.items.length}  
+                                stopCount={listData.length}
+                            />
+                        )}
+                        data={listData}
                         keyExtractor={item => String(item.id)}
                         renderItem={({ item }) => (
                             <Collapsible 
-                                header={item.header} 
+                                header={`${item.id + 1}. ` + item.header} 
                                 subItems={item.subItems} 
+                                unknown={!avaiableMapTasks.includes(item.category)}
+                                completed={allChecked(item.subItems)}
+                                onItemPress={(itemIndex, checked) => updateSection(item.category, itemIndex, checked)}
                             />
                         )}
                         contentContainerStyle={styles.contentContainerStyle}

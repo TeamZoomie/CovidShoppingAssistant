@@ -28,7 +28,7 @@ const categories = [
     },
     {
         title: 'Fruit & Vegetables',
-        category: 'fruitVeg',
+        category: 'Fruit & Vegetables',
         icon: (style) => <Image 
             source={require('../../assets/categories/fruit.png')} 
             fill="black" style={style} 
@@ -36,7 +36,7 @@ const categories = [
     },
     {
         title: 'Bakery',
-        category: 'bakery',
+        category: 'Bakery',
         icon: (style) => <Image 
             source={require('../../assets/categories/bakery.png')} 
             fill="black" style={style} 
@@ -44,7 +44,7 @@ const categories = [
     },
     {
         title: 'Bread',
-        category: 'bread',
+        category: 'Bread',
         icon: (style) => <Image 
             source={require('../../assets/categories/bread.png')} 
             fill="black" style={style} 
@@ -76,7 +76,7 @@ const categories = [
     },
     {
         title: 'Natural',
-        category: 'natural',
+        category: 'Natural',
         icon: (style) => <Image 
             source={require('../../assets/categories/natural.png')} 
             fill="black" style={style} 
@@ -113,17 +113,10 @@ const ModalScreen = ({ navigation }) => {
         >
             <GridList 
                 data={categories}
-                onPress={id => navigation.navigate('List', {
-                    screen: 'Main',
-                    params: { category: categories[id].category }
+                onPress={id => navigation.navigate('main', {
+                    category: categories[id].category
                 })}
             />
-            {/* <ScrollView>
-                <Text style={{ fontSize: 30 }}>This is a modal!</Text>
-                <Button onPress={() => navigation.goBack()}>
-                    Dismiss
-                </Button>
-            </ScrollView> */}
         </Page>
     );
 }

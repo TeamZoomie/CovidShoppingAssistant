@@ -148,7 +148,7 @@ export default {
             }
         ],
         categories: {
-            fruitVeg: [
+            'Fruit & Vegetables': [
                 {
                     geo: [[3,20], [3,19], [7,19], [7,20]],
                 },
@@ -168,22 +168,22 @@ export default {
                     geo: [[3,8], [3,7], [7,7], [7,8]],
                 },
             ],
-            naturalWholeFoods: [
+            'Natural': [
                 {
                     geo: [[10,17],[10,11],[10.5,11],[10.5,17]],
                 }
             ],
-            kitchenAccessories: [
+            'Laundry Accessories': [
                 {
                     geo: [[10.5,17],[10.5,14],[11,14],[11,17]]
                 }
             ],
-            gardenAccessories: [
+            'Bread': [
                 {
                     geo: [[10.5,14],[10.5,11],[11,11],[11,14]]
                 }
             ],
-            canned: [
+            'Meat': [
                 {
                     geo: [[31,8],[31,2],[30.5,2],[30.5,8]]
                 }
