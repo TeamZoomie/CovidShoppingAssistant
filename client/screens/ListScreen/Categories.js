@@ -43,14 +43,6 @@ const categories = [
         />
     },
     {
-        title: 'Bread',
-        category: 'Bread',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/bread.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
         title: 'Laundry Accessories',
         category: 'laundry',
         icon: (style) => <Image 
@@ -85,6 +77,14 @@ const categories = [
     {
         title: 'Hygiene',
         category: 'soap',
+        icon: (style) => <Image 
+            source={require('../../assets/categories/soap.png')} 
+            fill="black" style={style} 
+        />
+    },
+    {
+        title: 'Sweets',
+        category: 'junk food',
         icon: (style) => <Image 
             source={require('../../assets/categories/soap.png')} 
             fill="black" style={style} 
