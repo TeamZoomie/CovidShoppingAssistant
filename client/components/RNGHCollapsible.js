@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Animated, TouchableHighlight } from 'react-native';
+import { View, Animated } from 'react-native';
 import {
     CheckBox,
     Icon, 
@@ -8,43 +8,8 @@ import {
     useTheme,
     withStyles
 } from '@ui-kitten/components';
-import { TouchableHighlight as RNGHTouchableHighlight } from "react-native-gesture-handler";
+import BottomSheetTouchable from './BottomSheetTouchable';
 
-
-const BottomSheetTouchable = (props) => {
-    if (Platform.OS === "android") {
-      return (
-        <RNGHTouchableHighlight {...props} />
-      );
-    }
-    return <TouchableHighlight {...props} />
-};
-
-
-const CollapsibleItem = (props) => {
-
-    // const [checked, setChecked] = React.useState(false);
-    const theme = useTheme();
-    
-    return (
-        <BottomSheetTouchable 
-            {...props}
-            underlayColor={theme['background-basic-color-2']}
-            onPress={() => props.onPress(!props.checked)}
-        >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
-                <CheckBox
-                    checked={props.checked}
-                    style={{ overflow: 'hidden' }}
-                >
-                    <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
-                        {props.name}
-                    </Text>
-                </CheckBox>
-            </View>
-        </BottomSheetTouchable>
-    );
-}
 
 class CollapsibleMenu extends Component {
     
@@ -77,15 +42,7 @@ class CollapsibleMenu extends Component {
     }
 
     renderItems() {
-        return this.props.subItems.map((subItem, id) => (
-            <CollapsibleItem 
-                {...subItem} 
-                checked={subItem.checked}
-                key={id} 
-                id={id} 
-                onPress={nextChecked => this.props.onItemPress(id, nextChecked)}
-            />
-        ));
+        return this.props.subItems.map((subItem, id) => this.props.renderItem(subItem, id));
     }
 
     render() {
@@ -98,10 +55,10 @@ class CollapsibleMenu extends Component {
             inputRange: [0, 1],
             outputRange: [0, this.ITEM_HEIGHT * this.props.subItems.length],
         });
-        const completed = this.props.completed || false;
-        const unknown = this.props.unknown !== false;
+        const AccessoryLeft = this.props.headerAccessoryLeft;
+
         return (
-            <Fragment>
+            <View>
                 <BottomSheetTouchable 
                     underlayColor={theme['background-basic-color-2']}
                     onPress={this.onPressHeader}
@@ -111,14 +68,8 @@ class CollapsibleMenu extends Component {
                         style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {completed ? (
-                                <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>
-                            ) : unknown ? (
-                                    <Icon name="question-mark-circle-outline" width={18} height={18} fill={theme['background-alternative-color-1']} />
-                            ) : (
-                                <Icon name="pin-outline" width={18} height={18} fill="darkred" />
-                            )}
-                            <Text style={{ paddingLeft: 8 }} category="p1">
+                            {AccessoryLeft && <AccessoryLeft/>}
+                            <Text style={AccessoryLeft ? { paddingLeft: 8 } : {}} category="p1">
                                 {this.props.header}
                             </Text>
                         </View>
@@ -133,7 +84,7 @@ class CollapsibleMenu extends Component {
                     {this.renderItems()}
                 </Animated.View>
                 <Divider/>
-            </Fragment>
+            </View>
         );
     }
 }

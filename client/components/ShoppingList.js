@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useContext } from 'react';
 import {  View, StyleSheet,FlatList } from 'react-native';
 import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
-import Collapsible from '../components/listItemCollapsible';
-import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
-import { ListsContext } from '../lists-context';
+// import Collapsible from '../components/listItemCollapsible';
+import Collapsible from '../components/RNGHCollapsible';
+import { categories } from '../categories'
 
 const styles = StyleSheet.create({
     item: {
@@ -40,72 +40,82 @@ const styles = StyleSheet.create({
 const RemoveIcon = (props) => (
     <Icon {...props} height={16} name='trash-outline' />
 );
-export const ShoppingListItem = (props) => {
-    // const [checked, setChecked] = React.useState(props.checked || false);
+
+const ShoppingListItem = (props) => {
     return (
         <View style={styles.contentContainer}>
             <View>
                 <CheckBox
                     checked={props.checked}
-                    onChange={nextChecked => {
-                        // setChecked(nextChecked);
-                        props.onItemChecked(nextChecked);
-                    }}
+                    onChange={nextChecked => props.onChecked(nextChecked)}
+                    style={{ overflow: 'hidden' }}
                 >
                     <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
-                        {props.name}
+                        {props.text}
                     </Text>
                 </CheckBox>
-                {/* <View style={styles.subItem}>
-                    <Text>
-                        Bought 1kg Bag Granny Smtih apples
-                    </Text>
-                </View> */}
             </View>
             <Button 
                 style={styles.button} 
                 appearance='ghost' 
                 status='basic' 
                 accessoryLeft={RemoveIcon} 
-                onPress={props.onRemoveItem}
+                onPress={props.onRemove}
             />
         </View>
     )
 };
 
 export default function ShoppingList(props) {
-    const [selectedIndex, setSelectedIndex] = useState(null);
-    const listsContext = useContext(ListsContext);
-    const list = listsContext.lists[props.data.id];
-    const listData = {};
+    const { list } = props;
+    const listGroups = {};
     for (let [id, item] of Object.entries(list.items)) {
-        if (!(item.category in listData)) {
-            listData[item.category] = {
-                id,
+        if (!(item.category in listGroups)) {
+            listGroups[item.category] = {
+                id: Object.keys(listGroups).length,
                 header: item.category,
-                subItems: []
+                category: item.category,
+                subItems: [],
             }
         } 
-        listData[item.category].subItems.push({ text: item.name, i: id,list:props});
+        listGroups[item.category].subItems.push({ ...item, id });
     }
-    console.log(props.data)
+    const listData = Object.values(listGroups);
+    let categoryMap = {};
+    for (let [id, item] of categories.entries()) {
+        categoryMap[item.category] = id;
+    }
+
+    // Issue with icon reloading on setState... fix
+    const CollapsibleAccessory = (props) => {
+        return categories[categoryMap[props.category]].icon({ 
+            width: 18,
+            height: 18, 
+            alignSelf: 'center', 
+            resizeMode: 'contain'
+        });
+    }
 
     return (
         <View style={styles.container}>
-
-            <FlatList
-                style={{}}
-                data={Object.values(listData)}
-                keyExtractor={item => String(item.id)}
-                renderItem={({ item }) => (
-                <Collapsible 
-                                header={item.header} 
-                                subItems={item.subItems} 
-                            />
-                        )}
-            /> 
-            
-
+            {listData.map((group) => (
+                <Collapsible
+                    key={group.id}
+                    header={group.category} 
+                    subItems={group.subItems} 
+                    expanded={true}
+                    headerAccessoryLeft={() => <CollapsibleAccessory category={group.category}/>}
+                    renderItem={(subItem, index) => (
+                        <ShoppingListItem 
+                            key={index}
+                            checked={subItem.checked}
+                            text={subItem.name}
+                            onChecked={nextChecked => props.onItemChecked(subItem.id, nextChecked)}
+                            onRemove={() => props.onRemoveItem(subItem.id)}
+                        />
+                    )}
+                />
+            ))}
         </View>
     );
 }

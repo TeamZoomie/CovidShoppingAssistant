@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useContext } from 'react';
 import { View, Dimensions } from 'react-native';
 import {
+    CheckBox,
     Icon, 
     Text,
     Layout, 
@@ -12,21 +13,17 @@ import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Heading from '../../components/Heading';
 import Map from '../../components/Map';
 import Collapsible from '../../components/RNGHCollapsible';
+import BottomSheetTouchable from '../../components/BottomSheetTouchable';
 import { ListsContext } from '../../lists-context';
 import stores from '../../store-maps/stores';
 
-const { width, height } = Dimensions.get('window')
+const { height } = Dimensions.get('window')
 const styles = (theme) => ({
     root: {
         flex: 1,
         backgroundColor: theme['background-basic-color-2'],
-        // flexGrow: 1,
-        // height: '100%',
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     content: {
-        // padding: 16,
         height: '100%',
         flex: 1,
         flexDirection: 'column',
@@ -134,6 +131,44 @@ const Handle = (props) => {
 
 const ThemedHandle = withStyles(Handle, styles);
 
+const ListItemAccessoryLeft = (props) => {
+    const theme = useTheme();
+    const completed = props.completed || false;
+    const unknown = props.unknown !== false;
+    return (
+        completed ? (
+            <Icon name="checkmark-square-outline" width={18} height={18} fill={theme['color-primary-default']}/>
+        ) : unknown ? (
+            <Icon name="question-mark-circle-outline" width={18} height={18} fill={theme['background-alternative-color-1']} />
+        ) : (
+            <Icon name="pin-outline" width={18} height={18} fill="darkred" />
+        )
+    )
+}
+
+export const ListItem = (props) => {
+
+    const theme = useTheme();
+    return (
+        <BottomSheetTouchable 
+            {...props}
+            underlayColor={theme['background-basic-color-2']}
+            onPress={() => props.onPress(!props.checked)}
+        >
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
+                <CheckBox
+                    checked={props.checked}
+                    style={{ overflow: 'hidden' }}
+                >
+                    <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
+                        {props.text}
+                    </Text>
+                </CheckBox>
+            </View>
+        </BottomSheetTouchable>
+    );
+}
+
 const MapScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
@@ -155,9 +190,6 @@ const MapScreen = ({ eva, navigation, route }) => {
         listGroups[item.category].subItems.push({ ...item, id });
     }
     
-
-    // Not the best way, but easiest.
-    // navigation.setOptions({ tabBarVisible: false })
     const updateSection = (sectionName, itemIndex, checked) => {
         const index = listGroups[sectionName].subItems[itemIndex].id;
         let item = list.items[index];
@@ -184,7 +216,7 @@ const MapScreen = ({ eva, navigation, route }) => {
         let ax = avaiableMapTasks.includes(a.category) ? 1 : 0;
         let bx = avaiableMapTasks.includes(b.category) ? 1 : 0;
         return bx - ax;
-    })
+    });
 
     return (
         <View style={styles.root}>
@@ -213,9 +245,20 @@ const MapScreen = ({ eva, navigation, route }) => {
                             <Collapsible 
                                 header={`${item.id + 1}. ` + item.header} 
                                 subItems={item.subItems} 
-                                unknown={!avaiableMapTasks.includes(item.category)}
-                                completed={allChecked(item.subItems)}
-                                onItemPress={(itemIndex, checked) => updateSection(item.category, itemIndex, checked)}
+                                headerAccessoryLeft={() => (
+                                    <ListItemAccessoryLeft
+                                        unknown={!avaiableMapTasks.includes(item.category)}
+                                        completed={allChecked(item.subItems)}
+                                    />
+                                )}
+                                renderItem={(subItem, index) => (
+                                    <ListItem 
+                                        key={index}
+                                        checked={subItem.checked}
+                                        text={subItem.name}
+                                        onPress={nextChecked => updateSection(item.category, index, nextChecked)}
+                                    />
+                                )}
                             />
                         )}
                         contentContainerStyle={styles.contentContainerStyle}

@@ -250,8 +250,9 @@ const ListScreen = ({ route, navigation, eva }) => {
                         </View>
                     ) : (
                         <ShoppingList 
-                            data={list} 
+                            list={list} 
                             onRemoveItem={removeItem}
+                            onItemChecked={itemChecked}
                         />
                     )}
                 </ScrollView>

@@ -78,7 +78,6 @@ const ShoppingLists = (props) => {
     }
 
     // const backgroundColor = theme['background-basic-color-1'];
-    // const back
     const backgroundColor = colours['white' || list.colour || 'orange']
     return (
         <ScrollView style={styles.container}>

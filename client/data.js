@@ -28,7 +28,7 @@ export default {
                 },
                 {
                     name: 'Cookies',
-                    category: 'Snack',
+                    category: 'Sweets',
                     quantity: 10,
                     checked: false
                 }
@@ -76,7 +76,7 @@ export default {
             items: [
                 {
                     name: 'Cookies',
-                    category: 'Snack',
+                    category: 'Sweets',
                     quantity: 10,
                     checked: false
                 }

@@ -8,89 +8,90 @@ import {
 } from '@ui-kitten/components';
 import GridList from '../../components/GridList';
 import Page from '../../components/Page';
+import { categories } from '../../categories';
 
-const categories = [
-    {
-        title: 'Dairy',
-        category: 'Dairy',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/dairy.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Meat',
-        category: 'Meat',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/meat.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Fruit & Vegetables',
-        category: 'Fruit & Vegetables',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/fruit.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Bakery',
-        category: 'Bakery',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/bakery.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Laundry Accessories',
-        category: 'laundry',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/cleaning.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Clothes',
-        category: 'clothes',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/clothes.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Frozen',
-        category: 'frozen',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/frozen.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Natural',
-        category: 'Natural',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/natural.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Hygiene',
-        category: 'soap',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/soap.png')} 
-            fill="black" style={style} 
-        />
-    },
-    {
-        title: 'Sweets',
-        category: 'junk food',
-        icon: (style) => <Image 
-            source={require('../../assets/categories/soap.png')} 
-            fill="black" style={style} 
-        />
-    }
-];
+// const categories = [
+//     {
+//         title: 'Dairy',
+//         category: 'Dairy',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/dairy.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Meat',
+//         category: 'Meat',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/meat.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Fruit & Vegetables',
+//         category: 'Fruit & Vegetables',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/fruit.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Bakery',
+//         category: 'Bakery',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/bakery.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Laundry Accessories',
+//         category: 'laundry',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/cleaning.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Clothes',
+//         category: 'clothes',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/clothes.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Frozen',
+//         category: 'frozen',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/frozen.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Natural',
+//         category: 'Natural',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/natural.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Hygiene',
+//         category: 'soap',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/soap.png')} 
+//             fill="black" style={style} 
+//         />
+//     },
+//     {
+//         title: 'Sweets',
+//         category: 'junk food',
+//         icon: (style) => <Image 
+//             source={require('../../assets/categories/soap.png')} 
+//             fill="black" style={style} 
+//         />
+//     }
+// ];
 
 const styles = (theme) => ({
     root: {
@@ -113,7 +114,7 @@ const ModalScreen = ({ navigation }) => {
         >
             <GridList 
                 data={categories}
-                onPress={id => navigation.navigate('main', {
+                onPress={id => navigation.navigate('Main', {
                     category: categories[id].category
                 })}
             />
