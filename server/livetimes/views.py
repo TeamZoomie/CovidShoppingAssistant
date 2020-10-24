@@ -7,7 +7,8 @@ from datetime import datetime, timezone
 import environ
 
 # https://github.com/GrocerCheck/LivePopularTimes
-import livepopulartimes
+from livepopulartimes import get_populartimes_by_PlaceID
+from livepopulartimes.crawler import PopulartimesException
 
 from rest_framework_mongoengine import viewsets
 from rest_framework.views import status
@@ -28,12 +29,20 @@ updatedTime = datetime.now(timezone.utc)
 
 def get_data(placeid):
     # Gets the live data from the API given a PlaceID.
-
-    instance = livepopulartimes.get_populartimes_by_PlaceID(API_KEY, placeid)
+    try:
+        instance = get_populartimes_by_PlaceID(API_KEY, placeid)
+    except PopulartimesException:
+        return None
 
     # Change items from None to 0.
     if instance['current_popularity'] is None:
         instance['current_popularity'] = 0
+
+    try:
+        if instance['populartimes'] is None:
+            instance['populartimes'] = [{'name': 'No_Data', 'data': [0, ]}]
+    except KeyError:
+        instance['populartimes'] = [{'name': 'No_Data', 'data': [0, ]}]
 
     livetime = LiveTime.objects.create(
         place_id=instance['place_id'],
@@ -73,5 +82,9 @@ class LiveTimesViewSet(viewsets.ReadOnlyModelViewSet):
         except KeyError:
             return Response({"error": "An error has occured"},
                             status=status.HTTP_400_BAD_REQUEST)
+
+        if instance is None:
+            return Response({"error": "Invalid PlaceID"}, 
+                            status=status.HTTP_409_CONFLICT)
         ser = LiveTimeSerializer(instance)
         return Response(ser.data)

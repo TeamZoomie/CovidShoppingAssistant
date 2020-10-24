@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import environ
 
 from newsapi import NewsApiClient
+from newsapi.newsapi_exception import NewsAPIException
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
@@ -40,26 +41,30 @@ def update_news():
     the NewsAPIClient.
     '''
     CovidArticles.objects.all().delete()
-    # Update every 30 minutes
+    # Update every 6 hours
     locations = {'au', 'us', 'gb', 'ca', 'fr', 'in', 'br', 'ru', 'mx', 'za',
                  'de', 'se', 'tr', 'it'}
 
     newsapi = NewsApiClient(api_key=API_KEY)
     # Loops through all country locations and updates each model with
     # news articles
-    for loc in locations:
-        payload = newsapi.get_top_headlines(
-            q='covid',
-            language='en',
-            country=loc
-            )
-        id_number = get_next_id_number()
-        created = CovidArticles.objects.create(
-            idField=id_number,
-            articles=payload['articles'],
-            addedDate=datetime.now(timezone.utc),
-            country=loc
-            )
+
+    try:
+        for loc in locations:
+            payload = newsapi.get_top_headlines(
+                q='covid',
+                language='en',
+                country=loc
+                )
+            id_number = get_next_id_number()
+            created = CovidArticles.objects.create(
+                idField=id_number,
+                articles=payload['articles'],
+                addedDate=datetime.now(timezone.utc),
+                country=loc
+                )
+    except NewsAPIException:
+        pass
 
 
 class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
