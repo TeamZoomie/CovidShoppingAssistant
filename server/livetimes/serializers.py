@@ -7,7 +7,8 @@ from .models import LiveTime
 
 class LiveTimeSerializer(serializers.DocumentSerializer):
     '''
-    The serializer for the document LiveTime.
+    The serializer for the document LiveTime which contains the PlaceID,
+    the name, a list of popular times and the current popularity.
     '''
     class Meta:
         model = LiveTime

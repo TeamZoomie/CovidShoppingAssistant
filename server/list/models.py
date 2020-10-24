@@ -1,5 +1,5 @@
 '''
-Contains the ListModel model.
+Contains the ListModel and ItemMode models.
 '''
 from mongoengine import Document, EmbeddedDocument, fields
 from django.contrib.auth.models import User
@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 
 class ItemModel(EmbeddedDocument):
     '''
-    EmbeddedDocument that is used to store more information about lists that is required.
+    EmbeddedDocument that is used to store more information about lists that
+    is required.
     '''
     name = fields.StringField(required=True)
     category = fields.StringField(required=True)
     quantity = fields.IntField(required=True)
     checked = fields.BooleanField(required=True)
-    
+
 
 class ListModel(Document):
     '''

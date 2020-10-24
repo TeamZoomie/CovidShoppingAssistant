@@ -3,6 +3,7 @@ This file contains the CovidInformation model.
 '''
 from mongoengine import Document, fields
 
+
 class CovidInformation(Document):
     '''
     Stores covid stats from different countries.

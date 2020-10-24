@@ -21,6 +21,7 @@ API_KEY = env("NEWS_API_KEY")
 UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
+
 def get_next_id_number():
     '''
     Returns the next id number using linear probing.
@@ -32,9 +33,11 @@ def get_next_id_number():
         else:
             return counter
 
+
 def update_news():
     '''
-    Updates the objects of CovidArticles by grabbing new news articles from the NewsAPIClient.
+    Updates the objects of CovidArticles by grabbing new news articles from
+    the NewsAPIClient.
     '''
     CovidArticles.objects.all().delete()
     # Update every 30 minutes
@@ -42,9 +45,14 @@ def update_news():
                  'de', 'se', 'tr', 'it'}
 
     newsapi = NewsApiClient(api_key=API_KEY)
-    # Loops through all country locations and updates each model with news articles
+    # Loops through all country locations and updates each model with
+    # news articles
     for loc in locations:
-        payload = newsapi.get_top_headlines(q='covid', language='en', country=loc)
+        payload = newsapi.get_top_headlines(
+            q='covid',
+            language='en',
+            country=loc
+            )
         id_number = get_next_id_number()
         created = CovidArticles.objects.create(
             idField=id_number,
@@ -81,7 +89,9 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
             'Turkey': 'tr',
             'Italy': 'it'
         }
-        country = CovidArticles.objects.get(country=countryCodeMap[self.kwargs['pk']])
+        country = CovidArticles.objects.get(
+            country=countryCodeMap[self.kwargs['pk']]
+            )
         return country
 
     # Override retrieve so that it updates the model at a certain time
@@ -93,7 +103,7 @@ class CovidNewsViewSet(viewsets.ReadOnlyModelViewSet):
             instance = self.get_object()
         except(CovidArticles.DoesNotExist, KeyError):
             # Return an error if the object does not exist
-            return Response({"error": "Articles do not exist"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Articles do not exist"},
+                            status=status.HTTP_404_NOT_FOUND)
         ser = CovidArticlesSerializer(instance)
         return Response(ser.data)
-        

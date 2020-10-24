@@ -1,13 +1,16 @@
 '''
-Contains a serializer which is used to create users using the default Auth User model.
+Contains a serializer which is used to create users using the Django default 
+Auth User model.
 '''
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     '''
-    Is used to create a user given a username and password.
-    The username needs to be unique.
+    Serializer that expects a username and password.
+    The serializer can also be used to create a user once the password has 
+    been validated.
+    The username must be unique.
     '''
     class Meta:
         model = User

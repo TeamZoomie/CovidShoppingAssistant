@@ -11,5 +11,6 @@ class CovidSerializer(serializers.DocumentSerializer):
     '''
     class Meta:
         model = CovidInformation
-        fields = ['country', 'cases', 'todayCases', 'deaths', 'todayDeaths', 'recovered', 'active', 'critical',
-                  'casesPerOneMillion', 'deathsPerOneMillion', 'totalTests', 'testsPerOneMillion']
+        fields = ['country', 'cases', 'todayCases', 'deaths', 'todayDeaths',
+                  'recovered', 'active', 'critical', 'casesPerOneMillion',
+                  'deathsPerOneMillion', 'totalTests', 'testsPerOneMillion']

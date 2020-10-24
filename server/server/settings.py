@@ -31,7 +31,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost', '10.0.0.79']
+ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost',
+                 '10.0.0.79']
 
 
 # Application definition
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'list.apps.ListConfig',
     'livetimes.apps.LivetimesConfig',
     'userlogin.apps.UserloginConfig',
+    'default.apps.DefaultConfig',
     'rest_framework',
     'rest_framework_mongoengine',
     'rest_framework.authtoken',
@@ -112,16 +114,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .NumericPasswordValidator',
     },
 ]
 
@@ -147,5 +153,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Connect to the MongoEngine Database
-
 mongoengine.connect('djongo', host='localhost:27017')

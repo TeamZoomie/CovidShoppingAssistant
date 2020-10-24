@@ -15,18 +15,20 @@ from .models import CovidInformation
 UPDATE_TIME = 432000
 updatedTime = datetime.now(timezone.utc)
 
+
 def update_model():
     '''
-    Updates the objects in the CovidInformation Document by grabbing information from the 
-    API.
+    Updates the objects in the CovidInformation Document by grabbing
+    information from the API.
     '''
     CovidInformation.objects.all().delete()
-    locations = {'Australia', 'USA', 'UK', 'Canada', 'France', 'India', 'Brazil',
-        'Russia', 'Mexico', 'South Africa', 'Germany', 'Sweden', 'Turkey',
-        'Italy'}
+    locations = {'Australia', 'USA', 'UK', 'Canada', 'France', 'India',
+                 'Brazil', 'Russia', 'Mexico', 'South Africa', 'Germany',
+                 'Sweden', 'Turkey', 'Italy'}
     # Loop through each location and grav new information from the API.
     for loc in locations:
-        update = requests.get(f'https://coronavirus-19-api.herokuapp.com/countries/{loc}/').json()
+        update = requests.get(f'https://coronavirus-19-api.herokuapp.com\
+            /countries/{loc}/').json()
         for key, value in update.items():
             # Update the value so that a 0 is stored in place of None.
             if value is None:
@@ -34,7 +36,7 @@ def update_model():
         try:
             obj = CovidInformation.objects.create(**update)
             obj.save()
-        except: # If the object fails to create, do nothing
+        except:  # If the object fails to create, do nothing
             pass
 
 
@@ -62,6 +64,7 @@ class CovidViewSet(viewsets.ReadOnlyModelViewSet):
             instance = self.get_object()
         except (CovidInformation.DoesNotExist, KeyError):
             # Return an error if the object does not exist
-            return Response({"error": "Item does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Item does not exist"},
+                            status=status.HTTP_404_NOT_FOUND)
         ser = CovidSerializer(instance)
         return Response(ser.data)

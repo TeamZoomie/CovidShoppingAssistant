@@ -8,6 +8,7 @@ from .models import ListModel
 class ListSerializer(serializers.DocumentSerializer):
     '''
     The serializer for the document ListModel.
+    Contains the IDField, name, start date, due date, colour and items.
     '''
     class Meta:
         model = ListModel

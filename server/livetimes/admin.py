@@ -1,5 +1,5 @@
 '''
-Register the LiveTime model with the admin page.
+Register the LiveTime model with the Django admin page.
 '''
 from django.contrib import admin
 from .models import LiveTime

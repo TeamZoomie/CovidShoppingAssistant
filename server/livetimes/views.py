@@ -1,11 +1,12 @@
 '''
-Contains information on the views that requests go to when accessing the API.
-Requests get information for the Live data from stores.
+Contains the view which gets live time information from locations.
+Requests get information for the live data from an online API called
+LivePopularTimes.
 '''
 from datetime import datetime, timezone
 import environ
 
-#https://github.com/GrocerCheck/LivePopularTimes
+# https://github.com/GrocerCheck/LivePopularTimes
 import livepopulartimes
 
 from rest_framework_mongoengine import viewsets
@@ -24,10 +25,10 @@ API_KEY = env("GOOGLE_API_KEY")
 UPDATE_TIME = 216000
 updatedTime = datetime.now(timezone.utc)
 
+
 def get_data(placeid):
-    '''
-    Gets the live data from the API given a PlaceID.
-    '''
+    # Gets the live data from the API given a PlaceID.
+
     instance = livepopulartimes.get_populartimes_by_PlaceID(API_KEY, placeid)
 
     # Change items from None to 0.
@@ -35,10 +36,10 @@ def get_data(placeid):
         instance['current_popularity'] = 0
 
     livetime = LiveTime.objects.create(
-        place_id = instance['place_id'],
-        name = instance['name'],
-        populartimes = instance['populartimes'],
-        current_popularity = instance['current_popularity']
+        place_id=instance['place_id'],
+        name=instance['name'],
+        populartimes=instance['populartimes'],
+        current_popularity=instance['current_popularity']
     )
     return livetime
 
@@ -56,19 +57,21 @@ class LiveTimesViewSet(viewsets.ReadOnlyModelViewSet):
         obj = LiveTime.objects.get(place_id=self.kwargs['place_id'])
         return obj
 
-    # Override retrieve to update the model after a number of hours and to gather
-    # information if none exists.
+    # Override retrieve to update the model after a number of hours and to
+    # gather information if none exists.
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
-            if (datetime.now(timezone.utc) - updatedTime).seconds > UPDATE_TIME:
+            if (datetime.now(timezone.utc) - updatedTime).seconds\
+                    > UPDATE_TIME:
                 # Delete the object if it exists first
                 instance.delete()
                 instance = get_data(kwargs['place_id'])
-        except LiveTime.DoesNotExist: 
+        except LiveTime.DoesNotExist:
             # Get new object
             instance = get_data(kwargs['place_id'])
         except KeyError:
-            return Response({"error": "An error has occured"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "An error has occured"},
+                            status=status.HTTP_400_BAD_REQUEST)
         ser = LiveTimeSerializer(instance)
         return Response(ser.data)

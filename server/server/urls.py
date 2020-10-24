@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
-# List all the available aps that a requester can access.
+# List all the available apps that a requester can access.
+# There is no default view that the requster can access.
 urlpatterns = [
+    path('', include('default.urls')),
     path('covidstats/', include('covidstats.urls')),
     path('covidnews/', include('covidnews.urls')),
     path('list/', include('list.urls')),

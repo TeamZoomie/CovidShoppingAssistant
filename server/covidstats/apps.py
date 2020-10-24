@@ -1,5 +1,5 @@
 '''
-Resgister the model with the django settings.
+Resgister the model with the Django settings.
 '''
 from django.apps import AppConfig
 
