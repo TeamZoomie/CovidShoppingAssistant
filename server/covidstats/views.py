@@ -27,8 +27,7 @@ def update_model():
                  'Sweden', 'Turkey', 'Italy'}
     # Loop through each location and grav new information from the API.
     for loc in locations:
-        update = requests.get(f'https://coronavirus-19-api.herokuapp.com\
-            /countries/{loc}/').json()
+        update = requests.get(f'https://coronavirus-19-api.herokuapp.com/countries/{loc}/').json()
         for key, value in update.items():
             # Update the value so that a 0 is stored in place of None.
             if value is None:
