@@ -1,9 +1,10 @@
 '''
-Contains a serializer which is used to create users using the Django default 
+Contains a serializer which is used to create users using the Django default
 Auth User model.
 '''
 from django.contrib.auth.models import User
 from rest_framework import serializers
+
 
 class UserSerializer(serializers.ModelSerializer):
     '''
@@ -19,8 +20,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     # Override create so that we can check for password length if we want
     def create(self, validated_data):
+        username = validated_data['username']
+        counter = 1
+        while User.objects.filter(username=username):
+            username = validated_data['username'] + str(counter)
+            counter += 1
+        validated_data['username'] = username
+        print(validated_data)
         password = validated_data.pop('password')
-        user = User(**validated_data) # Create new user
+        user = User(**validated_data)  # Create new user
         user.set_password(password)
         user.save()
         return user

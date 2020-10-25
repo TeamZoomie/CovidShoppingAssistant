@@ -4,6 +4,8 @@ The purpose of this view is to create a user in the django settings.
 '''
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .serializers import UserSerializer
 
 
@@ -14,3 +16,7 @@ class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.AllowAny, )  # Anybody can create a user
+
+    def post(self, request, *args, **kwargs):
+        user = UserSerializer.create(UserSerializer, request.data)
+        return Response({f"{user}"})
