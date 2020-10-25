@@ -29,7 +29,7 @@ environ.Env.read_env()
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = False
 
 ALLOWED_HOSTS = ['deco3801-zoomie.uqcloud.net', '127.0.0.1', 'localhost',
                  '10.0.0.79']

@@ -34,9 +34,15 @@ def get_data(placeid):
     except PopulartimesException:
         return None
 
+    if instance['place_id'] is None:
+        instance['place_id'] = placeid
+
+    if instance['name'] is None:
+        instance['name'] = 'None'
+
     # Change items from None to 0.
     if instance['current_popularity'] is None:
-        instance['current_popularity'] = 0
+        instance['current_popularity'] = -1
 
     try:
         if instance['populartimes'] is None:
