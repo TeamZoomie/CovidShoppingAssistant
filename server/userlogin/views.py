@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import status
+
 from .serializers import UserSerializer
 
 
@@ -19,4 +21,4 @@ class UserCreate(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         user = UserSerializer.create(UserSerializer, request.data)
-        return Response({f"{user}"})
+        return Response({"username": user}, status=status.HTTP_201_CREATED)
