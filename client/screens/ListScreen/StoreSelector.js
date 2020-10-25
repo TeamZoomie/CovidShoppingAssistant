@@ -17,6 +17,7 @@ import * as Location from 'expo-location';
 import Heading from '../../components/Heading';
 import StoreList from '../../components/StoreList';
 import { getPlacesNearby } from '../../api/GooglePlacesAPI';
+import { getPlaceLiveBusyness } from '../../api/BackendServicesAPI';
 
 const styles = (theme) => ({
     root: {
@@ -43,11 +44,16 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back-outline' />
 );
 
+// hack
+let globalBusyness = {};
+let globalPopulartimes = {};
+
 const StoreSelectorScreen = ({ route, eva, navigation }) => {
 
     const styles = eva.style;
     const [searchText, setSearchText] = useState('');
     const [stores, setStores] = useState([]);
+    const [busyness, setBusyness] = useState({});
     const [location, setLocation] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -72,9 +78,13 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
     }, []);
 
     const confirmStore = (id) => {
+        // Issue where user selects store before populartimes request has finished. 
+        // This results in busyness data being undefined
         navigation.navigate('ShoppingIntro', {
             store: stores[id],
-            listId: route.params.listId
+            listId: route.params.listId,
+            populartimes: globalPopulartimes[stores[id].placeId],
+            currentBusyness: globalBusyness[stores[id].placeId],
         });
     };
 
@@ -82,10 +92,10 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         setLoading(true);
         const searchParams = { 
             keyword: searchText, 
-            type: 'supermarket', 
+            type: 'store', 
             rankby: 'distance',
             location: location.coords.latitude + ',' + location.coords.longitude, 
-            // radius: 20000 // 20km
+            // radius: 20 // 20km
         };
         getPlacesNearby(searchParams)
             .then(payload => {
@@ -93,14 +103,33 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 if (payload.status === 'REQUEST_DENIED') {
                     setError(true);
                 }
+
                 setStores(
-                    payload.results.map(store => ({
+                    payload.results.map((store, id) => ({
                         icon: store.icon,
                         placeId: store.place_id,
                         mainText: store.name,
-                        secondaryText: store.vicinity,
+                        secondaryText: store.vicinity
                     }))
                 );
+                
+                let initialCount = Object.keys(globalBusyness).length
+                const MAX_STORES = Math.min(20, payload.results.length);
+                for (let i = 0; i < MAX_STORES; i++) {
+                    const placeId = payload.results[i].place_id;
+                    if (!(placeId in globalBusyness)) {
+                        getPlaceLiveBusyness(placeId)
+                            .then(data => {
+                                globalBusyness[placeId] = data.current_popularity;
+                                globalPopulartimes[placeId] = data.populartimes;
+
+                                if (Object.keys(globalBusyness).length == MAX_STORES + initialCount - 1) {
+                                    setBusyness(globalBusyness)
+                                }
+                            })
+                            .catch(error => console.log(placeId, error));
+                    }
+                }
             })
             .catch(error => setError(true));
     };
@@ -165,7 +194,11 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                     ) : (
                         <Fragment>
                             <Heading category="c2">Results</Heading>
-                            <StoreList stores={stores} onPress={id => confirmStore(id)} />
+                            <StoreList 
+                                stores={stores} 
+                                onPress={id => confirmStore(id)} 
+                                busynessData={busyness}
+                            />
                         </Fragment>
                     )}
                 </View>

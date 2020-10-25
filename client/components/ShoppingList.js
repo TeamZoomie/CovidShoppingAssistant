@@ -91,8 +91,7 @@ export default function ShoppingList(props) {
         return categories[categoryMap[props.category]].icon({ 
             width: 18,
             height: 18, 
-            alignSelf: 'center', 
-            resizeMode: 'contain'
+            alignSelf: 'center'
         });
     }
 

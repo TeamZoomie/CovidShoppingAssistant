@@ -23,7 +23,15 @@ export function getCovidStats(country='Australia') {
         .then(response => response.json());
 }
 
-export function getPlaceLiveBusyness(placeID = '') {
-    return fetch(`${BACKEND_URL}/livetimes/$placeID}/`)
+export function getPlaceLiveBusyness(placeID) {
+    return fetch(`${BACKEND_URL}/livetimes/${placeID}/`)
         .then(response => response.json());
 }
+
+// export function getPlaceLiveBusynessMultiple(placeIDs) {
+//     for (let placeID of placeIDs) {
+//         await getPlaceLiveBusyness(placeID).then
+//     }
+//     return fetch(`${BACKEND_URL}/livetimes/${placeID}/`)
+//         .then(response => response.json());
+// }

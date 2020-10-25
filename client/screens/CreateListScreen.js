@@ -64,7 +64,10 @@ const CreateListScreen = ({ eva, navigation }) => {
     const createList = () => {
         listsContext.addList({ name, dueDate, active: true, icon: iconName }, listId => {
             navigation.pop();
-            navigation.navigate("List", { listId });
+            navigation.navigate("List", {
+                screen: "Main",
+                params: { listId }
+            });
         });
     }
 

@@ -222,7 +222,7 @@ const MapScreen = ({ eva, navigation, route }) => {
         <View style={styles.root}>
             <Layout style={styles.content}>
                 <View style={{ height: '100%' }}>
-                    <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>Coles</Heading>
+                    <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>{route.params.store.mainText}</Heading>
                     <Map 
                         store={store}
                         height={height} 
