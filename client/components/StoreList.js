@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { ScrollView, View, TouchableHighlight, Image } from 'react-native';
-import { Text, Icon, withStyles, useTheme } from '@ui-kitten/components';
+import { Text, Icon, Spinner, withStyles, useTheme } from '@ui-kitten/components';
+import { getBusynessText } from '../helpers';
 
 const styles = (theme) => ({
     container: {
@@ -44,24 +45,6 @@ const StoreList = ({ stores, eva, onPress, busynessData }) => {
     const styles = eva.style;
     const theme = useTheme();
 
-    function getBusynessText(placeId) {
-        const busyness = busynessData[placeId];
-        if (busyness == 0) {
-            return 'Empty or very quiet'
-        } else if (0 < busyness && busyness < 20) {
-            return 'Quiet';
-        } else if (20 <= busyness && busyness < 40) {
-            return 'Reasonably quiet';
-        } else if (40 <= busyness && busyness < 60) {
-            return 'Somewhat busy';
-        } else if (60 <= busyness && busyness < 80) {
-            return 'Busy';
-        } else if (80 <= busyness && busyness) {
-            return 'Very busy';
-        }
-        return 'No crowd data'
-    }
-
     function getBusynessColour(placeId) {
         if (!(placeId in busynessData) || busynessData[placeId] === -1) {
             return 'white';
@@ -90,10 +73,19 @@ const StoreList = ({ stores, eva, onPress, busynessData }) => {
                             </View>
                             <Text status='control' category="c1">{store.secondaryText}</Text>
                             <View style={styles.busynessContent}>
-                                <Icon name="people-outline" width={18} height={18} fill={getBusynessColour(store.placeId)}/>
-                                <Text status='control' style={[styles.busynessText, { color: getBusynessColour(store.placeId) }]}>
-                                    {getBusynessText(store.placeId)}
-                                </Text>
+                                {store.placeId in busynessData ? (
+                                    <Fragment>
+                                        <Icon name="people-outline" width={18} height={18} fill={getBusynessColour(store.placeId)}/>
+                                        <Text status='control' style={[styles.busynessText, { color: getBusynessColour(store.placeId) }]}>
+                                            {getBusynessText(busynessData[store.placeId])}
+                                        </Text>
+                                    </Fragment>
+                                ) : (
+                                    <Fragment>
+                                        <Spinner status='control'/>
+                                        {/* <Text status='control' style={{ paddingLeft: 8}}>Loading crowd data</Text> */}
+                                    </Fragment>
+                                )}
                             </View>
                         </View>
                     </View>

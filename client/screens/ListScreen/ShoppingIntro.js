@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, View, Image, Dimensions } from 'react-native';
 import { 
     Button,
+    Text,
     withStyles,
 } from '@ui-kitten/components';
 import {
@@ -9,6 +10,10 @@ import {
   } from 'react-native-slide-charts'
 import * as Haptics from 'expo-haptics'
 import Heading from '../../components/Heading';
+import { 
+    getBusynessText,
+    getCurrentBusynessFromTimezone 
+} from '../../helpers';
 
 const { height } = Dimensions.get('window')
 
@@ -52,27 +57,11 @@ const styles = (theme) => ({
         paddingBottom: 0
     },
     subHeading: {
+        textAlign: 'center',
         paddingLeft: 32,
         paddingRight: 32,
     }
 });
-
-const greenData = [
-    {x: 'A', y: 10},
-    {x: 'B', y: 5},
-    {x: 'C', y: 15}
-];
-  
-const blueData = [
-    {x: 'A', y: 12},
-    {x: 'B', y: 2},
-    {x: 'C', y: 11}
-];
-  
-const labelData = greenData.map((d, idx) => ({
-    x: d.x,
-    y: Math.max(greenData[idx].y, blueData[idx].y)
-}));
 
 const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
@@ -101,20 +90,32 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
             listId: route.params.listId 
         });
     };
-    // const data = [
-    //     { x: 0, y: 0 },
-    //     { x: 1, y: 1 },
-    //     { x: 2, y: 2 },
-    //     { x: 3, y: 3 },
-    //     { x: 4, y: 4 },
-    // ];
-    const hasData = route.params.populartimes !== undefined || 
-                    route.params.populartimes.length !== 7;
-    const day = (((new Date()).getDay() - 1) % 7 + 7) % 7
-    const data = route.params.populartimes[day].data.map((busyness, id) => ({
-        x: id,
-        y: busyness
-    })).slice(6, 22);
+
+    const convertTo12HourTime = (time) => {
+        let hour = time;
+        if (time !== 12) {
+            hour %= 12;
+        }
+        if (hour === 0) {
+            hour = 12;
+        }
+        return hour.toString() + (hour < 12 ? 'AM' : 'PM')
+    }
+
+    const hasData = route.params.populartimes !== undefined && 
+                    route.params.populartimes.length === 7;
+
+    let busyness = -1;
+    let data = [];
+    if (hasData) {
+        busyness = getCurrentBusynessFromTimezone(route.params.populartimes);
+
+        const day = (((new Date()).getDay() - 1) % 7 + 7) % 7
+        data = route.params.populartimes[day].data.map((busyness, id) => ({
+            x: id,
+            y: busyness
+        }));
+    }
 
     return (
         <View style={styles.root}>
@@ -132,16 +133,21 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     <Image source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h5">Remember to social distance</Heading>
-                        {/* <Heading style={styles.subHeading} category="p1">
-                            You will be reminded every 5 minutes!
-                        </Heading> */}
-                        {/* Make this look better / think about display */}
-                        <Heading style={styles.subHeading} category="p1">
-                            There has been 8 cases in that area.
-                        </Heading>
+                        {hasData ? (
+                            <Heading style={styles.subHeading} category="p1">
+                                This store is currently 
+                                <Text style={{ fontWeight: '700' }}> {getBusynessText(busyness)}</Text>
+                            </Heading>
+                        ) : (
+                            <Heading style={styles.subHeading} category="p1">
+                                We currently do not have any data for that store. 
+                                Please keep social distancing in mind.
+                            </Heading>
+                        )}
+                        
 
                         {/* <Heading style={styles.heading} category="h5">Crowdedness</Heading> */}
-                        {hasData && (
+                        {hasData ? (
                             <SlideBarChart
                                 selectionChangedCallback={() => Haptics.selectionAsync()}
                                 height={150}
@@ -150,7 +156,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                                 axisHeight={32}
                                 barSelectedIndex={5}
                                 xAxisProps={{
-                                    axisMarkerLabels: data.map(item => (item.x !== 12 ? item.x % 12 : 12).toString() + (item.x < 12 ? 'AM' : 'PM')),
+                                    axisMarkerLabels: data.map(item => convertTo12HourTime(item.x)),
                                     markerSpacing: 2
                                 }}
                                 toolTipProps={{
@@ -159,13 +165,15 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                                         ({ selectedBarNumber }) => ({
                                             text: data[selectedBarNumber].y.toString(),
                                         }),
-                                        () => ({ 
-                                            text: 'Crowdedness' 
-                                        }),
+                                        () => ({ text: 'Crowdedness' }),
                                     ],
                                 }}
                                 data={data}
                             />
+                        ) : (
+                            <Heading style={{ padding: 32 }} category='h5'>
+                                No crowdedness data
+                            </Heading>
                         )}
                         
                     </View>

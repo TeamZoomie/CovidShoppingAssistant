@@ -1,7 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 import { 
-    Card,
     Input,
     Icon,
     Layout,
@@ -14,10 +13,12 @@ import {
     Spinner
 } from '@ui-kitten/components';
 import * as Location from 'expo-location';
+import debounce from "lodash.debounce";
 import Heading from '../../components/Heading';
 import StoreList from '../../components/StoreList';
 import { getPlacesNearby } from '../../api/GooglePlacesAPI';
 import { getPlaceLiveBusyness } from '../../api/BackendServicesAPI';
+import { getCurrentBusynessFromTimezone } from '../../helpers';
 
 const styles = (theme) => ({
     root: {
@@ -68,7 +69,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
             
                 let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
                 setLocation(location);
-                getStores(location);
+                getStores(searchText, location);
 
             } catch (error) {
                 setLoading(false);
@@ -88,10 +89,10 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         });
     };
 
-    const getStores = (location) => {
+    const getStores = (text, location) => {
         setLoading(true);
         const searchParams = { 
-            keyword: searchText, 
+            keyword: text, 
             type: 'store', 
             rankby: 'distance',
             location: location.coords.latitude + ',' + location.coords.longitude, 
@@ -105,7 +106,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 }
 
                 setStores(
-                    payload.results.map((store, id) => ({
+                    payload.results.map(store => ({
                         icon: store.icon,
                         placeId: store.place_id,
                         mainText: store.name,
@@ -113,18 +114,18 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                     }))
                 );
                 
-                let initialCount = Object.keys(globalBusyness).length
-                const MAX_STORES = Math.min(20, payload.results.length);
+                const MAX_STORES = Math.min(10, payload.results.length);
                 for (let i = 0; i < MAX_STORES; i++) {
                     const placeId = payload.results[i].place_id;
                     if (!(placeId in globalBusyness)) {
                         getPlaceLiveBusyness(placeId)
                             .then(data => {
-                                globalBusyness[placeId] = data.current_popularity;
+                                // globalBusyness[placeId] = data.current_popularity; --> This seems wrong
+                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(data.populartimes);
                                 globalPopulartimes[placeId] = data.populartimes;
-
-                                if (Object.keys(globalBusyness).length == MAX_STORES + initialCount - 1) {
-                                    setBusyness(globalBusyness)
+                                
+                                if (!(placeId in busyness)) {
+                                    setBusyness(Object.assign({}, globalBusyness))
                                 }
                             })
                             .catch(error => console.log(placeId, error));
@@ -133,12 +134,16 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
             })
             .catch(error => setError(true));
     };
+    
+    const debouncedTextChange = useRef(debounce((nextValue, location) => {
+        if (nextValue !== '') {
+            getStores(nextValue, location);
+        }
+    }, 1000)).current;
 
     // Need to setup debounce.
     const onSearchTextChange = (value) => {
-        if (value !== '' && value.length > 3) {
-            getStores(location)
-        }
+        debouncedTextChange(value, location);
         setSearchText(value);
     };
 
