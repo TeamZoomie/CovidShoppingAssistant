@@ -28,6 +28,7 @@ updatedTime = datetime.now(timezone.utc)
 
 
 def get_data(placeid):
+    print(placeid)
     # Gets the live data from the API given a PlaceID.
     try:
         instance = get_populartimes_by_PlaceID(API_KEY, placeid)
@@ -51,7 +52,7 @@ def get_data(placeid):
         instance['populartimes'] = [{'name': 'No_Data', 'data': [0, ]}]
 
     livetime = LiveTime.objects.create(
-        place_id=instance['place_id'],
+        place_id=placeid,
         name=instance['name'],
         populartimes=instance['populartimes'],
         current_popularity=instance['current_popularity']
