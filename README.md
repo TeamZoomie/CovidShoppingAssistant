@@ -1,5 +1,22 @@
-# Covid Shopping Assistant
-Team Zoomie has chosen *The Social Distancing Social Club*’s proposal to take through to build. The proposal explores and attempts to provide a solution to  the shopping experience during an ongoing pandemic. The provided solution is a mobile application that aims to assist shoppers in maintaining social distancing rules and regulations, whilst also improving time-efficiency when grocery shopping. This will be achieved by helping shoppers pre-plan their trip to the grocery store. The key features include: (1) social distancing reminders, (2) reminders to use COVIDSafe, and (3) create and modify shopping lists.
+<div align="center">
+<img src="./client/assets/logo.png" 
+height="256" width="256" >
+</div>
+
+<h2 align="center">An Application to Help You Shop Safely</h2>
+
+&nbsp;
+
+# What is Shop Safe?
+Shop Safe is a mobile application designed to fill your shopping list needs while helping reduce your exposure to certain diseases. This application offers a convenient shopping list tracker, as well as the ability to route your trip around your chosen supermarket based on what items you have on your list, as well as certain details about your store to help guide decisions you make in your shopping experience. There is also a live news feed available to get satisitcs specific to the current [COVID-19 pandemic](https://en.wikipedia.org/wiki/Coronavirus_disease_2019) as well as various news articles about the pandemic based on your chosen country.
+
+GIF HERE
+
+This is a program written in React Native, designed for Android and IOS devices. Some features will not work if permissions aren't granted to the application, or if that sensor is missing in your device.
+
+This program is a part of the University of Queensland's course, [Design Computing Studio 3 - Build (DECO3801)](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3801), completed by Team Zoomie. This was based off of a proposal written by *The Social Distancing Social Club* as a part of [DECO3800](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3800).
+
+
 
 ## Team Zoomie
 Name | Experience
@@ -10,6 +27,8 @@ Calum Henman | Cyber Security major with programming experience
 Theo Duval | Primarily programming skills, as well as maths and logic
 Adrian Cryer | Primarily programming skills, as well as maths and logic
 Andy Jie Peng | Programming skills and database experience
+
+&nbsp;
 
 ## Client Quickstart
 
@@ -31,6 +50,8 @@ If you get permission denied, you will have to add an ssh key to your account (M
 6. Start the client: `expo start`
 7. Open Expo App on your phone and scan QR code (In terminal / new window that was created)
 8. Profit??
+
+&nbsp;
 
 ## Server Quickstart
 ### How to connect to the server  
