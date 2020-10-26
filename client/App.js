@@ -7,6 +7,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation';
 import { SettingsContext } from './settings-context';
 import { ListsContext } from './lists-context';
+import { createUser, getAPIToken } from './api/BackendServicesAPI';
 import data from './data';
 
 
@@ -18,11 +19,16 @@ export default class App extends React.PureComponent {
 			theme: 'light',
 			lists: Object.assign({}, data.lists),
 			activeList: 0,
+			
+			password: 'Zoomie',
 			username: 'Zoomie',
+			serverIdentifier: '',
+			serverToken: '',
 			// Do this for now, but eventually generate serverside
 			nextId: Object.values(data.lists).length + 1,
 			test: 'test'
 		}
+		this.getToken();
 	}
 
 	// Do () => when you want it binded to the class.
@@ -97,6 +103,26 @@ export default class App extends React.PureComponent {
 		this.setState({ lists: listsWithout });
 	};
 
+	getToken = () => {
+		createUser(this.state.username, this.state.password)
+			.then(data => {
+				//console.log(data.username)
+				const username = data.username
+				this.setState({ serverIdentifier: username })
+
+				getAPIToken(username, this.state.password)
+					.then(payload => {
+						this.setState({ serverToken: payload.token})
+						console.log(payload)
+				});
+			});
+			
+		
+		//console.log(this.state.username)
+		
+				
+	}
+
 	render() {
 		const listContextValues = {
 			activeList: this.state.lists[this.state.activeList],
@@ -107,11 +133,14 @@ export default class App extends React.PureComponent {
 			updateListItem: this.updateListItem,
 			lists: this.state.lists,
 			setListActive: this.setListActive,
+			getToken: this.getToken,
 		};
 		const settingsContextValues = {
 			theme: this.state.theme, 
 			toggleTheme: this.toggleTheme, 
-			username: this.state.username
+			username: this.state.username,
+			serverIdentifier: this.state.serverIdentifier,
+			serverToken: this.state.serverToken
 		};
 		return (
 			<Fragment>

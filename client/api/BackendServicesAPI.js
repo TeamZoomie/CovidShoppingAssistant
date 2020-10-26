@@ -28,6 +28,26 @@ export function getPlaceLiveBusyness(placeID) {
         .then(response => response.json());
 }
 
+export function createUser(username='', password='') {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({'username': username, 'password': password})
+    };
+    return fetch(`${BACKEND_URL}/usercreate/`, requestOptions)
+        .then(response => response.json());
+}
+
+export function getAPIToken(username='', password='') {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({'username': username, 'password': password})
+    };
+    return fetch(`${BACKEND_URL}/api-token-auth/`, requestOptions)
+        .then(response => response.json())
+}
+
 // export function getPlaceLiveBusynessMultiple(placeIDs) {
 //     for (let placeID of placeIDs) {
 //         await getPlaceLiveBusyness(placeID).then

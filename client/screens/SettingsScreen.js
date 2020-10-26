@@ -58,6 +58,10 @@ const SettingsScreen = ({ eva, navigation }) => {
 
     // Username
     const [username, setUsername] = React.useState(settingsContext.username);
+
+    //Client API token
+    const [apiToken, setAPIToken] = React.useState(settingsContext.serverToken);
+
     return (
         <View style={styles.root}>
             <Layout style={styles.content}>
@@ -77,6 +81,9 @@ const SettingsScreen = ({ eva, navigation }) => {
                     value={username}
                     onChangeText={nextValue => setUsername(nextValue)}
                 />
+                <Divider/>
+                <Text category='h6'> API Token:</Text>
+                <Text caegory='p'>{apiToken}</Text>
             </Layout>
         </View>
     );
