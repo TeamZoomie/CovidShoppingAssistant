@@ -31,10 +31,14 @@ const BackIcon = (props) => (
 const Page = (props) => {
     const styles = props.eva.style;
     const showHeader = props.showHeader ?? true;
-    const header = props.header || '';
+    const Header = props.header || '';
+    let backAction = props.backAction || (() => props.navigation.goBack());
 
     const BackAction = () => (
-        <TopNavigationAction icon={BackIcon} onPress={() => props.navigation.goBack()}/>
+        <TopNavigationAction 
+            icon={BackIcon} 
+            onPress={backAction}
+        />
     );
     const AccessoryLeft = props.AccessoryLeft || BackAction;
     const navProps = props.AccessoryRight ? { accessoryRight: props.AccessoryRight } : {};
@@ -45,11 +49,11 @@ const Page = (props) => {
                 <Fragment>
                     <TopNavigation 
                         title={() => (
-                            (typeof header === 'string' || header instanceof String) ? (
+                            (typeof Header === 'string' || Header instanceof String) ? (
                                 <Heading category="p1" style={{ fontWeight: 'bold' }}>
-                                    {header}
+                                    {Header}
                                 </Heading>
-                            ) : header
+                            ) : <Header/>
                         )}
                         alignment='center' 
                         accessoryLeft={AccessoryLeft}

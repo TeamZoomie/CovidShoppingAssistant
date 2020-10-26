@@ -1,42 +1,25 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { View, Dimensions } from 'react-native';
 import {
     CheckBox,
     Icon, 
     Text,
-    Layout, 
     withStyles,
     Divider,
     useTheme
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Heading from '../../components/Heading';
+import Page from '../../components/Page';
 import Map from '../../components/Map';
 import Collapsible from '../../components/RNGHCollapsible';
 import BottomSheetTouchable from '../../components/BottomSheetTouchable';
 import { ListsContext } from '../../lists-context';
 import stores from '../../store-maps/stores';
+import { generatePath, buildGrid, groupListData } from '../../helpers';
 
 const { height } = Dimensions.get('window')
 const styles = (theme) => ({
-    root: {
-        flex: 1,
-        backgroundColor: theme['background-basic-color-2'],
-    },
-    content: {
-        height: '100%',
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    text: {
-        fontWeight: "700",
-        textAlign: 'left',
-        marginHorizontal: 8
-    },
-    container: {
-        flex: 1,
-    },
     contentContainerStyle: {
         padding: 16,
         backgroundColor: theme['background-basic-color-1'],
@@ -177,17 +160,61 @@ const MapScreen = ({ eva, navigation, route }) => {
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
-    const listGroups = {};
-    for (let [id, item] of Object.entries(list.items)) {
-        if (!(item.category in listGroups)) {
-            listGroups[item.category] = {
-                id: Object.keys(listGroups).length,
-                header: item.category,
-                category: item.category,
-                subItems: [],
-            }
-        } 
-        listGroups[item.category].subItems.push({ ...item, id });
+
+    const [path, setPath] = useState([]);
+    const [tooltips, setTooltips] = useState([]);
+    
+    const listGroups = groupListData(list);
+    const [listData, setListData] = useState(Object.values(listGroups));
+    const [updateMap, setUpdateMap] = useState(true);
+    const [updateList, setUpdateList] = useState(false);
+
+    const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
+    const [taskOrder, setTaskOrder] = useState([])
+
+    const SCALE_FACTOR = 15;
+    
+    useEffect(() => {
+        if (updateMap) {
+            console.log("updating map")
+            const mapWidth = 62;
+            const mapHeight = 26;
+    
+            let grid = buildGrid(store, mapWidth, mapHeight);
+            const [newPath, newTooltips, order] = generatePath(store, grid, avaiableMapTasks, SCALE_FACTOR);
+            setTaskOrder(order);
+            
+            updateListData(listGroups, order);
+            
+            setPath(newPath);
+            setTooltips(newTooltips);
+            setUpdateMap(false);
+
+        } else if (updateList) {
+            console.log('updating list')
+            updateListData(listGroups, taskOrder);
+        }
+
+    }, [updateMap, listGroups])
+
+    const updateListData = (listGroups, order) => {
+
+        const data = Object.values(listGroups);
+        if (JSON.stringify(order) != JSON.stringify(taskOrder)) {
+            const taskCategoryOrder = order.map(index => avaiableMapTasks[index]);
+            const taskCount = avaiableMapTasks.length;
+    
+            data.sort((a, b) => {
+                let wA = taskCount - taskCategoryOrder.indexOf(a.category);
+                let wB = taskCount - taskCategoryOrder.indexOf(b.category);
+    
+                let ax = avaiableMapTasks.includes(a.category) ? wA : 0;
+                let bx = avaiableMapTasks.includes(b.category) ? wB : 0;
+                return bx - ax;
+            });
+        }
+        setUpdateList(false);
+        setListData(data);
     }
     
     const updateSection = (sectionName, itemIndex, checked) => {
@@ -196,6 +223,7 @@ const MapScreen = ({ eva, navigation, route }) => {
         if (item.checked !== checked) {
             item.checked = checked;
         }
+        setUpdateList(true);
         listsContext.updateListItem(listId, index, item);
     };
 
@@ -208,64 +236,68 @@ const MapScreen = ({ eva, navigation, route }) => {
         return true;
     }
 
-    const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
-
-    // Make this actually work in order....
-    const listData = Object.values(listGroups);
-    listData.sort((a, b) => {
-        let ax = avaiableMapTasks.includes(a.category) ? 1 : 0;
-        let bx = avaiableMapTasks.includes(b.category) ? 1 : 0;
-        return bx - ax;
-    });
-
     return (
-        <View style={styles.root}>
-            <Layout style={styles.content}>
-                <View style={{ height: '100%' }}>
-                    <Heading category="h2" style={{ fontWeight: "700", padding: 16 }}>{route.params.store.mainText}</Heading>
-                    <Map 
-                        store={store}
-                        height={height} 
-                        theme={lightMapTheme}
-                        tasks={avaiableMapTasks}
-                    />
-                    <ScrollBottomSheet
-                        componentType="FlatList"
-                        snapPoints={[128, '50%', '70%']}
-                        initialSnapIndex={2}
-                        renderHandle={() => (
-                            <ThemedHandle 
-                                itemCount={list.items.length}  
-                                stopCount={listData.length}
-                            />
-                        )}
-                        data={listData}
-                        keyExtractor={item => String(item.id)}
-                        renderItem={({ item }) => (
-                            <Collapsible 
-                                header={`${item.id + 1}. ` + item.header} 
-                                subItems={item.subItems} 
-                                headerAccessoryLeft={() => (
-                                    <ListItemAccessoryLeft
-                                        unknown={!avaiableMapTasks.includes(item.category)}
-                                        completed={allChecked(item.subItems)}
-                                    />
-                                )}
-                                renderItem={(subItem, index) => (
-                                    <ListItem 
-                                        key={index}
-                                        checked={subItem.checked}
-                                        text={subItem.name}
-                                        onPress={nextChecked => updateSection(item.category, index, nextChecked)}
-                                    />
-                                )}
-                            />
-                        )}
-                        contentContainerStyle={styles.contentContainerStyle}
-                    />
-                </View>
-            </Layout>
-        </View>
+        <Page 
+            showDivider={false}
+            navigation={navigation}
+            pageStyles={{ padding: 0 }}
+            header={() => (
+                <Heading category="h5" style={{ fontWeight: "700", padding: 16 }}>
+                    {route.params.store.mainText}
+                </Heading>
+            )}
+            backAction={() => {
+                navigation.navigate('Main', {
+                    listId: route.params.listId
+                })
+            }}
+        >
+            <View style={{ height: '100%' }}>
+                    
+                <Map 
+                    store={store}
+                    height={height} 
+                    theme={lightMapTheme}
+                    path={path}
+                    tooltips={tooltips}
+                    scaleFactor={SCALE_FACTOR}
+                />
+                <ScrollBottomSheet
+                    componentType="FlatList"
+                    snapPoints={[128, '50%', '70%']}
+                    initialSnapIndex={2}
+                    renderHandle={() => (
+                        <ThemedHandle 
+                            itemCount={list.items.length}  
+                            stopCount={listData.length}
+                        />
+                    )}
+                    data={listData}
+                    keyExtractor={item => String(item.id)}
+                    renderItem={({ item }) => (
+                        <Collapsible 
+                            header={`${listData.indexOf(item) + 1}. ` + item.header} 
+                            subItems={item.subItems} 
+                            headerAccessoryLeft={() => (
+                                <ListItemAccessoryLeft
+                                    unknown={!avaiableMapTasks.includes(item.category)}
+                                    completed={allChecked(item.subItems)}
+                                />
+                            )}
+                            renderItem={(subItem, index) => (
+                                <ListItem 
+                                    key={index}
+                                    checked={subItem.checked}
+                                    text={subItem.name}
+                                    onPress={nextChecked => updateSection(item.category, index, nextChecked)}
+                                />
+                            )}
+                        />
+                    )}
+                    contentContainerStyle={styles.contentContainerStyle}
+                />
+            </View>
+        </Page>
     )
 };
 

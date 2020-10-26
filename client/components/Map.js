@@ -13,38 +13,9 @@ import Svg, {
   } from 'react-native-svg';
 import ZoomableSvg from 'zoomable-svg';
 import polylabel from 'polylabel';
-import classifyPoint from 'robust-point-in-polygon';
-import { Permutation } from 'js-combinatorics';
-import PF from 'pathfinding';
 
 
-const { width, height } = Dimensions.get('window');
-const styles = StyleSheet.create({
-    root: {
-        paddingBottom: 8
-    },
-    container: {
-        backgroundColor: '#ecf0f1',
-    },
-});
-
-// const theme = {
-//     background: '#E6E6E6',
-//     base: '#fff',
-//     shelves: '#DDDDDD',
-//     registers: '#ADADAD',
-//     categories: {
-//         fruitVeg: '#A1FFBC',
-//         naturalWholeFoods: '#68A379',
-//         kitchenAccessories: '#5C5C5C',
-//         canned: '#5C5C5C',
-//         gardenAccessories: '#C9F3BF'
-//     },
-//     path: '#3b8ada',
-//     tooltipBorder: '#656565'
-// };
-
-
+const { width } = Dimensions.get('window');
 const SCALE_FACTOR = 15;
 
 function rescale(geo) {
@@ -52,7 +23,7 @@ function rescale(geo) {
 }
 
 function Tooltip(props) {
-    const { text, geo, width, height, position, theme } = props;
+    const { text, width, height, position, theme } = props;
     const [x, y] = position;
     const pointerWidth = props.pointerWidth || 20;
     const pointerHeight = props.pointerHeight || 7;
@@ -61,7 +32,7 @@ function Tooltip(props) {
         [x, y], 
         [x + pointerWidth / 2, y - pointerHeight]
     ];
-    const fontSize = 25;
+    const fontSize = props.fontSize || 25;
 
     return (
         <G font-size={fontSize}>
@@ -154,7 +125,6 @@ class MapSVG extends Component {
                     ))}
                     {Object.entries(store.categories).map(([k, v]) => (
                         v.map((entry, id) => {
-                            const selected = this.state.selected && this.state.selected.id === id && this.state.selected.type === k;
                             const points = entry.geo.map(p => p.map(a => a * SCALE_FACTOR));
                             return (
                                 <Polygon
@@ -202,7 +172,7 @@ class MapSVG extends Component {
                             width={25}
                             height={25}
                             pointerWidth={10}
-                            text={i + 1} 
+                            text={tooltip.order + 1} 
                             position={tooltip.position}
                         />
                     ))}
@@ -231,167 +201,9 @@ class MapSVG extends Component {
 }
   
 export default class Map extends Component {
-    state = {
-        type: 1,
-        constrain: true,
-        constraints: {
-            // combine: 'dynamic',
-            // scaleExtent: [width / height, 5],
-            // translateExtent: [[0, 0], [100, 100]],
-        },
-        walkablePoints: [],
-        entryPoints: [],
-        path: [],
-        width: 62,
-        height: 26,
-    };
-
-    componentDidMount() {
-        let grid = this.buildGrid();
-        this.generatePath(grid, this.props.tasks);
-    }
-
-    isWalkable(point, includeBorder=false) {
-        if (classifyPoint(this.props.store.background, point) >= 0) {
-            return false;
-        }
-        for (let geoType of ['shelves', 'registers', 'selfServe']) {
-            for (const entry of this.props.store[geoType]) {
-                const geo = entry.geo || entry;
-                const result = classifyPoint(geo, point);
-                if (!includeBorder) {
-                    if (result == 0) {
-                        return false;
-                    }
-                }
-                if (result < 0) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    buildGrid() {
-        let grid = Array(this.state.height).fill().map(() => Array(this.state.width).fill(1));
-        for (let i = 0; i < this.state.width; i++) {
-            for (let j = 0; j < this.state.height; j++) {
-                if (this.isWalkable([i, j])) {
-                    grid[j][i] = 0;
-                }
-            }
-        }
-        return grid;
-    }
-
-    generatePath(grid_data, tasks) {
-        let geoCentres = []
-        for (let task of tasks) {
-            const geo = this.props.store.categories[task][0].geo;
-            geoCentres.push(polylabel([geo], 1.0));
-        }
-
-        // Work out entry points for each task
-        const ITERATIONS = 5;
-
-        let entryPoints = [];        
-        for (let t = 0; t < tasks.length; t++) {
-
-            let found = false;
-            const centre = geoCentres[t];
-            let i = 0;
-            while (i < ITERATIONS) {
-                for (let dir of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
-                    const [x, y] = centre.map(e => Math.round(e) + i * dir[i]);
-                    if (this.isWalkable([x, y], true)) {
-                        entryPoints.push([x, y]);
-                        found = true;
-                        grid_data[y][x] = 0;
-                        break;
-                    }
-                }
-
-                if (found) break;
-                i++;
-            }
-
-            if (!found) {
-                tasks.splice(t, 1);
-                geoCentres.splice(t, 1);
-                t--;
-            }
-        }
-
-        // Compute paths
-        const finder = new PF.AStarFinder({ weight: 4 });
-        let grid = new PF.Grid(grid_data)
-
-        let paths = Array(tasks.length).fill().map(() => Array(tasks.length).fill([]));
-        let dist = Array(tasks.length).fill().map(() => Array(tasks.length).fill(-1));
-
-        for (let i = 0; i < tasks.length; i++) {
-            for (let j = 0; j < tasks.length; j++) {
-                if (j !== i) {
-                    // Compute shortest path
-                    let [x1, y1] = entryPoints[i];
-                    let [x2, y2] = entryPoints[j];
-                    let path = finder.findPath(x1, y1, x2, y2, grid.clone());
-
-                    paths[i][j] = path;
-                    dist[i][j] = path.length - 1;
-                }
-            }
-        }
-
-        // Just hardcode the first one for now
-        let [ex, ey] = this.props.store.entries[0];
-        let entrancePaths = Array(tasks.length).fill([]);
-        let entranceDist = Array(tasks.length).fill([]);
-
-        for (let i = 0; i < tasks.length; i++) {
-            let path = finder.findPath(ex, ey, entryPoints[i][0], entryPoints[i][1], grid.clone());
-            entrancePaths[i] = path;
-            entranceDist[i] = path.length - 1;
-        }
-
-        // Loop through combinations (easiest)
-        let min = Infinity;
-        let best = [...Array(tasks.length).keys()]
-        let permutations = new Permutation([...Array(tasks.length).keys()])
-
-        for (let p of [...permutations]) {
-            let pathCost = 0;
-            for (let [i, t] of p.entries()) {
-                if (i !== 0) {
-                    pathCost += dist[p[i - 1]][t]
-                }
-            }
-            pathCost += entranceDist[p[0]];
-            if (pathCost < min) {
-                min = pathCost;
-                best = p;
-            }
-        }
-        let path = [];
-        path.push(...PF.Util.compressPath(entrancePaths[best[0]]));
-        for (let i = 1; i < tasks.length; i++) {
-            let newPath = PF.Util.compressPath(paths[best[i - 1]][best[i]])
-            path.push(...newPath)
-        } 
-
-        let tooltips = [];
-        for (let i = 0; i < tasks.length; i++) {
-            tooltips.push({
-                category: tasks[i],
-                position: geoCentres[i].map(e => e * SCALE_FACTOR)
-            })
-        }
-        this.setState({ path, tooltips });
-    }
 
     render() {
-        const { constrain, constraints } = this.state;
-        const { theme } = this.props;
+        const { theme, scaleFactor } = this.props;
         return (
             <View 
                 style={{ backgroundColor: theme.background, height: this.props.height }} 
@@ -411,12 +223,11 @@ export default class Map extends Component {
                     childProps={{ 
                         store: this.props.store, 
                         theme,
-                        path: this.state.path,
-                        tooltips: this.state.tooltips,
+                        path: this.props.path,
+                        tooltips: this.props.tooltips,
                         debug: false,
-                        entrance: this.props.store.entries[0].map(e => e * SCALE_FACTOR)
+                        entrance: this.props.store.entries[0].map(e => e * scaleFactor)
                     }}
-                    constrain={constrain ? constraints : null}
                 />
             </View>
         );

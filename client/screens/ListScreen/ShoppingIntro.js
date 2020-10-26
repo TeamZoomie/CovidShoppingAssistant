@@ -109,7 +109,6 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
     let data = [];
     if (hasData) {
         busyness = getCurrentBusynessFromTimezone(route.params.populartimes);
-
         const day = (((new Date()).getDay() - 1) % 7 + 7) % 7
         data = route.params.populartimes[day].data.map((busyness, id) => ({
             x: id,
@@ -132,7 +131,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                 <View style={{ width, height }}>
                     <Image source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
-                        <Heading style={styles.heading} category="h5">Remember to social distance</Heading>
+                        <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         {hasData ? (
                             <Heading style={styles.subHeading} category="p1">
                                 This store is currently 
@@ -144,9 +143,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                                 Please keep social distancing in mind.
                             </Heading>
                         )}
-                        
 
-                        {/* <Heading style={styles.heading} category="h5">Crowdedness</Heading> */}
                         {hasData ? (
                             <SlideBarChart
                                 selectionChangedCallback={() => Haptics.selectionAsync()}
@@ -181,8 +178,10 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                 <View style={{ width, height }}>
                     <Image source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle} />
                     <View style={styles.wrapper}>
-                        <Heading style={styles.heading} category="h4">Scan barcodes!</Heading>
-                        <Heading style={styles.subheading} category="p1">You will be reminded every 5 minutes!</Heading>
+                        <Heading style={styles.heading} category="h4">Use the map!</Heading>
+                        <Heading style={styles.subheading} category="p1">
+                            Optimise your route through the store to avoid contact!
+                        </Heading>
                     </View>
                 </View>
             </ScrollView>
