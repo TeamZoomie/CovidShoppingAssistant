@@ -21,4 +21,4 @@ class UserCreate(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         user = UserSerializer.create(UserSerializer, request.data)
-        return Response({"username": user}, status=status.HTTP_201_CREATED)
+        return Response({"username": user.username}, status=status.HTTP_201_CREATED)
