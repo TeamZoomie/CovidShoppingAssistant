@@ -26,9 +26,12 @@ const styles = (theme) => ({
         backgroundColor: theme['background-basic-color-2'],
         justifyContent: 'space-between'
     },
+    chartBackground: {
+        backgroundColor: theme['background-basic-color-2']
+    },
     scrollView: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: theme['background-basic-color-2']
     },
     wrapper: {
         justifyContent: 'center',
@@ -40,7 +43,7 @@ const styles = (theme) => ({
     },
     paginationWrapper: {
         paddingBottom: 16,
-        backgroundColor: 'white',
+        backgroundColor: theme['background-basic-color-2'],
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -185,6 +188,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                                     ],
                                 }}
                                 data={data}
+                                style={styles.chartBackground}
                             />
                         ) : (
                             <Heading style={{ padding: 32 }} category='h5'>

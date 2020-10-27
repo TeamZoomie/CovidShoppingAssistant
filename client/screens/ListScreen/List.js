@@ -204,14 +204,18 @@ function ListScreen(props) {
                             value={addText}
                             onChangeText={nextValue => setAddText(nextValue)}
                             onSubmitEditing={() => {
-                                navigation.navigate('Categories');
+                                if (addText !== '') {
+                                    navigation.navigate('Categories');
+                                }
                             }}
                         />
                         <Button 
                             style={styles.addTextItem} 
                             // appearance='ghost' 
                             accessoryLeft={AddIcon}
-                            onPress={addListItem}
+                            onPress={() => {
+                                navigation.navigate('Categories');
+                            }}
                         />                           
                         <Button 
                             style={styles.addTextItem}
