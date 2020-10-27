@@ -17,7 +17,9 @@ import {
     SelectItem,
     withStyles
 } from '@ui-kitten/components';
+import { getCountry, getAllCountries, getAllTimezones } from 'countries-and-timezones';
 import { SettingsContext } from '../settings-context';
+import Heading from '../components/Heading';
 
 
 const styles = (theme) => ({
@@ -44,6 +46,19 @@ const SettingsScreen = ({ eva, navigation }) => {
 
     // For a list of items
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+
+    // For country index
+    const [countryIndex, setCountryIndex] = React.useState(new IndexPath(0));
+    const setCountry = (country, index) => {
+        setCountryIndex(index);
+        settingsContext.setCountry(country);
+    };
+
+    // For timezone index
+    const [timezoneIndex, setTimezoneIndex] = React.useState(new IndexPath(0));
+
+    const countries = Object.values(Object.values(getAllCountries()));
+    const timezones = Object.values(getAllTimezones());
     
     const data = [
         'Light Theme',
@@ -56,11 +71,19 @@ const SettingsScreen = ({ eva, navigation }) => {
         settingsContext.toggleTheme();
     };
 
+    const [usingCountryTime, setUsingCountryTime] = React.useState(true);
+
     // Username
     const [username, setUsername] = React.useState(settingsContext.username);
     return (
         <View style={styles.root}>
             <Layout style={styles.content}>
+                <Heading 
+                    category="h6" 
+                    style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}
+                >
+                            Settings
+                </Heading>
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>{'Theme'}</Text>}
@@ -71,6 +94,32 @@ const SettingsScreen = ({ eva, navigation }) => {
                     ))}
                 </Select>    
                 <Divider/>
+                <Select 
+                    selectedIndex={countryIndex}
+                    label={<Text category='h6'>Default Country</Text>}
+                    value={(countries)[countryIndex]["name"]}
+                    onSelect={index => setCountry(countries[index]["name"], index)}>
+                        {(countries).map((title, id) => (
+                            <SelectItem key={countries[id]["id"]} title={countries[id]["name"]}/>
+                        ))}
+                </Select>
+                <CheckBox
+                    checked={usingCountryTime}  
+                    onChange={nextChecked => setUsingCountryTime(nextChecked)}>
+                        Use your default country for your timezone?
+                </CheckBox>
+                {/*
+                <Select
+                    selectedIndex={timezoneIndex}
+                    label={<Text category='h6'>Your timezone</Text>}
+                    value={timezones[timezoneIndex]}
+                    disabled={!usingCountryTime}
+                    onSelect={index => setTimezoneIndex(index)}>
+                        {Object.values(timezones)[name].map((title, id) => (
+                            <SelectItem key={id} title={title}/>
+                        ))}
+                </Select>
+                        */}
                 <Text category='h6'>Username is {username}</Text>
                 <Input
                     placeholder={`${username}`}

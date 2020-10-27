@@ -19,6 +19,7 @@ import StoreList from '../../components/StoreList';
 import { getPlacesNearby } from '../../api/GooglePlacesAPI';
 import { getPlaceLiveBusyness } from '../../api/BackendServicesAPI';
 import { getCurrentBusynessFromTimezone } from '../../helpers';
+import { SettingsContext } from '../../settings-context';
 
 const styles = (theme) => ({
     root: {
@@ -121,7 +122,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                         getPlaceLiveBusyness(placeId)
                             .then(data => {
                                 // globalBusyness[placeId] = data.current_popularity; --> This seems wrong
-                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(data.populartimes);
+                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(SettingsContext.timezone);
                                 globalPopulartimes[placeId] = data.populartimes;
                                 
                                 if (!(placeId in busyness)) {

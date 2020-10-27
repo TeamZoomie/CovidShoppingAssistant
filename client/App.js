@@ -7,6 +7,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation';
 import { SettingsContext } from './settings-context';
 import { ListsContext } from './lists-context';
+import { getCountry, getTimezone } from 'countries-and-timezones';
 import data from './data';
 
 
@@ -19,6 +20,7 @@ export default class App extends React.PureComponent {
 			lists: Object.assign({}, data.lists),
 			activeList: 0,
 			username: 'Zoomie',
+			country: 'AU',
 			// Do this for now, but eventually generate serverside
 			nextId: Object.values(data.lists).length + 1,
 			test: 'test'
@@ -29,6 +31,15 @@ export default class App extends React.PureComponent {
 	toggleTheme = () => {
 		this.setState(prevState => ({ theme: prevState.theme === 'light' ? 'dark' : 'light' }));
 	}
+
+	setCountry = (country) => {
+		this.setState(({country: country}))
+	}
+
+	setTimezone = (country) => {
+		this.setState({timezone: getTimezone(country)})
+	}
+
 
 	addList = ({ name, duedate, active, icon, category }, cb) => {
 		this.setState(prevState => ({
@@ -111,7 +122,8 @@ export default class App extends React.PureComponent {
 		const settingsContextValues = {
 			theme: this.state.theme, 
 			toggleTheme: this.toggleTheme, 
-			username: this.state.username
+			username: this.state.username,
+			country: this.state.country
 		};
 		return (
 			<Fragment>
