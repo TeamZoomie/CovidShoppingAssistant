@@ -169,8 +169,6 @@ const MapScreen = ({ eva, navigation, route }) => {
     const [updateMap, setUpdateMap] = useState(true);
     const [updateList, setUpdateList] = useState(false);
 
-    // console.log('rendered map page')
-
     const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
     const [taskOrder, setTaskOrder] = useState([])
 
@@ -183,6 +181,9 @@ const MapScreen = ({ eva, navigation, route }) => {
     
             let grid = buildGrid(store, mapWidth, mapHeight);
             const [newPath, newTooltips, order] = generatePath(store, grid, avaiableMapTasks, SCALE_FACTOR);
+            
+            // let newOrder = [...order, ]
+
             setTaskOrder(order);
             
             updateListData(listGroups, order);
@@ -199,20 +200,20 @@ const MapScreen = ({ eva, navigation, route }) => {
 
     const updateListData = (listGroups, order) => {
 
+        // Not the best way to ensure the same order... but works
         const data = Object.values(listGroups);
-        if (JSON.stringify(order) != JSON.stringify(taskOrder)) {
-            const taskCategoryOrder = order.map(index => avaiableMapTasks[index]);
-            const taskCount = avaiableMapTasks.length;
-    
-            data.sort((a, b) => {
-                let wA = taskCount - taskCategoryOrder.indexOf(a.category);
-                let wB = taskCount - taskCategoryOrder.indexOf(b.category);
-    
-                let ax = avaiableMapTasks.includes(a.category) ? wA : 0;
-                let bx = avaiableMapTasks.includes(b.category) ? wB : 0;
-                return bx - ax;
-            });
-        }
+        const taskCategoryOrder = order.map(index => avaiableMapTasks[index]);
+        const taskCount = avaiableMapTasks.length;
+
+        data.sort((a, b) => {
+            let wA = taskCategoryOrder.indexOf(a.category);
+            let wB = taskCategoryOrder.indexOf(b.category);
+
+            let ax = avaiableMapTasks.includes(a.category) ? wA : taskCount;
+            let bx = avaiableMapTasks.includes(b.category) ? wB : taskCount;
+            return ax - bx;
+        });
+
         setUpdateList(false);
         setListData(data);
     }

@@ -142,6 +142,7 @@ class MapSVG extends Component {
                             stroke={theme.path}
                             strokeWidth={7}
                             strokeDasharray='25, 2'
+                            pointerEvents={'none'}
                         />
                     )}
                     <Rect

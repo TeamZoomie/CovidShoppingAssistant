@@ -254,5 +254,5 @@ function ListScreen(props) {
 };
 
 export default React.memo(withStyles(ListScreen, styles), (props, nextProps) => {
-    return !props.navigation.isFocused();
+    return !(props.navigation.isFocused() || nextProps.navigation.isFocused());
 });

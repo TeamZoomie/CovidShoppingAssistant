@@ -55,10 +55,13 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
     const styles = eva.style;
     const [searchText, setSearchText] = useState('');
     const [stores, setStores] = useState([]);
-    const [busyness, setBusyness] = useState({});
+    const [busyness, setBusyness] = useState(globalBusyness);
     const [location, setLocation] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [lastUpdate, setLastUpdate] = useState((new Date().getTime()));
+
+    const MAX_STORES = 10;
 
     useEffect(() => {
         (async () => {
@@ -67,7 +70,6 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 if (status !== 'granted') {
                     console.log('Permission to access location was denied');
                 }
-            
                 let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
                 setLocation(location);
                 getStores(searchText, location);
@@ -105,7 +107,6 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 if (payload.status === 'REQUEST_DENIED') {
                     setError(true);
                 }
-
                 setStores(
                     payload.results.map(store => ({
                         icon: store.icon,
@@ -115,8 +116,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                     }))
                 );
                 
-                const MAX_STORES = Math.min(10, payload.results.length);
-                for (let i = 0; i < MAX_STORES; i++) {
+                for (let i = 0; i < Math.min(MAX_STORES, payload.results.length); i++) {
                     const placeId = payload.results[i].place_id;
                     if (!(placeId in globalBusyness)) {
                         getPlaceLiveBusyness(placeId)
@@ -124,10 +124,9 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                                 // globalBusyness[placeId] = data.current_popularity; --> This seems wrong
                                 globalBusyness[placeId] = getCurrentBusynessFromTimezone(SettingsContext.timezone);
                                 globalPopulartimes[placeId] = data.populartimes;
-                                
-                                if (!(placeId in busyness)) {
-                                    setBusyness(Object.assign({}, globalBusyness))
-                                }
+
+                                // God dam this is stupidly hacky... sorry
+                                setLastUpdate((new Date().getTime()))
                             })
                             .catch(error => console.log(placeId, error));
                     }
