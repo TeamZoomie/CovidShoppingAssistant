@@ -77,8 +77,9 @@ const floatingButtonActions = [
     }
 ]
 
-const HomeScreen = ({ eva, navigation }) => {
+function HomeScreen(props) {
 
+    const { eva, navigation } = props;
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
     const activeList = listsContext.activeList;
@@ -103,7 +104,9 @@ const HomeScreen = ({ eva, navigation }) => {
                     <Fragment>
                         <ActiveList 
                             list={activeList}
-                            onPress={() => navigation.navigate('List', { screen: 'Main', params: { listId: activeList.id }})}
+                            onPress={() => navigation.navigate('List', { 
+                                screen: 'Main', params: { listId: activeList.id }
+                            })}
                         />
                         <Divider style={{height: 3}} />
                     </Fragment>
@@ -131,4 +134,6 @@ const HomeScreen = ({ eva, navigation }) => {
     );
 }
 
-export default withStyles(HomeScreen, styles);
+export default React.memo(withStyles(HomeScreen, styles), (props, nextProps) => {
+    return !props.navigation.isFocused();
+});

@@ -41,10 +41,6 @@ const styles = (theme) => ({
     }
 });
 
-const AddIcon = () => (
-    <Icon height={16} width={16} fill="white" name='plus-circle-outline' />
-);
-
 const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
@@ -64,9 +60,10 @@ const floatingButtonActions = [
         position: 2
     }
 ]
+//= React.memo(
+function ListScreen(props) {
 
-const ListScreen = ({ route, navigation, eva }) => {
-
+    const { route, navigation, eva } = props;
     const styles = eva.style;
     const listsContext = React.useContext(ListsContext);
     const theme = useTheme();
@@ -74,7 +71,7 @@ const ListScreen = ({ route, navigation, eva }) => {
     const [addText, setAddText] = React.useState('');
     const [itemCategory, setItemCategory] = React.useState('');
     const [settingsVisible, setSettingsVisible] = React.useState(false);
-    const [shoppingMode, setShoppingMode] = React.useState(route.params?.shoppingMode || false);
+    const [shoppingMode, setShoppingMode] = React.useState(false);
 
     // For barcode scanner
     const [hasPermission, setHasPermission] = React.useState(null);
@@ -84,17 +81,6 @@ const ListScreen = ({ route, navigation, eva }) => {
     const { listId } = route.params;
     const list = listsContext.lists[listId];
 
-    // const listData = {};
-    // for (let item of list.items) {
-    //     if (!(item.category in listData)) {
-    //         listData[item.category] = {
-    //             title: item.category,
-    //             data: []
-    //         }
-    //     } 
-    //     listData[item.category].data.push(item);
-    // }
-    
     useEffect(() => {
         if (addText !== '' && route.params?.category !== undefined) {
             addListItem(addText, route.params?.category);
@@ -103,22 +89,18 @@ const ListScreen = ({ route, navigation, eva }) => {
         }
     }, [route.params?.category]);
 
-    useEffect(() => {
-        if (shoppingMode !== route.params?.shoppingMode) {
-            setShoppingMode(route.params.shoppingMode);
-        }
-    }, [route.params?.shoppingMode]);
-
     // Get the necessary permissions to use the camera
     useEffect(() => {
-		(async () => {
-            try {
-                const { status } = await BarCodeScanner.requestPermissionsAsync();
-		        setHasPermission(status === 'granted');
-            } catch (error) {
-                console.log(error);
-            }
-		})();
+        if (!hasPermission) {
+            (async () => {
+                try {
+                    const { status } = await BarCodeScanner.requestPermissionsAsync();
+                    setHasPermission(status === 'granted');
+                } catch (error) {
+                    console.log(error);
+                }
+            })();
+        }
     }, []);
 
     const itemChecked = (index, checked) => {
@@ -260,11 +242,7 @@ const ListScreen = ({ route, navigation, eva }) => {
                     actions={floatingButtonActions}
                     onPressItem={name => {
                         if (name === "TextButton") {
-                            listsContext.addListItem(listId, { 
-                                name: addText, 
-                                checked: false 
-                            });
-                            setAddText('')
+                            navigation.navigate('Categories');
                         } else {
                             setScanMode(true);
                         }
@@ -273,6 +251,8 @@ const ListScreen = ({ route, navigation, eva }) => {
             </Page>
         )
     );
-}
+};
 
-export default withStyles(ListScreen, styles);
+export default React.memo(withStyles(ListScreen, styles), (props, nextProps) => {
+    return !props.navigation.isFocused();
+});

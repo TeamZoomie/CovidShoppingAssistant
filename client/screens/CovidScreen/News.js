@@ -71,7 +71,7 @@ const styles = (theme) => ({
     }
 });
 
-const NewsScreen = ({ eva, navigation }) => {
+const NewsScreen = ({ eva }) => {
 
     const styles = eva.style;
     const [countryIndex, setCountryIndex] = React.useState(new IndexPath(0));

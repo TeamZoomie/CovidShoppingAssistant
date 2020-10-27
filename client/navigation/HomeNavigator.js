@@ -2,8 +2,6 @@ import React from 'react';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import CreateListScreen from '../screens/CreateListScreen';
-// import ShoppingIntroScreen from '../screens/ShoppingIntroScreen';
-// import StoreSelectorScreen from '../screens/ListScreen/StoreSelector';
 import AddItemScreen from '../screens/AddItemScreen';
 import { ListNavigator } from './ListNavigator';
 
@@ -19,8 +17,6 @@ export const HomeNavigator = () => {
             <Screen name="Home" component={HomeScreen} />
             <Screen name="List" component={ListNavigator} />
             <Screen name="CreateList" component={CreateListScreen} />
-            {/* <Screen name="ShoppingIntro" component={ShoppingIntroScreen} /> */}
-            {/* <Screen name="StoreSelector" component={StoreSelectorScreen} /> */}
             <Screen name="AddItemScreen" component={AddItemScreen} />
         </Navigator>
     );

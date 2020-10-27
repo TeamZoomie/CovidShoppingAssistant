@@ -99,7 +99,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
         if (hour === 0) {
             hour = 12;
         }
-        return hour.toString() + (hour < 12 ? 'AM' : 'PM')
+        return hour.toString() + (time < 12 ? 'AM' : 'PM')
     }
 
     const hasData = route.params.populartimes !== undefined && 

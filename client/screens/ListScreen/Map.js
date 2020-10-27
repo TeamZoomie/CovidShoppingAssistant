@@ -169,6 +169,8 @@ const MapScreen = ({ eva, navigation, route }) => {
     const [updateMap, setUpdateMap] = useState(true);
     const [updateList, setUpdateList] = useState(false);
 
+    // console.log('rendered map page')
+
     const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
     const [taskOrder, setTaskOrder] = useState([])
 
@@ -176,7 +178,6 @@ const MapScreen = ({ eva, navigation, route }) => {
     
     useEffect(() => {
         if (updateMap) {
-            console.log("updating map")
             const mapWidth = 62;
             const mapHeight = 26;
     
@@ -191,7 +192,6 @@ const MapScreen = ({ eva, navigation, route }) => {
             setUpdateMap(false);
 
         } else if (updateList) {
-            console.log('updating list')
             updateListData(listGroups, taskOrder);
         }
 
