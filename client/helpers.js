@@ -5,7 +5,6 @@ import PF from 'pathfinding';
 
 
 export function getCurrentBusynessFromTimezone(populartimes, utcHourDiff=10) {
-
     if (populartimes.length !== 7) {
         return -1;
     }
@@ -92,6 +91,10 @@ export function generatePath(store, gridData, tasks, scaleFactor=15) {
             geoCentres.splice(t, 1);
             t--;
         }
+    }
+
+    if (tasks.length === 0) {
+        return [[], [], []]
     }
 
     // Compute paths

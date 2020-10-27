@@ -53,7 +53,7 @@ const CreateListScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
     const [name, setName] = React.useState('');
-    const [dueDate, setDueDate] = React.useState(new Date());
+    const [duedate, setDuedate] = React.useState(new Date());
     const [iconName, setIconName] = React.useState('Shopping');
     const [inconIndex, setIconIndex] = React.useState(new IndexPath(0));
 
@@ -62,7 +62,7 @@ const CreateListScreen = ({ eva, navigation }) => {
     const listsContext = React.useContext(ListsContext);
 
     const createList = () => {
-        listsContext.addList({ name, dueDate, active: true, icon: iconName }, listId => {
+        listsContext.addList({ name, duedate, active: true, icon: iconName }, listId => {
             navigation.pop();
             navigation.navigate("List", {
                 screen: "Main",
@@ -101,8 +101,8 @@ const CreateListScreen = ({ eva, navigation }) => {
                     />
                     <Heading category="c2">Due Date</Heading>
                     <Datepicker
-                        date={dueDate}
-                        onSelect={nextDate => setDueDate(nextDate)}
+                        date={duedate}
+                        onSelect={nextDate => setDuedate(nextDate)}
                         style={{ paddingBottom: 8 }}
                     />
                     <Heading category="c2">Icon</Heading>
