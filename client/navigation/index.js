@@ -9,7 +9,7 @@ import {
 import { HomeNavigator } from './HomeNavigator';
 import { CovidNavigator } from './CovidNavigator';
 import SettingsScreen from '../screens/SettingsScreen';
-// import MapScreen from '../screens/ListScreen/Map';
+
 
 const ListsIcon = (props) => (
     <Icon {...props} name='list-outline'/>

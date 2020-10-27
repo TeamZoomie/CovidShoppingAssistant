@@ -1,8 +1,11 @@
 import React from 'react';
-import { ScrollView, View, Image, Dimensions } from 'react-native';
+import { ScrollView, View, ImageBackground, Dimensions } from 'react-native';
 import { 
+    Icon,
     Button,
     Text,
+    TopNavigation,
+    TopNavigationAction,
     withStyles,
 } from '@ui-kitten/components';
 import {
@@ -16,7 +19,6 @@ import {
 } from '../../helpers';
 
 const { height } = Dimensions.get('window')
-
 
 const styles = (theme) => ({
     root: {
@@ -62,6 +64,10 @@ const styles = (theme) => ({
         paddingRight: 32,
     }
 });
+
+const BackIcon = (props) => (
+    <Icon {...props} name='arrow-back-outline' />
+);
 
 const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
@@ -116,6 +122,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
         }));
     }
 
+    const BackAction = () => (
+        <TopNavigationAction 
+            icon={BackIcon} 
+            onPress={() => navigation.goBack()} 
+        />
+    );
+
     return (
         <View style={styles.root}>
             <ScrollView
@@ -129,7 +142,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                 }}
             >
                 <View style={{ width, height }}>
-                    <Image source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle} />
+                    <ImageBackground source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle}>
+                        <TopNavigation 
+                            alignment='center' 
+                            accessoryLeft={BackAction}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                    </ImageBackground>
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         {hasData ? (
@@ -176,7 +195,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <Image source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle} />
+                    <ImageBackground source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle}>
+                        <TopNavigation 
+                            alignment='center' 
+                            accessoryLeft={BackAction}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                    </ImageBackground>
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Use the map!</Heading>
                         <Heading style={styles.subheading} category="p1">

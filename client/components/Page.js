@@ -58,6 +58,7 @@ const Page = (props) => {
                         alignment='center' 
                         accessoryLeft={AccessoryLeft}
                         {...navProps}
+                        style={props.headerStyles}
                     />
                     {(props.showDivider ?? true) && <Divider/>}
                 </Fragment>

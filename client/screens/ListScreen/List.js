@@ -23,15 +23,12 @@ import { FloatingAction } from 'react-native-floating-action';
 
 const styles = (theme) => ({
     searchField: {
-        width: '100%',
+        width: '72%',
         padding: 0,
-        // borderColor: theme['background-basic-color-2']
     },
     addTextItem: {
         width: '13%',
         height: 18,
-        // backgroundColor: theme['background-basic-color-2'],
-        // borderColor: theme['background-basic-color-2']//'#A3B2C7'
     },
     container: {
         flexDirection: 'row',
@@ -43,6 +40,17 @@ const styles = (theme) => ({
 
 const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
+);
+
+const AddIcon = () => (
+    <Icon height={16} width={16} fill="white" name='plus-circle-outline' />
+);
+
+const BarcodeIcon = () => (
+    <Image 
+        source = {require("../../assets/barcode.png")}
+        style = {{ width: 16, height: 20, tintColor: 'white' }} 
+    />
 );
 
 // Actions for the floating button to do
@@ -190,23 +198,6 @@ function ListScreen(props) {
             >
                 <View>
                     <Layout style={styles.container}>
-                        <View style={{ width: '100%', paddingBottom: 8 }} >
-                            {shoppingMode ? (
-                                <Button 
-                                    style={{ width: '100%' }} 
-                                    onPress={() => {
-                                        setShoppingMode(false);
-                                        navigation.setParams({ shoppingMode: false })
-                                    }}
-                                >
-                                    Finished
-                                </Button>
-                            ) : (
-                                <Button style={{ width: '100%' }} onPress={() => navigation.navigate('StoreSelector', { listId })}>
-                                    Start Shopping
-                                </Button>
-                            )}
-                        </View>
                         <Input
                             style={styles.searchField}
                             placeholder='Add new item...'
@@ -215,6 +206,17 @@ function ListScreen(props) {
                             onSubmitEditing={() => {
                                 navigation.navigate('Categories');
                             }}
+                        />
+                        <Button 
+                            style={styles.addTextItem} 
+                            // appearance='ghost' 
+                            accessoryLeft={AddIcon}
+                            onPress={addListItem}
+                        />                           
+                        <Button 
+                            style={styles.addTextItem}
+                            accessoryLeft={BarcodeIcon}
+                            onPress={() => setScanMode(true)}
                         />
                     </Layout>
                 </View>
@@ -238,16 +240,11 @@ function ListScreen(props) {
                         />
                     )}
                 </ScrollView>
-                <FloatingAction
-                    actions={floatingButtonActions}
-                    onPressItem={name => {
-                        if (name === "TextButton") {
-                            navigation.navigate('Categories');
-                        } else {
-                            setScanMode(true);
-                        }
-                    }}
-                />
+                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+                    <Button style={{ width: 256 }} onPress={() => navigation.navigate("StoreSelector", { listId })}>
+                        Start Shopping
+                    </Button>
+                </View>
             </Page>
         )
     );
