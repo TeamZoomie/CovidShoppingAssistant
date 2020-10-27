@@ -140,7 +140,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         if (nextValue !== '') {
             getStores(nextValue, location);
         }
-    }, 1000)).current;
+    }, 750)).current;
 
     // Need to setup debounce.
     const onSearchTextChange = (value) => {

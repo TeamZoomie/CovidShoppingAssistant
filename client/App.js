@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import * as eva from '@eva-design/eva';
+import React, { PureComponent, Component, Fragment } from 'react';
+// import * as eva from '@eva-design/eva';
+import { light, dark, mapping } from '@eva-design/eva';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
@@ -10,8 +11,16 @@ import { ListsContext } from './lists-context';
 import { getCountry, getTimezone } from 'countries-and-timezones';
 import data from './data';
 
+// import './wdyu';
 
-export default class App extends React.PureComponent {
+class AppMain extends PureComponent {
+	render() {
+		return <AppNavigator/>;
+	}
+}
+
+
+export default class App extends Component {
 
 	constructor(props) {
 		super(props);
@@ -22,8 +31,7 @@ export default class App extends React.PureComponent {
 			username: 'Zoomie',
 			country: 'AU',
 			// Do this for now, but eventually generate serverside
-			nextId: Object.values(data.lists).length + 1,
-			test: 'test'
+			nextId: Object.values(data.lists).length + 1
 		}
 	}
 
@@ -79,6 +87,7 @@ export default class App extends React.PureComponent {
 	}
 
 	updateListItem = (listId, itemIndex, newItem) => {
+		// let t0 = new Date().getTime();
 		if (!(listId in this.state.lists)) {
 			return;
 		}
@@ -87,6 +96,11 @@ export default class App extends React.PureComponent {
 		this.setState(prevState => ({
 			lists: { ...prevState.lists, [listId]: { ...list, items }}
 		}));
+
+		// , () => {
+			// let t1 = new Date().getTime();
+			// console.log("Took " + (t1 - t0) + " ms")
+		// }
 	}
 
 	removeListItem = (listId, itemIndex) => {
@@ -128,15 +142,13 @@ export default class App extends React.PureComponent {
 		return (
 			<Fragment>
 				<IconRegistry icons={EvaIconsPack}/>
-				<ApplicationProvider {...eva} theme={eva[this.state.theme]}>
-					<SafeAreaProvider>
+				<ApplicationProvider mapping={mapping} theme={this.state.theme === 'light' ? light : dark}>
 						<SettingsContext.Provider value={settingsContextValues}>
 							<StatusBar hidden/>
 							<ListsContext.Provider value={listContextValues}>
-								<AppNavigator/>
+								<AppMain/>
 							</ListsContext.Provider>
 						</SettingsContext.Provider>
-					</SafeAreaProvider>
 				</ApplicationProvider>
 			</Fragment>
 		);

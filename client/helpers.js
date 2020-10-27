@@ -5,6 +5,11 @@ import PF from 'pathfinding';
 
 
 export function getCurrentBusynessFromTimezone(populartimes, utcHourDiff=10) {
+
+    if (populartimes.length !== 7) {
+        return -1;
+    }
+
     const currentTime = new Date();
     const hour =  (currentTime.getUTCHours() + utcHourDiff) % 24;
     const day = ((currentTime.getDay() - 1) % 7 + 7) % 7

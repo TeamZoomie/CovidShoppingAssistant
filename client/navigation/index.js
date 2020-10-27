@@ -31,24 +31,18 @@ const BottomTabBar = ({ navigation, state }) => (
         <BottomNavigationTab title='My Lists' icon={ListsIcon}/>
         <BottomNavigationTab title='News' icon={NewsIcon}/>
         <BottomNavigationTab title='Settings' icon={SettingsIcon}/>
-        {/* <BottomNavigationTab title='Map' icon={SettingsIcon}/> */}
     </BottomNavigation>
-  );
+);
 
-
-export const BottomHomeNavigator = () => {
-    return (
-        <Navigator tabBar={props => <BottomTabBar {...props} />}>
-            <Screen name="Home" component={HomeNavigator} />
-            <Screen name="Covid Info" component={CovidNavigator}/>
-            <Screen name="Settings" component={SettingsScreen}/>
-            {/* <Screen name="Map" component={MapScreen}/> */}
-        </Navigator>
-    );
-};
 
 export const AppNavigator = () => (
     <NavigationContainer>
-        <BottomHomeNavigator/>
+        <Navigator 
+            tabBar={props => <BottomTabBar {...props} />}
+        >
+            <Screen name="Home" component={HomeNavigator} />
+            <Screen name="Covid Info" component={CovidNavigator} />
+            <Screen name="Settings" component={SettingsScreen} />
+        </Navigator>
     </NavigationContainer>
 );

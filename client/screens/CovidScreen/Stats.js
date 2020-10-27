@@ -68,7 +68,6 @@ const StatsScreen = ({ eva, navigation }) => {
     };
 
     useEffect(() => {
-        
         getCovidStats(countries[countryIndex - 1])
             .then(payload => {
                 setLoading(false);
@@ -89,33 +88,31 @@ const StatsScreen = ({ eva, navigation }) => {
                 >
                     {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
                 </Select>
-                <View style = {{marginBottom:20}}> 
-                    <View style={loading || error ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
-                        {loading || error ? (
-                            error ? (
-                                <Fragment>
-                                    <Heading category="h6" style={styles.errorText}>
-                                        Could not get data.
-                                    </Heading>
-                                    <Text category="c1" style={{ fontWeight: "300" }}>
-                                        An error occured...
-                                    </Text>
-                                </Fragment>
-                            ) : (
-                                <Spinner size='giant'/>
-                            )
-                        ) : (
+                <View style={loading || error ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                    {loading || error ? (
+                        error ? (
                             <Fragment>
-                                <Heading category="c2">Statistics</Heading>
-                                <List
-                                    style={styles.container}
-                                    data={Object.entries(data).map(([title, value]) => ({ title, value }))}
-                                    ItemSeparatorComponent={Divider}
-                                    renderItem={renderItem}
-                                />
+                                <Heading category="h6" style={styles.errorText}>
+                                    Could not get data.
+                                </Heading>
+                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                    An error occured...
+                                </Text>
                             </Fragment>
-                        )}
-                    </View>
+                        ) : (
+                            <Spinner size='giant'/>
+                        )
+                    ) : (
+                        <Fragment>
+                            <Heading category="c2">Statistics</Heading>
+                            <List
+                                style={styles.container}
+                                data={Object.entries(data).map(([title, value]) => ({ title, value }))}
+                                ItemSeparatorComponent={Divider}
+                                renderItem={renderItem}
+                            />
+                        </Fragment>
+                    )}
                 </View>
             </Layout>
         </View>

@@ -26,7 +26,6 @@ class UserSerializer(serializers.ModelSerializer):
             username = validated_data['username'] + str(counter)
             counter += 1
         validated_data['username'] = username
-        print(validated_data)
         password = validated_data.pop('password')
         user = User(**validated_data)  # Create new user
         user.set_password(password)
