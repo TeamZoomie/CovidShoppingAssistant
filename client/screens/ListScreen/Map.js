@@ -163,7 +163,12 @@ const MapScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
     const listsContext = useContext(ListsContext);
-    const store = stores.coles;
+    // var allStores = [
+    //     stores.coles,
+    //     stores.woolworths
+    // ];
+    // var store = allStores[Math.floor(Math.random() * allStores.length)];
+    const store = stores.woolworths;
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
