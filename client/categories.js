@@ -54,7 +54,7 @@ export const categories = [
         title: 'Frozen',
         category: 'Frozen',
         icon: (style) => <Image 
-            source={require('./assets/categories/frozen.png')} 
+            source={require('./assets/categories/frozen2.png')} 
             fill="black" style={style} 
         />
     },
