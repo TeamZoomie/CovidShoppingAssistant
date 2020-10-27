@@ -173,7 +173,7 @@ export default {
                     geo: [[10,17],[10,11],[10.5,11],[10.5,17]],
                 }
             ],
-            'Laundry Accessories': [
+            'Laundry Products': [
                 {
                     geo: [[10.5,17],[10.5,14],[11,14],[11,17]]
                 }
