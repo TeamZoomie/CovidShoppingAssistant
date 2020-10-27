@@ -1,7 +1,7 @@
 import Qs from 'qs';
 
 // Ask Adrian for this / check
-const API_KEY = 'AIzaSyBy4J2u8Xo8Vaq0VV7b5FI_j6_TKMt16cI';
+const API_KEY = '';
 const API_URL = 'https://maps.googleapis.com/maps/api/place/';
 
 export function getPlacesAutocomplete({ input, location, radius, countryCode='aus', type }) {

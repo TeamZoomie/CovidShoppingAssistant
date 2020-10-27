@@ -23,7 +23,7 @@ const styles = (theme) => ({
     contentContainerStyle: {
         padding: 16,
         backgroundColor: theme['background-basic-color-1'],
-        height: '100%'
+        // height: '100%'
     },
     header: {
         paddingBottom: 8, 
@@ -65,7 +65,11 @@ const styles = (theme) => ({
     alignRowCentre: {
         flexDirection: 'row', 
         alignItems: 'center'
-    }
+    },
+    searchField: {
+        width: '100%',
+        padding: 8
+    },
 });
 
 const lightMapTheme = {
@@ -89,6 +93,7 @@ const Handle = (props) => {
 
     const styles = props.eva.style;
     const theme = useTheme();
+
     return (
         <Fragment>
             <View style={styles.header}>
@@ -133,22 +138,24 @@ export const ListItem = (props) => {
 
     const theme = useTheme();
     return (
-        <BottomSheetTouchable 
-            {...props}
-            underlayColor={theme['background-basic-color-2']}
-            onPress={() => props.onPress(!props.checked)}
-        >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
-                <CheckBox
-                    checked={props.checked}
-                    style={{ overflow: 'hidden' }}
-                >
-                    <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
-                        {props.text}
-                    </Text>
-                </CheckBox>
-            </View>
-        </BottomSheetTouchable>
+        <View>
+            <BottomSheetTouchable 
+                {...props}
+                underlayColor={theme['background-basic-color-2']}
+                onPress={() => props.onPress(!props.checked)}
+            >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}>
+                    <CheckBox
+                        checked={props.checked}
+                        style={{ overflow: 'hidden' }}
+                    >
+                        <Text style={props.checked ? { textDecorationLine: 'line-through' } : {}}>
+                            {props.text}
+                        </Text>
+                    </CheckBox>
+                </View>
+            </BottomSheetTouchable>
+        </View>
     );
 }
 
@@ -170,7 +177,7 @@ const MapScreen = ({ eva, navigation, route }) => {
     const [updateList, setUpdateList] = useState(false);
 
     const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
-    const [taskOrder, setTaskOrder] = useState([])
+    const [taskOrder, setTaskOrder] = useState([]);
 
     const SCALE_FACTOR = 15;
     
@@ -182,12 +189,8 @@ const MapScreen = ({ eva, navigation, route }) => {
             let grid = buildGrid(store, mapWidth, mapHeight);
             const [newPath, newTooltips, order] = generatePath(store, grid, avaiableMapTasks, SCALE_FACTOR);
             
-            // let newOrder = [...order, ]
-
             setTaskOrder(order);
-            
             updateListData(listGroups, order);
-            
             setPath(newPath);
             setTooltips(newTooltips);
             setUpdateMap(false);
@@ -254,7 +257,6 @@ const MapScreen = ({ eva, navigation, route }) => {
             }}
         >
             <View style={{ height: '100%' }}>
-                    
                 <Map 
                     store={store}
                     height={height} 
@@ -277,6 +279,7 @@ const MapScreen = ({ eva, navigation, route }) => {
                     keyExtractor={item => String(item.id)}
                     renderItem={({ item }) => (
                         <Collapsible 
+                            expanded
                             header={`${listData.indexOf(item) + 1}. ` + item.header} 
                             subItems={item.subItems} 
                             headerAccessoryLeft={() => (
@@ -295,7 +298,7 @@ const MapScreen = ({ eva, navigation, route }) => {
                             )}
                         />
                     )}
-                    contentContainerStyle={styles.contentContainerStyle}
+                    contentContainerStyle={[styles.contentContainerStyle, { height: 60 * (list.items.length + listData.length + 3) }]}
                 />
             </View>
         </Page>

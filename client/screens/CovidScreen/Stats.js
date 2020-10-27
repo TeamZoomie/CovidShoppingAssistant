@@ -38,15 +38,17 @@ const styles = (theme) => ({
     },
 });
 
+const countries = [
+    'Australia', 'USA', 'UK', 'Canada', 'Spain', 'India', 'Brazil',
+    'Russia', 'Mexico', 'South Africa', 'Chile', 'Germany', 'Sweden', 
+    'Turkey', 'Italy'
+];
+
 const StatsScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
     const [countryIndex, setCountryIndex] = React.useState(new IndexPath(0));
-    const countries = [
-        'Australia', 'USA', 'UK', 'Canada', 'Spain', 'India', 'Brazil',
-        'Russia', 'Mexico', 'South Africa', 'Chile', 'Germany', 'Sweden', 
-        'Turkey', 'Italy'
-    ];
+    
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [data, setData] = useState([]);
@@ -68,12 +70,14 @@ const StatsScreen = ({ eva, navigation }) => {
     };
 
     useEffect(() => {
-        getCovidStats(countries[countryIndex - 1])
-            .then(payload => {
-                setLoading(false);
-                setData(payload);
-            })
-            .catch(error => setError(true));
+        if (loading) {
+            getCovidStats(countries[countryIndex - 1])
+                .then(payload => {
+                    setLoading(false);
+                    setData(payload);
+                })
+                .catch(error => setError(true));
+        }
     }, [countryIndex]);
 
     return (

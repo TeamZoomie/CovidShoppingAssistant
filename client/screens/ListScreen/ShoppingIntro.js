@@ -1,8 +1,11 @@
 import React from 'react';
-import { ScrollView, View, Image, Dimensions } from 'react-native';
+import { ScrollView, View, ImageBackground, Dimensions } from 'react-native';
 import { 
+    Icon,
     Button,
     Text,
+    TopNavigation,
+    TopNavigationAction,
     withStyles,
 } from '@ui-kitten/components';
 import {
@@ -17,16 +20,18 @@ import {
 
 const { height } = Dimensions.get('window')
 
-
 const styles = (theme) => ({
     root: {
         flex: 1,
         backgroundColor: theme['background-basic-color-2'],
         justifyContent: 'space-between'
     },
+    chartBackground: {
+        backgroundColor: theme['background-basic-color-2']
+    },
     scrollView: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: theme['background-basic-color-2']
     },
     wrapper: {
         justifyContent: 'center',
@@ -38,7 +43,7 @@ const styles = (theme) => ({
     },
     paginationWrapper: {
         paddingBottom: 16,
-        backgroundColor: 'white',
+        backgroundColor: theme['background-basic-color-2'],
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -62,6 +67,10 @@ const styles = (theme) => ({
         paddingRight: 32,
     }
 });
+
+const BackIcon = (props) => (
+    <Icon {...props} name='arrow-back-outline' />
+);
 
 const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
@@ -116,6 +125,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
         }));
     }
 
+    const BackAction = () => (
+        <TopNavigationAction 
+            icon={BackIcon} 
+            onPress={() => navigation.goBack()} 
+        />
+    );
+
     return (
         <View style={styles.root}>
             <ScrollView
@@ -129,7 +145,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                 }}
             >
                 <View style={{ width, height }}>
-                    <Image source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle} />
+                    <ImageBackground source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle}>
+                        <TopNavigation 
+                            alignment='center' 
+                            accessoryLeft={BackAction}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                    </ImageBackground>
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
                         {hasData ? (
@@ -166,6 +188,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                                     ],
                                 }}
                                 data={data}
+                                style={styles.chartBackground}
                             />
                         ) : (
                             <Heading style={{ padding: 32 }} category='h5'>
@@ -176,7 +199,13 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <Image source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle} />
+                    <ImageBackground source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle}>
+                        <TopNavigation 
+                            alignment='center' 
+                            accessoryLeft={BackAction}
+                            style={{ backgroundColor: 'transparent' }}
+                        />
+                    </ImageBackground>
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Use the map!</Heading>
                         <Heading style={styles.subheading} category="p1">

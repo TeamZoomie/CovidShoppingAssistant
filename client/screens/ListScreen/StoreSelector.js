@@ -7,7 +7,6 @@ import {
     TopNavigation, 
     TopNavigationAction, 
     Text,
-    Button,
     withStyles,
     Divider,
     Spinner
@@ -159,9 +158,9 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         />
     );
 
-    const ConfirmAction = () => (
-        <TopNavigationAction icon={ConfirmIcon} onPress={confirmStore}/>
-    );
+    // const ConfirmAction = () => (
+    //     <TopNavigationAction icon={ConfirmIcon} onPress={confirmStore}/>
+    // );
     
     return (
         <View style={styles.root}>
@@ -169,7 +168,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 title="Select Store"
                 alignment='center' 
                 accessoryLeft={BackAction}
-                accessoryRight={ConfirmAction}
+                // accessoryRight={ConfirmAction}
             />
             <Divider/>
             <Layout style={styles.content}>

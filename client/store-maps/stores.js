@@ -36,6 +36,7 @@ export default {
                 name: 'Aisle 4b'
             },
             {
+                // Bakery
                 geo: [[26,17], [27,17], [27,11], [26,11]], 
                 name: 'Aisle 5'
             },
@@ -44,6 +45,7 @@ export default {
                 name: 'Aisle 5b'
             },
             {
+                // Frozen
                 geo: [[30,17], [31,17], [31,11], [30,11]], 
                 name: 'Aisle 6'
             },
@@ -59,7 +61,8 @@ export default {
                 geo: [[34,8], [35,8], [35,2], [34,2]], 
                 name: 'Aisle 7b'
             },
-            {
+            {   
+                // Laundry Products
                 geo: [[38,17], [39,17], [39,11], [38,11]],  
                 name: 'Aisle 8'
             },
@@ -173,7 +176,7 @@ export default {
                     geo: [[10,17],[10,11],[10.5,11],[10.5,17]],
                 }
             ],
-            'Laundry Accessories': [
+            'Laundry Products': [
                 {
                     geo: [[10.5,17],[10.5,14],[11,14],[11,17]]
                 }
@@ -187,7 +190,23 @@ export default {
                 {
                     geo: [[31,8],[31,2],[30.5,2],[30.5,8]]
                 }
-            ]
+            ],
+            'Bakery':[
+                {
+                    geo: [[26,17], [27,17], [27,11], [26,11]]
+                }
+            ],
+            'Frozen':[
+                {
+                    geo: [[30,17], [31,17], [31,11], [30,11]]
+                }
+            ],
+            'Laundry Products':[
+                {
+                    geo: [[38,17], [39,17], [39,11], [38,11]]
+                }
+            ],
+
         },
     }
 }

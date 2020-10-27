@@ -35,8 +35,8 @@ export const categories = [
         />
     },
     {
-        title: 'Laundry Accessories',
-        category: 'Laundry Accessories',
+        title: 'Laundry Products',
+        category: 'Laundry Products',
         icon: (style) => <Image 
             source={require('./assets/categories/cleaning.png')} 
             fill="black" style={style} 
@@ -54,7 +54,7 @@ export const categories = [
         title: 'Frozen',
         category: 'Frozen',
         icon: (style) => <Image 
-            source={require('./assets/categories/frozen.png')} 
+            source={require('./assets/categories/frozen2.png')} 
             fill="black" style={style} 
         />
     },
@@ -67,10 +67,10 @@ export const categories = [
         />
     },
     {
-        title: 'Hygiene',
-        category: 'Hygiene',
+        title: 'Personal Hygiene',
+        category: 'Personal Hygiene',
         icon: (style) => <Image 
-            source={require('./assets/categories/soap.png')} 
+            source={require('./assets/categories/cleaning2.png')} 
             fill="black" style={style} 
         />
     },
@@ -78,7 +78,7 @@ export const categories = [
         title: 'Sweets',
         category: 'Sweets',
         icon: (style) => <Image 
-            source={require('./assets/categories/soap.png')} 
+            source={require('./assets/categories/candies.png')} 
             fill="black" style={style} 
         />
     }
