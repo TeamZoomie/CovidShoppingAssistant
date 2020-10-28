@@ -137,7 +137,15 @@ const SettingsScreen = ({ eva, navigation }) => {
                     value={username}
                     onChangeText={nextValue => setUsername(nextValue)}
                 />
-
+                <Text style={styles.text}>
+                    {"\n\n\n\n"}
+                    Note: We ask for your location data to provide certain 
+                    services in our app. We will not use them for anything
+                    other than improving your shopping experience. If you
+                    do not wish to use these services, deny this app the 
+                    permissions to use those sensors, however this will make
+                    our interactive shopping experience unavailable.
+                </Text>
             </Layout>
         </View>
     );
