@@ -53,7 +53,7 @@ const Page = (props) => {
                     <TopNavigation 
                         title={() => (
                             (typeof Header === 'string' || Header instanceof String) ? (
-                                <Heading category="p1" style={{ fontWeight: 'bold' }}>
+                                <Heading category="h6" style={{ fontWeight: 'bold' }}>
                                     {Header}
                                 </Heading>
                             ) : <Header/>
