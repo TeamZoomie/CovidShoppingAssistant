@@ -199,7 +199,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <ImageBackground source={require('../../assets/covidscreen1.jpg')} style={styles.imageStyle}>
+                    <ImageBackground source={require('../../assets/shopGraphic.png')} style={styles.imageStyle}>
                         <TopNavigation 
                             alignment='center' 
                             accessoryLeft={BackAction}

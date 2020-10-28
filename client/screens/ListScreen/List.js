@@ -195,6 +195,7 @@ function ListScreen(props) {
                 navigation={navigation}
                 header={list.name}
                 AccessoryRight={AddAction}
+                backAction={() => navigation.navigate("Home")}
             >
                 <View>
                     <Layout style={styles.container}>

@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export const SettingsContext = React.createContext( {
+export const SettingsContext = React.createContext();
 
-    // Set light theme as default
-    theme: 'light',
+export const SettingsProvider = ({ children, onThemeChange }) => {
 
-    // Function to switch between light and dark themes
-    toggleTheme: () => {},
+    const [theme, setTheme] = useState('light');
+    const [username, setUsername] = useState('Zoomie');
+    const [country, setCountry] = useState('AU');
 
-    // Display name for user
-    username: 'Zoomie',
-
-    // Default settings for lists
-    defaultPriority: 'Low',
-    notifications: true,
-    use24HourTime: false,
-
-    country: 'Australia',
-    timezone: 0,
-
-    setCountry: () => {},
-
-    setTimezone: () => {}
-    
-});
+    toggleTheme = (theme) => {
+        setTheme(theme);
+        onThemeChange(theme);
+    }
+  
+    return (
+        <SettingsContext.Provider
+            value={{
+                theme,
+                toggleTheme,
+                username,
+                setUsername,
+                country,
+                setCountry
+            }}
+        >
+            {children}
+        </SettingsContext.Provider>
+    );
+};

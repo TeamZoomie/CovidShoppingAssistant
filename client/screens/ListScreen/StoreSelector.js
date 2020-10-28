@@ -59,8 +59,15 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [lastUpdate, setLastUpdate] = useState((new Date().getTime()));
+    const componentIsMounted = useRef(true);
 
     const MAX_STORES = 10;
+
+    useEffect(() => {
+        return () => {
+            componentIsMounted.current = false;
+        };
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -121,7 +128,7 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                         getPlaceLiveBusyness(placeId)
                             .then(data => {
                                 // globalBusyness[placeId] = data.current_popularity; --> This seems wrong
-                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(SettingsContext.timezone);
+                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(data.populartimes);
                                 globalPopulartimes[placeId] = data.populartimes;
 
                                 // God dam this is stupidly hacky... sorry
@@ -158,17 +165,12 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         />
     );
 
-    // const ConfirmAction = () => (
-    //     <TopNavigationAction icon={ConfirmIcon} onPress={confirmStore}/>
-    // );
-    
     return (
         <View style={styles.root}>
             <TopNavigation 
                 title="Select Store"
                 alignment='center' 
                 accessoryLeft={BackAction}
-                // accessoryRight={ConfirmAction}
             />
             <Divider/>
             <Layout style={styles.content}>

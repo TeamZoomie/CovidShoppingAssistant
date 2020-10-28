@@ -303,7 +303,9 @@ const MapScreen = ({ eva, navigation, route }) => {
                             )}
                         />
                     )}
-                    contentContainerStyle={[styles.contentContainerStyle, { height: 60 * (list.items.length + listData.length + 3) }]}
+                    contentContainerStyle={[styles.contentContainerStyle, { 
+                        height: Math.max(60 * (list.items.length + listData.length + 3), height)
+                    }]}
                 />
             </View>
         </Page>
