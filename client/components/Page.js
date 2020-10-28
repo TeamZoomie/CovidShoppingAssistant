@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import {
     Divider,
     Icon, 
@@ -24,8 +24,16 @@ const styles = (theme) => ({
     }
 });
 
+/*
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back-outline' />
+);*/
+
+const BackIcon = (props) => (
+    <Image 
+        source={require('../assets/back.png')} 
+        fill="black" style={({width: 16, height: 16} )}
+    />
 );
 
 const Page = (props) => {
