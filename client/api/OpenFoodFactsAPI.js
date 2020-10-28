@@ -1,3 +1,9 @@
+/**
+ * Interacts with the OpenFoodFacts API to retrieve information about different
+ * food products. This is a good source for adding product information to this
+ * program (about food products).
+ */
+
 export function getProductDetails({ barcode, countryCode='world' }) {
 
     const API_URL = `https://${countryCode}.openfoodfacts.org/api/v0/product/`;

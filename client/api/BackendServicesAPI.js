@@ -1,19 +1,26 @@
+/**
+ * Handles communication with the backend services and server. This includes
+ * data for the news page.
+ */
 
 import Constants from "expo-constants";
-import { BackHandler } from "react-native";
 
-// To access locally.. This is a bit tricky. Consult Adrian
-// const BACKEND_URL = manifest.debuggerHost ? `http://${manifest.debuggerHost.split(':').shift()}:8000` : 'http://localhost:8000';
 
+// Define some useful constants
 const { manifest } = Constants;
 const BACKEND_URL = 'https://deco3801-zoomie.uqcloud.net';
 
-
+/**
+ * Gets news articles from the server.
+ */
 export function getCovidNews(country='Australia') {
     return fetch(`${BACKEND_URL}/covidnews/${country}/`)
         .then(response => response.json());
 }
 
+/**
+ * Gets numerical statistics about COVID form the server.
+ */
 export function getCovidStats(country='Australia') {
     return fetch(`${BACKEND_URL}/covidstats/${country}/`, {
         headers: {
@@ -27,11 +34,3 @@ export function getPlaceLiveBusyness(placeID) {
     return fetch(`${BACKEND_URL}/livetimes/${placeID}/`)
         .then(response => response.json());
 }
-
-// export function getPlaceLiveBusynessMultiple(placeIDs) {
-//     for (let placeID of placeIDs) {
-//         await getPlaceLiveBusyness(placeID).then
-//     }
-//     return fetch(`${BACKEND_URL}/livetimes/${placeID}/`)
-//         .then(response => response.json());
-// }
