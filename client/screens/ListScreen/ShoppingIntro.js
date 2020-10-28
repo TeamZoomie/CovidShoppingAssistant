@@ -214,7 +214,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     <View style={styles.wrapper}>
                         <Heading style={styles.heading} category="h4">Use the map!</Heading>
                         <Heading style={styles.subheading} category="p1">
-                            Optimise your route through the store to avoid contact!
+                            Optimise your route in store to avoid contact!
                         </Heading>
                     </View>
                 </View>
