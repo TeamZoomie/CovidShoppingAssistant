@@ -26,7 +26,8 @@ import CenteredHeading from '../components/CenteredHeading';
 const styles = (theme) => ({
     root: {
         flex: 1,
-        backgroundColor: theme['background-basic-color-1']
+        backgroundColor: theme['background-basic-color-1'],
+        padding: 2
     },
     content: {
         padding: 16,
@@ -101,11 +102,11 @@ const SettingsScreen = ({ eva, navigation }) => {
                     {themeOptions.map((title, id) => (
                         <SelectItem key={id} title={title}/>
                     ))}
-                </Select>    
+                </Select> 
                 <Divider/>
                 <Select 
                     selectedIndex={countryIndex}
-                    label={<Text category='h6'>Default Country</Text>}
+                    label={<Text category='h6'> {'\n'} Default Country</Text>}
                     value={countries[countryIndex - 1].name}
                     onSelect={index => setCountry(countries[index - 1].id)}
                 >
@@ -113,16 +114,11 @@ const SettingsScreen = ({ eva, navigation }) => {
                         <SelectItem key={country.id} title={country.name}/>
                     ))}
                 </Select>
-                <CheckBox
-                    checked={usingCountryTime}  
-                    onChange={nextChecked => setUsingCountryTime(nextChecked)}>
-                        Use your default country for your timezone?
-                </CheckBox>
                 {/*
                 <Select
                     selectedIndex={timezoneIndex}
-                    label={<Text category='h6'>Your timezone</Text>}
-                    value={timezones[timezoneIndex]}
+                    label={<Text category='h6'> {'\n'} Your timezone</Text>}
+                    value={timezones[timezoneIndex-1].name}
                     disabled={!usingCountryTime}
                     onSelect={index => setTimezoneIndex(index)}>
                         {Object.values(timezones)[name].map((title, id) => (
@@ -130,7 +126,12 @@ const SettingsScreen = ({ eva, navigation }) => {
                         ))}
                 </Select>
                         */}
-                <Text category='h6'>Username is {username}</Text>
+                <CheckBox
+                    checked={usingCountryTime}  
+                    onChange={nextChecked => setUsingCountryTime(nextChecked)}>
+                        Use your default country for your timezone?
+                </CheckBox>
+                <Text category='h6'> {'\n'}Username is {username}</Text>
                 <Input
                     placeholder={username}
                     value={username}
