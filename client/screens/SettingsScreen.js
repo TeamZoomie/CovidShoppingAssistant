@@ -20,6 +20,7 @@ import {
 import { getCountry, getAllCountries, getAllTimezones } from 'countries-and-timezones';
 import { SettingsContext } from '../settings-context';
 import Heading from '../components/Heading';
+import CenteredHeading from '../components/CenteredHeading';
 
 
 const styles = (theme) => ({
@@ -33,7 +34,7 @@ const styles = (theme) => ({
     text: {
         fontWeight: "700",
         textAlign: 'left',
-        marginHorizontal: 8
+        marginHorizontal: 8,
     }
 });
 
@@ -85,12 +86,12 @@ const SettingsScreen = ({ eva, navigation }) => {
     return (
         <View style={styles.root}>
             <Layout style={styles.content}>
-                <Heading 
-                    category="h6" 
+                <CenteredHeading 
+                    category="h4" 
                     style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}
                 >
                     Settings
-                </Heading>
+                </CenteredHeading>
                 <Select
                     selectedIndex={selectedIndex}
                     label={<Text category='h6'>Theme</Text>}
@@ -135,6 +136,7 @@ const SettingsScreen = ({ eva, navigation }) => {
                     value={username}
                     onChangeText={nextValue => setUsername(nextValue)}
                 />
+
             </Layout>
         </View>
     );
