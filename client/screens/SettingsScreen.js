@@ -26,7 +26,7 @@ import CenteredHeading from '../components/CenteredHeading';
 const styles = (theme) => ({
     root: {
         flex: 1,
-        backgroundColor: theme['background-basic-color-2']
+        backgroundColor: theme['background-basic-color-1']
     },
     content: {
         padding: 16,
