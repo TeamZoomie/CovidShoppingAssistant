@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Image } from 'react-native';
 import { 
     Input,
     Icon,
@@ -41,8 +41,13 @@ const styles = (theme) => ({
 const ConfirmIcon = (props) => (
     <Icon {...props} name='checkmark-outline' />
 );
+
+
 const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back-outline' />
+    <Image 
+        source={require('../../assets/back.png')} 
+        fill="black" style={({width: 16, height: 16} )}
+    />
 );
 
 // hack

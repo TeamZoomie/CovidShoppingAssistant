@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, ImageBackground, Dimensions } from 'react-native';
+import { ScrollView, View, ImageBackground, Dimensions, Image } from 'react-native';
 import { 
     Icon,
     Button,
@@ -68,9 +68,14 @@ const styles = (theme) => ({
     }
 });
 
+
 const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back-outline' />
+    <Image 
+        source={require('../../assets/back.png')} 
+        fill="black" style={({width: 16, height: 16} )}
+    />
 );
+
 
 const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 

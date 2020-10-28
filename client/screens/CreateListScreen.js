@@ -45,9 +45,14 @@ const styles = (theme) => ({
     }
 });
 
+
 const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back-outline' />
+    <Image 
+        source={require('../assets/back.png')} 
+        fill="black" style={({width: 16, height: 16} )}
+    />
 );
+
 
 const CreateListScreen = ({ eva, navigation }) => {
 

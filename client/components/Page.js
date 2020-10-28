@@ -24,11 +24,6 @@ const styles = (theme) => ({
     }
 });
 
-/*
-const BackIcon = (props) => (
-    <Icon {...props} name='arrow-back-outline' />
-);*/
-
 const BackIcon = (props) => (
     <Image 
         source={require('../assets/back.png')} 
