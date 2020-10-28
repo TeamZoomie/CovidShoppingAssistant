@@ -140,8 +140,7 @@ function ListScreen(props) {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setScanMode(false);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        listsContext.addListItem(listId, { name: `${data}`, checked: false });
+        alert(`Bar code ${data} has been scanned!`);
     };
 
     const AddAction = () => (
