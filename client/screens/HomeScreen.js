@@ -39,7 +39,7 @@ const styles = (theme) => ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20
+        padding: 6
     },
     headingFont:{
         color: '#FFFFFF',
@@ -90,12 +90,17 @@ function HomeScreen(props) {
         <View style={styles.root}>
             {/* The top header bar */}
             <View style={styles.headingBackground}>
-                <Text category="h2" style={styles.headingFont}>
-                    ShopSafe
-                </Text>
                 <View>
                     <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
                 </View>
+                <Text category="h2" style={styles.headingFont}>
+                    Home
+                </Text>
+                <Text>{ }</Text>
+                <Text>{ }</Text>
+                <Text>{ }</Text>
+                <Text>{ }</Text>
+                
             </View>
             {/* The list display */}
             <Layout style={styles.content}>
