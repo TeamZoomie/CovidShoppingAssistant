@@ -70,7 +70,7 @@ const styles = (theme) => ({
 // Actions for the floating button to do
 const floatingButtonActions = [
     {
-        text: 'Add a list',
+        text: 'Create list',
         name:'createListButton',
         icon: require('../assets/list.png'),
         position: 1
