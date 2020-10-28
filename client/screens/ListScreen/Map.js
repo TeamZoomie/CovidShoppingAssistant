@@ -10,7 +10,7 @@ import {
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Heading from '../../components/Heading';
-import Page from '../../components/Page';
+import MapPage from '../../components/MapPage';
 import Map from '../../components/Map';
 import Collapsible from '../../components/RNGHCollapsible';
 import BottomSheetTouchable from '../../components/BottomSheetTouchable';
@@ -246,7 +246,7 @@ const MapScreen = ({ eva, navigation, route }) => {
     }
 
     return (
-        <Page 
+        <MapPage 
             showDivider={false}
             navigation={navigation}
             pageStyles={{ padding: 0 }}
@@ -308,7 +308,7 @@ const MapScreen = ({ eva, navigation, route }) => {
                     }]}
                 />
             </View>
-        </Page>
+        </MapPage>
     )
 };
 
