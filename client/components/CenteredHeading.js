@@ -16,7 +16,13 @@ const styles = StyleSheet.create({
 export default function CenteredHeading(props) {
     return (
         <View style={styles.root}>
-            <Text {...props} style={[styles.text, props.style]} category={props.category}>{props.children}</Text>
+            <Text 
+                {...props} 
+                style={[styles.text, props.style]} 
+                category={props.category}
+            >
+                    {props.children}
+            </Text>
         </View>
     )
 }
