@@ -1,3 +1,8 @@
+/**
+ * Defines the shopping list page when the user selects the list to add or
+ * remove items. 
+ */
+
 import React, { Fragment, useState, useContext } from 'react';
 import {  View, StyleSheet,FlatList } from 'react-native';
 import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
@@ -5,6 +10,7 @@ import { Text, CheckBox, Divider, Button, Icon } from '@ui-kitten/components';
 import Collapsible from '../components/RNGHCollapsible';
 import { categories } from '../categories'
 
+// Define styles for different components.
 const styles = StyleSheet.create({
     item: {
         flexGrow: 1
@@ -37,10 +43,16 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Defines the icon for the remove button.
+ */
 const RemoveIcon = (props) => (
     <Icon {...props} height={16} name='trash-outline' />
 );
 
+/**
+ * Component that defines actions on a shopping list item.
+ */
 const ShoppingListItem = (props) => {
     return (
         <View style={styles.contentContainer}>
@@ -66,6 +78,9 @@ const ShoppingListItem = (props) => {
     )
 };
 
+/**
+ * The main component definition
+ */
 export default function ShoppingList(props) {
     const { list } = props;
     const listGroups = {};

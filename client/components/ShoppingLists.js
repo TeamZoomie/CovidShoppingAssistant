@@ -1,3 +1,7 @@
+/**
+ * Defines the shopping lists page where users can see all of their lists.
+ * It also gives the user options to create a new list.
+ */
 import React from 'react';
 import { View, ScrollView, TouchableHighlight, Image, PixelRatio } from 'react-native';
 import { 
@@ -11,6 +15,7 @@ import { format } from 'date-fns';
 import { colours } from '../colours';
 import { iconImages } from '../icon-images';
 
+// Defines styles for different components
 const styles = (theme) => ({
     button: {
         backgroundColor: theme['color-primary-default'],
@@ -61,10 +66,14 @@ const styles = (theme) => ({
     }
 });
 
+// Defines the icon of the next button.
 const NextIcon = (props) => {
     return <Icon {...props} height={24} width={24} fill={props.colour} name="arrow-ios-forward-outline"/>
 };
 
+/**
+ * The main component definition
+ */
 const ShoppingLists = (props) => {
     const styles = props.eva.style;
     const theme = useTheme();

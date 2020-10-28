@@ -19,7 +19,7 @@ import {
 import { format } from 'date-fns';
 import { iconImages } from '../icon-images';
 
-// Defines styles for differnet components
+// Defines styles for different components
 const styles = (theme) => ({
     button: {
         border: 'none',

@@ -30,6 +30,9 @@ export function getCovidStats(country='Australia') {
         .then(response => response.json());
 }
 
+/**
+ * Gets live data busyness data from the server 
+ */
 export function getPlaceLiveBusyness(placeID) {
     return fetch(`${BACKEND_URL}/livetimes/${placeID}/`)
         .then(response => response.json());

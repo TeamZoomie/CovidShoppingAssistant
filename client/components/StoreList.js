@@ -1,8 +1,14 @@
+/**
+ * Defines the store locator page which gives the user a list of stores in
+ * their area. The user also has the option to search for a store of their
+ * choice, and is given an indicator on how busy a store may be.
+ */
 import React, { Fragment } from 'react';
 import { ScrollView, View, TouchableHighlight, Image } from 'react-native';
 import { Text, Icon, Spinner, withStyles, useTheme } from '@ui-kitten/components';
 import { getBusynessText } from '../helpers';
 
+// Define styles for different components.
 const styles = (theme) => ({
     container: {
         marginTop: 4,
@@ -41,6 +47,9 @@ const styles = (theme) => ({
     }
 });
 
+/**
+ * The main component definition.
+ */
 const StoreList = ({ stores, eva, onPress, busynessData }) => {
     const styles = eva.style;
     const theme = useTheme();

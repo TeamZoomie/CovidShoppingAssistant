@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Dimensions, StyleSheet } from 'react-native';
 import { Card, List, Text } from '@ui-kitten/components';
 
+// Defines styles for the component
 const styles = StyleSheet.create({
     container: {
         paddingBottom: 8,

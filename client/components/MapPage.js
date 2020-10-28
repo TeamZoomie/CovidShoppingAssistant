@@ -1,3 +1,8 @@
+/**
+ * Defines the shopping map page which shows the users a map of the store.
+ * The map also contains a route to all the items in the users list.
+ */
+
 import React, { Fragment } from 'react';
 import { View, Image } from 'react-native';
 import {
@@ -10,6 +15,7 @@ import {
 } from '@ui-kitten/components';
 import Heading from './Heading';
 
+// Defines styles for the component
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -24,6 +30,9 @@ const styles = (theme) => ({
     }
 });
 
+/**
+ * Defines the icon for the back button.
+ */
 const BackIcon = (props) => (
     <Image 
         source={require('../assets/forward.png')} 
@@ -31,6 +40,9 @@ const BackIcon = (props) => (
     />
 );
 
+/**
+ * The main component definition.
+ */
 const MapPage = (props) => {
     const styles = props.eva.style;
     const showHeader = props.showHeader ?? true;

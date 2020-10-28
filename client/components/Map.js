@@ -71,7 +71,9 @@ function Tooltip(props) {
     )
 } 
 
-
+/**
+ * The main component definition.
+ */
 class MapSVG extends Component {
 
     state = {
@@ -200,7 +202,7 @@ class MapSVG extends Component {
         );  
     }
 }
-  
+
 export default class Map extends Component {
 
     render() {
