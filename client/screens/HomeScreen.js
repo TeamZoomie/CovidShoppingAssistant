@@ -72,7 +72,7 @@ const floatingButtonActions = [
     {
         text: 'Create list',
         name:'createListButton',
-        icon: require('../assets/list.png'),
+        icon: require('../assets/list2.png'),
         position: 1
     }
 ]
