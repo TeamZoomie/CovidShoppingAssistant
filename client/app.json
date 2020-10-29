@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CovidShoppingAssistant",
-    "slug": "CovidShoppingAssistant",
+    "name": "Shop Safe",
+    "slug": "Shop Safe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logosplash.png",
