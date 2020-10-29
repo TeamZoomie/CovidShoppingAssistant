@@ -34,7 +34,7 @@ const styles = (theme) => ({
     },
     headingBackground: {
         backgroundColor: theme['color-primary-default'],
-        height: WIN_DIM.height * 0.15,
+        height: WIN_DIM.height * 0.10,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -46,8 +46,8 @@ const styles = (theme) => ({
         fontWeight:'700'
     },
     imageStyle: {
-        height: WIN_DIM.height * 0.15 - 40,
-        width: WIN_DIM.height * 0.15,
+        height: WIN_DIM.height * 0.12 - 40,
+        width: WIN_DIM.height * 0.12,
         resizeMode: 'contain'
     },
     heading: {
@@ -96,7 +96,7 @@ function HomeScreen(props) {
                 <Text category="h2" style={styles.headingFont}>
                     Home
                 </Text>
-                <Text>{ }</Text>
+                
                 <Text>{ }</Text>
                 <Text>{ }</Text>
                 <Text>{ }</Text>
