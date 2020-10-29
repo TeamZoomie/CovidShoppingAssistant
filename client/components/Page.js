@@ -5,11 +5,13 @@
 import React, { Fragment } from 'react';
 import { View, Image } from 'react-native';
 import {
+    Icon,
     Divider,
     TopNavigation,
     TopNavigationAction,
     Layout, 
-    withStyles
+    withStyles,
+    useTheme,
 } from '@ui-kitten/components';
 import Heading from './Heading';
 
@@ -35,15 +37,18 @@ const BackIcon = (props) => (
         source={require('../assets/back.png')} 
         fill="black" style={({width: 16, height: 16} )}
     />
-);
-
+);  
+    
 /**
  * Define the component
  */
 const Page = (props) => {
+
     const styles = props.eva.style;
     const showHeader = props.showHeader ?? true;
     const Header = props.header || '';
+    
+
     let backAction = props.backAction || (() => props.navigation.goBack());
 
     /**

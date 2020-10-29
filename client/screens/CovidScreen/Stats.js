@@ -70,14 +70,12 @@ const StatsScreen = ({ eva, navigation }) => {
     };
 
     useEffect(() => {
-        if (loading) {
-            getCovidStats(countries[countryIndex - 1])
-                .then(payload => {
-                    setLoading(false);
-                    setData(payload);
-                })
-                .catch(error => setError(true));
-        }
+        getCovidStats(countries[countryIndex - 1])
+        .then(payload => {
+            setLoading(false);
+            setData(payload);
+        })
+        .catch(error => setError(true));
     }, [countryIndex]);
 
     return (
