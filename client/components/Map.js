@@ -1,13 +1,16 @@
+/**
+ * Defines the component that displays store data, including items on the
+ * user's shopping list and the optimal (shortest) route between each of these 
+ * items.
+ */
+
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Animated } from 'react-native';
-import { Button } from '@ui-kitten/components';
+import { View, Dimensions } from 'react-native';
 import Svg, {
     G,
     Circle,
     Path,
     Polygon,
-    Polyline,
-    Line,
     Rect,
     Text
   } from 'react-native-svg';
@@ -18,10 +21,18 @@ import polylabel from 'polylabel';
 const { width } = Dimensions.get('window');
 const SCALE_FACTOR = 15;
 
+/**
+ * A function to make the underlying gemoetry data larger for display 
+ * purposes.
+ */
 function rescale(geo) {
     return geo.map(([x, y]) => [x * SCALE_FACTOR, y * SCALE_FACTOR]);
 }
 
+/**
+ * A function that defines the path between each item (in terms of actually
+ * displaying it).
+ */
 function Tooltip(props) {
     const { text, width, height, position, theme } = props;
     const [x, y] = position;
@@ -90,48 +101,74 @@ class MapSVG extends Component {
     }
 
     render() {
-        const { store, theme, path, tooltips, entrance, transform } = this.props;
+        const { 
+            store, theme, path, tooltips, entrance, transform 
+        } = this.props;
+
         const debug = this.props.debug || false;
         let selected = this.state.selected !== undefined;
+
         const selectedGeo = selected ? 
-                            store.categories[this.state.selected.type][this.state.selected.id].geo :
-                            [];
+                            store.categories[this.state.selected.type][
+                                this.state.selected.id].geo : [];
+
         const rescaledPath = path.length > 0 ? rescale(path) : [];
+
         return (
             <Svg width={width} height={500} onPress={this.onBackgroundPress}>
                 <G transform={transform}>
                     <Polygon
-                        points={store.background.map(p => p.map(a => a * SCALE_FACTOR).join(',')).join(' ')}
+                        points={
+                            store.background.map(p => p.map(
+                                a => a * SCALE_FACTOR).join(',')
+                            ).join(' ')
+                        }
                         fill={theme.base}
                     />
                     {store.shelves.map((shelf, id) => (
                         <Polygon
                             key={id}
-                            points={shelf.geo.map(p => p.map(a => a * SCALE_FACTOR).join(',')).join(' ')}
+                            points={
+                                shelf.geo.map(p => p.map(
+                                    a => a * SCALE_FACTOR).join(',')
+                                ).join(' ')
+                            }
                             fill={theme.shelves}
                         />
                     ))}
                     {store.registers.map((r, id) => (
                         <Polygon
                             key={id}
-                            points={r.geo.map(p => p.map(a => a * SCALE_FACTOR).join(',')).join(' ')}
+                            points={
+                                r.geo.map(p => p.map(
+                                    a => a * SCALE_FACTOR).join(',')
+                                ).join(' ')
+                            }
                             fill={theme.registers}
                         />
                     ))}
                     {store.selfServe.map((counter, id) => (
                         <Polygon
                             key={id}
-                            points={counter.geo.map(p => p.map(a => a * SCALE_FACTOR).join(',')).join(' ')}
+                            points={
+                                counter.geo.map(p => p.map(
+                                    a => a * SCALE_FACTOR).join(',')
+                                ).join(' ')
+                            }
                             fill={theme.registers}
                         />
                     ))}
                     {Object.entries(store.categories).map(([k, v]) => (
                         v.map((entry, id) => {
-                            const points = entry.geo.map(p => p.map(a => a * SCALE_FACTOR));
+                            const points = entry.geo.map(p => p.map(
+                                a => a * SCALE_FACTOR)
+                            );
                             return (
                                 <Polygon
                                     key={id}
-                                    points={points.map(p => p.join(',')).join(' ')}
+                                    points={points.map(
+                                        p => p.join(',')
+                                    ).join(' ')}
                                     fill={theme.categories[k]}
                                     onPress={() => this.onPress(id, k)}
                                 />
@@ -140,7 +177,11 @@ class MapSVG extends Component {
                     ))}
                     {path.length > 0 && (
                         <Path
-                            d={"M " + rescaledPath[0].join(',') + rescaledPath.slice(1).map(([x, y]) => `L ${x},${y}`).join(" ")}
+                            d={"M " 
+                                + rescaledPath[0].join(',') 
+                                + rescaledPath.slice(1).map(([x, y]) => 
+                                    `L ${x},${y}`).join(" ")
+                            }
                             stroke={theme.path}
                             strokeWidth={7}
                             strokeDasharray='25, 2'
@@ -185,7 +226,9 @@ class MapSVG extends Component {
                             width={130}
                             height={40}
                             text={this.state.selected.type} 
-                            position={polylabel([selectedGeo], 1.0).map(e => e * SCALE_FACTOR)}
+                            position={polylabel([selectedGeo], 1.0).map(
+                                e => e * SCALE_FACTOR
+                            )}
                         />
                     )}
                     {debug && this.props.walkablePoints.map(([x, y], id) => (
@@ -209,7 +252,10 @@ export default class Map extends Component {
         const { theme, scaleFactor } = this.props;
         return (
             <View 
-                style={{ backgroundColor: theme.background, height: this.props.height }} 
+                style={{ 
+                    backgroundColor: theme.background, 
+                    height: this.props.height 
+                }} 
                 onPress={this.onBackgroundPress}
             >
                 <ZoomableSvg
@@ -229,7 +275,9 @@ export default class Map extends Component {
                         path: this.props.path,
                         tooltips: this.props.tooltips,
                         debug: false,
-                        entrance: this.props.store.entries[0].map(e => e * scaleFactor)
+                        entrance: this.props.store.entries[0].map(
+                            e => e * scaleFactor
+                        )
                     }}
                 />
             </View>

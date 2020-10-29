@@ -1,3 +1,7 @@
+/**
+ * Defines some geometries based on the stores data we have in this directory,
+ * under the .txt files.
+ */
 export default {
     coles: {
         entries: [[8,24]],

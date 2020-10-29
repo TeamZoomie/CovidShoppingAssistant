@@ -2,6 +2,7 @@
  * Defines the shopping lists page where users can see all of their lists.
  * It also gives the user options to create a new list.
  */
+
 import React from 'react';
 import { View, ScrollView, TouchableHighlight, Image, PixelRatio } from 'react-native';
 import { 
@@ -21,7 +22,6 @@ const styles = (theme) => ({
         backgroundColor: theme['color-primary-default'],
         border: 'none',
         padding: 8,
-        // borderRadius: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -38,7 +38,6 @@ const styles = (theme) => ({
     },
     highlight: {
         marginBottom: 0,
-        // borderRadius: 16,
         flexGrow: 1,
         marginRight: 0,
     },
@@ -68,7 +67,12 @@ const styles = (theme) => ({
 
 // Defines the icon of the next button.
 const NextIcon = (props) => {
-    return <Icon {...props} height={24} width={24} fill={props.colour} name="arrow-ios-forward-outline"/>
+    return <Icon {...props} 
+        height={24} 
+        width={24} 
+        fill={props.colour} 
+        name="arrow-ios-forward-outline"
+    />
 };
 
 /**
@@ -82,11 +86,11 @@ const ShoppingLists = (props) => {
         const d2 = new Date(b.date);
         return d2.getTime() - d1.getTime();
     });
+
     if (props.activeList) {
         sortedData = sortedData.filter(list => list.id != props.activeList.id);
     }
 
-    // const backgroundColor = theme['background-basic-color-1'];
     const backgroundColor = colours['white' || list.colour || 'orange']
     return (
         <ScrollView style={styles.container}>
@@ -100,7 +104,10 @@ const ShoppingLists = (props) => {
                         <View 
                             style={[styles.button, { backgroundColor } ]}>
                             <View style={[styles.button, { backgroundColor } ]}>
-                                <Image source={iconImages[list.icon]} style={styles.imageStyle}/>
+                                <Image 
+                                    source={iconImages[list.icon]} 
+                                    style={styles.imageStyle}
+                                />
                                 <View>
                                     <Text 
                                         category="h6" 
@@ -108,7 +115,10 @@ const ShoppingLists = (props) => {
                                     >
                                         {list.name}
                                     </Text>
-                                    <Text category="c1" style={{ color: theme['color-primary-default'], fontWeight: '700' }}>
+                                    <Text category="c1" style={{ 
+                                        color: theme['color-primary-default'], 
+                                        fontWeight: '700' 
+                                    }}>
                                         {list.items.length} items
                                     </Text>
                                 </View>
@@ -116,12 +126,27 @@ const ShoppingLists = (props) => {
                             </View>
                             <View style={[styles.button, { backgroundColor }]}>
                                 <View>
-                                    <Text category="c1" style={{ fontWeight: '700' }}>Due Date</Text>
-                                    <Text category="c1" style={{ fontWeight: '700' }}>{ format(list.date, 'dd/MM/yy') }</Text>
+                                    <Text 
+                                        category="c1" 
+                                        style={{ fontWeight: '700' }}
+                                    >
+                                        Due Date
+                                    </Text>
+                                    <Text 
+                                        category="c1" 
+                                        style={{ fontWeight: '700' }}
+                                    >
+                                        { format(list.date, 'dd/MM/yy') }
+                                    </Text>
                                 </View>
                                 <Button 
                                     style={styles.nextButton}
-                                    accessoryLeft={() => <NextIcon colour={theme['background-alternative-color-1']}/>} 
+                                    accessoryLeft={
+                                        () => 
+                                        <NextIcon colour={theme[
+                                            'background-alternative-color-1'
+                                        ]}/>
+                                    } 
                                     appearance='ghost' 
                                     onPress={() => props.onPress(list.id)}
                                 />

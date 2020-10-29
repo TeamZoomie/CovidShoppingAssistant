@@ -1,7 +1,13 @@
+/**
+ * Contains a heading deifnition, specifically for the text intended to define
+ * a specific page.
+ */
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
 
+// The styles to use for different parts
 const styles = StyleSheet.create({
     root: {
         paddingBottom: 8
@@ -9,11 +15,13 @@ const styles = StyleSheet.create({
     text: {
         fontWeight: "400",
         textAlign: 'left',
-        // marginHorizontal: 8
     }
 });
 
-export default function CenteredHeading(props) {
+/**
+ * Define the component.
+ */
+export default function Heading(props) {
     return (
         <View style={styles.root}>
             <Text 

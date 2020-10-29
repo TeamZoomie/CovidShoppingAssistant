@@ -73,7 +73,7 @@ const ActiveList = (props) => {
     const styles = props.eva.style;
     const { list } = props;
     const theme = useTheme();
-    // TODO JSX Comments
+
     return (
         <View style={[styles.container,props.containerStyle]}>
             <TouchableHighlight 

@@ -1,3 +1,8 @@
+/**
+ * Contains a component that displays multiple items in a grid. This is done
+ * with a tiled display.
+ */
+
 import React from 'react';
 import { View } from 'react-native';
 import { Dimensions, StyleSheet } from 'react-native';
@@ -21,14 +26,23 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Contains the component
+ */
 export default function GridList(props) {
     const { contentContainerStyle, onPress, ...listProps } = props;
+
     const render = (content) => (
         <Card
             style={styles.item}
             onPress={() => props.onPress(content.index)}
         >
-            {content.item.icon({ width: 64, height: 64, alignSelf: 'center', resizeMode: 'contain'})}
+            {content.item.icon({ 
+                width: 64, 
+                height: 64, 
+                alignSelf: 'center', 
+                resizeMode: 'contain'
+            })}
             <Text
                 style={styles.itemTitle}
                 category='s2'>
@@ -36,6 +50,7 @@ export default function GridList(props) {
             </Text>
         </Card>
     );
+    
     return (
         <View>
             <List

@@ -20,10 +20,12 @@ import SettingsScreen from '../screens/SettingsScreen';
 const ListsIcon = (props) => (
     <Icon {...props} name='list-outline'/>
 );
+
 // Defines the icon for the news button
 const NewsIcon = (props) => (
     <Icon {...props} name='globe-2-outline'/>
 );
+
 // Defines the icon for the settings button
 const SettingsIcon = (props) => (
     <Icon {...props} name='options-2-outline'/>

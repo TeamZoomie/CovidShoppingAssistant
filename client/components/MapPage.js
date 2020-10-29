@@ -1,13 +1,15 @@
 /**
  * Defines the shopping map page which shows the users a map of the store.
- * The map also contains a route to all the items in the users list.
+ * The map also contains a route to all the items in the users list. This is 
+ * almost identical to Page.js except for a different navigation. Namely, this
+ * one has a forward navigation rather than a backwards navigation in the
+ * top accessory bar.
  */
 
 import React, { Fragment } from 'react';
 import { View, Image } from 'react-native';
 import {
     Divider,
-    Icon, 
     TopNavigation,
     TopNavigationAction,
     Layout, 
@@ -26,7 +28,6 @@ const styles = (theme) => ({
         height: '100%',
         flex: 1,
         flexDirection: 'column',
-        // justifyContent: 'space-between',
     }
 });
 
@@ -56,7 +57,8 @@ const MapPage = (props) => {
         />
     );
     const AccessoryLeft = props.AccessoryLeft || BackAction;
-    const navProps = props.AccessoryRight ? { accessoryRight: props.AccessoryRight } : {};
+    const navProps = props.AccessoryRight ? 
+        { accessoryRight: props.AccessoryRight } : {};
 
     return (
         <View style={[styles.root, props.rootStyles]}>
@@ -64,11 +66,14 @@ const MapPage = (props) => {
                 <Fragment>
                     <TopNavigation 
                         title={() => (
-                            (typeof Header === 'string' || Header instanceof String) ? (
-                                <Heading category="p1" style={{ fontWeight: 'bold' }}>
-                                    {Header}
-                                </Heading>
-                            ) : <Header/>
+                            (typeof Header === 'string' 
+                                || Header instanceof String) ? (
+                                    <Heading category="p1" style={{ 
+                                        fontWeight: 'bold' 
+                                    }}>
+                                        {Header}
+                                    </Heading>
+                                ) : <Header/>
                         )}
                         alignment='center' 
                         accessoryRight={AccessoryLeft}

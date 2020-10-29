@@ -59,7 +59,7 @@ const AddItemScreen = ({ eva, navigation }) => {
     // Vegan
     const [vegan, setVegan] = React.useState();
 
-    // Ingredients TODO Need to make a good way of doing this one as well
+    // Ingredients 
     const [ingerdients, setIngredients] = React.useState();
 
 
@@ -133,7 +133,7 @@ const AddItemScreen = ({ eva, navigation }) => {
                         {`Is this product vegan?`}
                 </CheckBox>
 
-                {/*TODO Definitely need a better way for this one*/}
+
                 <Input
                     placeholder={`Choose a category.`}
                     value={category}

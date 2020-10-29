@@ -3,9 +3,19 @@
  * their area. The user also has the option to search for a store of their
  * choice, and is given an indicator on how busy a store may be.
  */
+
 import React, { Fragment } from 'react';
-import { ScrollView, View, TouchableHighlight, Image } from 'react-native';
-import { Text, Icon, Spinner, withStyles, useTheme } from '@ui-kitten/components';
+import { 
+    ScrollView, 
+    View, 
+    TouchableHighlight, 
+    Image } from 'react-native';
+import { 
+    Text, 
+    Icon, 
+    Spinner, 
+    withStyles, 
+    useTheme } from '@ui-kitten/components';
 import { getBusynessText } from '../helpers';
 
 // Define styles for different components.
@@ -75,24 +85,51 @@ const StoreList = ({ stores, eva, onPress, busynessData }) => {
                     <View >
                         <View style={styles.button}>
                             <View style={styles.mainText}>
-                                <Image source={{ uri: store.icon }} style={styles.imageStyles}/>
-                                <Text status='control' category="h6" style={{ fontWeight: '700', paddingLeft: 6 }}>
+                                <Image 
+                                    source={{ uri: store.icon }} 
+                                    style={styles.imageStyles}
+                                />
+                                <Text 
+                                    status='control' 
+                                    category="h6" style={{ 
+                                        fontWeight: '700', 
+                                        paddingLeft: 6 
+                                    }}
+                                >
                                     {store.mainText}
                                 </Text>
                             </View>
-                            <Text status='control' category="c1">{store.secondaryText}</Text>
+                            <Text 
+                                status='control' 
+                                category="c1"
+                            >
+                                {store.secondaryText}
+                            </Text>
                             <View style={styles.busynessContent}>
                                 {store.placeId in busynessData ? (
                                     <Fragment>
-                                        <Icon name="people-outline" width={18} height={18} fill={getBusynessColour(store.placeId)}/>
-                                        <Text status='control' style={[styles.busynessText, { color: getBusynessColour(store.placeId) }]}>
-                                            {getBusynessText(busynessData[store.placeId])}
+                                        <Icon 
+                                            name="people-outline" 
+                                            width={18} 
+                                            height={18} 
+                                            fill={getBusynessColour(
+                                                store.placeId)}
+                                        />
+                                        <Text 
+                                            status='control' 
+                                            style={
+                                                [styles.busynessText, 
+                                                { color: getBusynessColour(
+                                                    store.placeId) }]
+                                            }
+                                        >
+                                            {getBusynessText(
+                                                busynessData[store.placeId])}
                                         </Text>
                                     </Fragment>
                                 ) : (
                                     <Fragment>
                                         <Spinner status='control'/>
-                                        {/* <Text status='control' style={{ paddingLeft: 8}}>Loading crowd data</Text> */}
                                     </Fragment>
                                 )}
                             </View>

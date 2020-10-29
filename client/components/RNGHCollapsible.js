@@ -1,16 +1,22 @@
-import React, { Component, Fragment } from 'react';
+/**
+ * A component to have a collapsible menu in the map screen. This is
+ * specifically to display items and by their categories, similar to how they
+ * are presented in the list screen.
+ */
+
+import React, { Component } from 'react';
 import { View, Animated } from 'react-native';
 import {
-    CheckBox,
     Icon, 
     Text,
     Divider,
-    useTheme,
     withStyles
 } from '@ui-kitten/components';
 import BottomSheetTouchable from './BottomSheetTouchable';
 
-
+/**
+ * Define the main component as a class.
+ */
 class CollapsibleMenu extends Component {
     
     ITEM_HEIGHT = 60;
@@ -23,7 +29,10 @@ class CollapsibleMenu extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.expanded !== this.props.expanded) {
-            this.setState({ expanded: this.props.expanded}, () => this.createAnimation(this.props.expanded ? 1 : 0));
+            this.setState(
+                { expanded: this.props.expanded}, 
+                    () => this.createAnimation(this.props.expanded ? 1 : 0)
+            );
         }
     }
 
@@ -42,7 +51,8 @@ class CollapsibleMenu extends Component {
     }
 
     renderItems() {
-        return this.props.subItems.map((subItem, id) => this.props.renderItem(subItem, id));
+        return this.props.subItems.map((subItem, id) => 
+                this.props.renderItem(subItem, id));
     }
 
     render() {
@@ -65,16 +75,35 @@ class CollapsibleMenu extends Component {
                     style={{ height: this.ITEM_HEIGHT }}
                 >   
                     <View
-                        style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 16 }}
+                        style={{
+                            flex: 1, 
+                            flexDirection: 'row', 
+                            justifyContent: 'space-between', 
+                            width: '100%', 
+                            padding: 16 
+                        }}
                     >
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center' 
+                        }}>
                             {AccessoryLeft && <AccessoryLeft/>}
-                            <Text style={AccessoryLeft ? { paddingLeft: 8 } : {}} category="p1">
+
+                            <Text style={
+                                AccessoryLeft ? { paddingLeft: 8 } : {}
+                            } category="p1">
                                 {this.props.header}
                             </Text>
                         </View>
-                        <Animated.View style={{ transform: [{ rotate: interpolateRotation }] }}>
-                            <Icon name="chevron-down-outline" width={18} height={18} fill="grey"/>
+                        <Animated.View style={{ 
+                            transform: [{ rotate: interpolateRotation }] 
+                        }}>
+                            <Icon 
+                                name="chevron-down-outline" 
+                                width={18} 
+                                height={18} 
+                                fill="grey"
+                            />
                         </Animated.View>
                     </View>
                 </BottomSheetTouchable>

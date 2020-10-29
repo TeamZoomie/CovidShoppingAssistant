@@ -1,3 +1,8 @@
+/**
+ * See Heading.js for the main component, this defines an identical component
+ * except for the fact that his one has a center alignment.
+ */
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '@ui-kitten/components';
@@ -9,10 +14,12 @@ const styles = StyleSheet.create({
     text: {
         fontWeight: "400",
         textAlign: 'center',
-        // marginHorizontal: 8
     }
 });
 
+/**
+ * Defines the component.
+ */
 export default function CenteredHeading(props) {
     return (
         <View style={styles.root}>
