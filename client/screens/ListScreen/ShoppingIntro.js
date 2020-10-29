@@ -100,7 +100,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
     const setSliderPage = (e) => {
         const { currentPage } = sliderState;
         const { x } = e.nativeEvent.contentOffset;
-        const indexOfNextScreen = Math.floor(x / width);
+        const indexOfNextScreen = Math.round(x / width);
 
         if (indexOfNextScreen !== currentPage) {
           setSliderState({
