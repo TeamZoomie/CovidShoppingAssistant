@@ -166,7 +166,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
             >
                 <View style={{ width, height }}>
                     <ImageBackground source={
-                            require('../../assets/social_distance_graphic.png')
+                            require('../../assets/social_distance_graphic2.png')
                         } style={styles.imageStyle}
                     >
                         <TopNavigation 

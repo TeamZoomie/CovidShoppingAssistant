@@ -114,6 +114,7 @@ function ListScreen(props) {
                     const { status } = await BarCodeScanner.requestPermissionsAsync();
                     setHasPermission(status === 'granted');
                 } catch (error) {
+                    setHasPermission(false);
                     console.log(error);
                 }
             })();
