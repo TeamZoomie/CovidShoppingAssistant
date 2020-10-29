@@ -247,7 +247,9 @@ function ListScreen(props) {
                             // appearance='ghost' 
                             accessoryLeft={AddIcon}
                             onPress={() => {
-                                navigation.navigate('Categories');
+                                if (addText !== '') {
+                                    navigation.navigate('Categories');
+                                }
                             }}
                         />                           
                         <Button 
