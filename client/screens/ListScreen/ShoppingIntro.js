@@ -115,6 +115,7 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
     const gotoMap = () => {
         navigation.navigate('Map', { 
             store: route.params.store,
+            storeMap: route.params.storeMap,
             listId: route.params.listId 
         });
     };

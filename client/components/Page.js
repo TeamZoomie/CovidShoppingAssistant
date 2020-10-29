@@ -61,9 +61,13 @@ const Page = (props) => {
         />
     );
 
-    const AccessoryLeft = props.AccessoryLeft || BackAction;
-    const navProps = props.AccessoryRight ? 
-            { accessoryRight: props.AccessoryRight } : {};
+    let navProps = props.AccessoryRight ? { 
+        accessoryRight: props.AccessoryRight } : {};
+    
+    if (props.showAccessoryLeft ?? true) {
+        const AccessoryLeft = props.AccessoryLeft || BackAction;
+        navProps.accessoryLeft = AccessoryLeft;
+    }
 
     return (
         <View style={[styles.root, props.rootStyles]}>
@@ -81,7 +85,7 @@ const Page = (props) => {
                                 ) : <Header/>
                         )}
                         alignment='center' 
-                        accessoryLeft={AccessoryLeft}
+                        // accessoryLeft={AccessoryLeft}
                         {...navProps}
                         style={props.headerStyles}
                     />

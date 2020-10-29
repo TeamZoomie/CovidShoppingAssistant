@@ -24,6 +24,7 @@ import StoreList from '../../components/StoreList';
 import { getPlacesNearby } from '../../api/GooglePlacesAPI';
 import { getPlaceLiveBusyness } from '../../api/BackendServicesAPI';
 import { getCurrentBusynessFromTimezone } from '../../helpers';
+import availableStores from '../../store-maps/stores';
 
 
 // Defines the styles for this page
@@ -105,15 +106,19 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
      * Function to run when a store has been selected
      */
     const confirmStore = (id) => {
-        /*
-        Issue where user selects store before populartimes request has finished. 
-        This results in busyness data being undefined
-        */
+        // Issue where user selects store before populartimes request has finished. 
+        // This results in busyness data being undefined
+
+        const storeMap = stores[id].mainText.includes("Coles") ?
+                         availableStores.coles :
+                         availableStores.woolworths;
+
         navigation.navigate('ShoppingIntro', {
             store: stores[id],
             listId: route.params.listId,
             populartimes: globalPopulartimes[stores[id].placeId],
             currentBusyness: globalBusyness[stores[id].placeId],
+            storeMap
         });
     };
 

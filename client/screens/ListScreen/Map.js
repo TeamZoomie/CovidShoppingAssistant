@@ -4,8 +4,10 @@
  */
 
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Image } from 'react-native';
 import {
+    Spinner,
+    TopNavigationAction,
     CheckBox,
     Icon, 
     Text,
@@ -15,12 +17,11 @@ import {
 } from '@ui-kitten/components';
 import ScrollBottomSheet from 'react-native-scroll-bottom-sheet';
 import Heading from '../../components/Heading';
-import MapPage from '../../components/MapPage';
+import Page from '../../components/Page';
 import Map from '../../components/Map';
 import Collapsible from '../../components/RNGHCollapsible';
 import BottomSheetTouchable from '../../components/BottomSheetTouchable';
 import { ListsContext } from '../../lists-context';
-import stores from '../../store-maps/stores';
 import { generatePath, buildGrid, groupListData } from '../../helpers';
 
 
@@ -187,16 +188,18 @@ export const ListItem = (props) => {
     );
 }
 
+const ForwardIcon = (props) => (
+    <Image 
+        source={require('../../assets/forward.png')} 
+        fill="black" 
+        style={({width: 24, height: 24} )}
+    />
+);
+
 const MapScreen = ({ eva, navigation, route }) => {
 
     const styles = eva.style;
     const listsContext = useContext(ListsContext);
-    // var allStores = [
-    //     stores.coles,
-    //     stores.woolworths
-    // ];
-    // var store = allStores[Math.floor(Math.random() * allStores.length)];
-    const store = stores.woolworths;
 
     const { listId } = route.params;
     const list = listsContext.lists[listId];
@@ -209,15 +212,16 @@ const MapScreen = ({ eva, navigation, route }) => {
     const [updateMap, setUpdateMap] = useState(true);
     const [updateList, setUpdateList] = useState(false);
 
-    const avaiableMapTasks = Object.keys(listGroups).filter(
-            category => category in store.categories
-    );
+    const store = route.params.storeMap;
+
+    const avaiableMapTasks = Object.keys(listGroups).filter(category => category in store.categories);
     const [taskOrder, setTaskOrder] = useState([]);
 
     const SCALE_FACTOR = 15;
     
     useEffect(() => {
         if (updateMap) {
+
             const mapWidth = 62;
             const mapHeight = 26;
     
@@ -236,7 +240,7 @@ const MapScreen = ({ eva, navigation, route }) => {
             updateListData(listGroups, taskOrder);
         }
 
-    }, [updateMap, listGroups])
+    }, [updateMap, listGroups]);
 
     const updateListData = (listGroups, order) => {
 
@@ -277,8 +281,19 @@ const MapScreen = ({ eva, navigation, route }) => {
         return true;
     }
 
+    const FowardAction = () => (
+        <TopNavigationAction 
+            icon={ForwardIcon} 
+            onPress={() => {
+                navigation.navigate('Main', {
+                    listId: route.params.listId 
+                })
+            }}
+        />
+    );
+
     return (
-        <MapPage 
+        <Page 
             showDivider={false}
             navigation={navigation}
             pageStyles={{ padding: 0 }}
@@ -290,67 +305,63 @@ const MapScreen = ({ eva, navigation, route }) => {
                         {route.params.store.mainText}
                 </Heading>
             )}
-            backAction={() => {
-                navigation.navigate('Main', {
-                    listId: route.params.listId
-                })
-            }}
+            showAccessoryLeft={false}
+            AccessoryRight={FowardAction}
         >
-            <View style={{ height: '100%' }}>
-                <Map 
-                    store={store}
-                    height={height} 
-                    theme={lightMapTheme}
-                    path={path}
-                    tooltips={tooltips}
-                    scaleFactor={SCALE_FACTOR}
-                />
-                <ScrollBottomSheet
-                    componentType="FlatList"
-                    snapPoints={[128, '50%', '70%']}
-                    initialSnapIndex={2}
-                    renderHandle={() => (
-                        <ThemedHandle 
-                            itemCount={list.items.length}  
-                            stopCount={listData.length}
+            <View style={!updateMap ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                {!updateMap ? (
+                    <View style={{ height: '100%' }}>
+                        <Map 
+                            store={store}
+                            height={height} 
+                            theme={lightMapTheme}
+                            path={path}
+                            tooltips={tooltips}
+                            scaleFactor={SCALE_FACTOR}
                         />
-                    )}
-                    data={listData}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => (
-                        <Collapsible 
-                            expanded
-                            header={`${listData.indexOf(item) + 1}. ` 
-                                    + item.header} 
-                            subItems={item.subItems} 
-                            headerAccessoryLeft={() => (
-                                <ListItemAccessoryLeft
-                                    unknown={!avaiableMapTasks.includes(
-                                        item.category
-                                    )}
-                                    completed={allChecked(item.subItems)}
+                        <ScrollBottomSheet
+                            componentType="FlatList"
+                            snapPoints={[128, '50%', '70%']}
+                            initialSnapIndex={2}
+                            renderHandle={() => (
+                                <ThemedHandle 
+                                    itemCount={list.items.length}  
+                                    stopCount={listData.length}
                                 />
                             )}
-                            renderItem={(subItem, index) => (
-                                <ListItem 
-                                    key={index}
-                                    checked={subItem.checked}
-                                    text={subItem.name}
-                                    onPress={nextChecked => updateSection(
-                                        item.category, index, nextChecked
+                            data={listData}
+                            keyExtractor={item => String(item.id)}
+                            renderItem={({ item }) => (
+                                <Collapsible 
+                                    expanded
+                                    header={`${listData.indexOf(item) + 1}. ` + item.header} 
+                                    subItems={item.subItems} 
+                                    headerAccessoryLeft={() => (
+                                        <ListItemAccessoryLeft
+                                            unknown={!avaiableMapTasks.includes(item.category)}
+                                            completed={allChecked(item.subItems)}
+                                        />
+                                    )}
+                                    renderItem={(subItem, index) => (
+                                        <ListItem 
+                                            key={index}
+                                            checked={subItem.checked}
+                                            text={subItem.name}
+                                            onPress={nextChecked => updateSection(item.category, index, nextChecked)}
+                                        />
                                     )}
                                 />
                             )}
+                            contentContainerStyle={[styles.contentContainerStyle, { 
+                                height: Math.max(60 * (list.items.length + listData.length + 3), height)
+                            }]}
                         />
-                    )}
-                    contentContainerStyle={[styles.contentContainerStyle, { 
-                        height: Math.max(60 * (
-                            list.items.length + listData.length + 3
-                        ), height)
-                    }]}
-                />
+                    </View>
+                ) : (
+                    <Spinner size='giant'/>
+                )}
             </View>
-        </MapPage>
+        </Page>
     )
 };
 

@@ -38,27 +38,26 @@ const styles = (theme) => ({
     },
     headingBackground: {
         backgroundColor: theme['color-primary-default'],
-        height: WIN_DIM.height * 0.15,
+        height: WIN_DIM.height * 0.14,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 6
+        padding: 32
     },
     headingFont:{
         color: '#FFFFFF',
         fontWeight:'700'
     },
     imageStyle: {
-        height: WIN_DIM.height * 0.15 - 40,
-        width: WIN_DIM.height * 0.15,
+        height: WIN_DIM.height * 0.14 - 40,
+        width: WIN_DIM.height * 0.14,
         resizeMode: 'contain'
     },
     heading: {
         paddingBottom: 8
     },
     text: {
-        // fontWeight: '700',
         textAlign: 'left',
         marginHorizontal: 8
     },
@@ -94,20 +93,12 @@ function HomeScreen(props) {
         <View style={styles.root}>
             {/* The top header bar */}
             <View style={styles.headingBackground}>
-                <View>
-                    <Image 
-                        source={require('../assets/logo.png')} 
-                        style={styles.imageStyle}
-                    />
-                </View>
                 <Text category="h2" style={styles.headingFont}>
                     Home
                 </Text>
-                <Text>{ }</Text>
-                <Text>{ }</Text>
-                <Text>{ }</Text>
-                <Text>{ }</Text>
-                
+                <View>
+                    <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
+                </View>                
             </View>
             {/* The list display */}
             <Layout style={styles.content}>
