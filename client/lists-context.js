@@ -1,4 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+/**
+ * Defines a context to keep track of lists that the user has.
+ */
+
+import React, { useState } from 'react';
 import { useAsyncSetState } from "use-async-setstate";
 import data from './data';
 
@@ -11,7 +15,8 @@ export const ListsProvider = ({ children }) => {
 
     const [lists, setLists] = useAsyncSetState(initialLists);
     const [activeList, setActiveList] = useState(0);
-    const [nextId, setNextId] = useAsyncSetState(Object.values(initialLists).length + 1);
+    const [nextId, setNextId] = useAsyncSetState(
+        Object.values(initialLists).length + 1);
 
     addList = async ({ name, duedate, active, icon }, cb) => {
 
@@ -52,7 +57,8 @@ export const ListsProvider = ({ children }) => {
 			return;
 		}
 		const list = lists[listId];
-		const items = list.items.map((item, i) => i == itemIndex ? newItem : item);
+        const items = list.items.map((item, i) => 
+                i == itemIndex ? newItem : item);
 		setLists({
 			...lists, [listId]: { ...list, items }
         });
@@ -62,7 +68,8 @@ export const ListsProvider = ({ children }) => {
 		const list = lists[listId];
 		setLists({
             ...lists, 
-            [listId]: { ...list, items: list.items.filter((_, index) => index != itemIndex) }
+            [listId]: { ...list, items: list.items.filter((_, index) => 
+                    index != itemIndex) }
 		});
 	}
 

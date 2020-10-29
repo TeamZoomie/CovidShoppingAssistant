@@ -1,15 +1,15 @@
+/**
+ * The main screen to present the categories after a user enters an item
+ * via text.
+ */
+
 import React from 'react';
-import { View, ScrollView, Image } from 'react-native';
-import { 
-    Icon,
-    Text,
-    Button,
-    withStyles
-} from '@ui-kitten/components';
+import { withStyles } from '@ui-kitten/components';
 import GridList from '../../components/GridList';
 import Page from '../../components/Page';
 import { categories } from '../../categories';
 
+// Define the styles for this page
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -22,6 +22,9 @@ const styles = (theme) => ({
     },
 });
 
+/**
+ * The main definition of this screen.
+ */
 const ModalScreen = ({ navigation }) => {
     return (
         <Page 

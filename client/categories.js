@@ -1,3 +1,9 @@
+/**
+ * Defines the categories that a product can be in. This is the data displayed
+ * when the user enters an item via text, and displays the title and image
+ * as defined here.
+ */
+
 import React from 'react';
 import { Image } from 'react-native';
 

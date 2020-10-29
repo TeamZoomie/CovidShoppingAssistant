@@ -1,3 +1,6 @@
+/**
+ * Defines the icons for the icons a list can be set to have.
+ */
 export const iconImages = {
     Shopping: require('./assets/shopping.png'),
     Christmas: require('./assets/christmas.png'),

@@ -1,28 +1,26 @@
+/**
+ * Defines the screen for the settings page, allowing the user to change parts
+ * of their experience using the app.
+ */
+
 import React from 'react';
 import { View } from 'react-native';
 import { 
     CheckBox,
     Input,
-    Radio, 
-    RadioGroup,
     Divider, 
-    Icon, 
     Layout, 
-    TopNavigation, 
-    TopNavigationAction,
-    Toggle,
     Text,
     IndexPath, 
     Select, 
     SelectItem,
     withStyles
 } from '@ui-kitten/components';
-import { getCountry, getAllCountries, getAllTimezones } from 'countries-and-timezones';
+import { getAllCountries, getAllTimezones } from 'countries-and-timezones';
 import { SettingsContext } from '../settings-context';
-import Heading from '../components/Heading';
 import CenteredHeading from '../components/CenteredHeading';
 
-
+// Defines the styles for this page
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -39,6 +37,7 @@ const styles = (theme) => ({
     }
 });
 
+// Useful constant definitions for the list of countries
 const countries = Object.values(getAllCountries());
 const countriesMap = {};
 for (let [id, country] of countries.entries()) {
@@ -52,6 +51,9 @@ const themeOptions = [
     'Dark Theme'
 ];
 
+/**
+ * Define the screen.
+ */
 const SettingsScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;

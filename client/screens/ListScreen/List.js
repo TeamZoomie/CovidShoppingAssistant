@@ -3,24 +3,23 @@ import { ScrollView, StyleSheet, View, Image } from 'react-native';
 import { 
     Input, 
     Text,
-    Divider, 
     Icon,
     Button,
     Layout, 
-    TopNavigation, 
     TopNavigationAction, 
     OverflowMenu,
     MenuItem,
     withStyles,
     useTheme
 } from '@ui-kitten/components';
-import ShoppingList, { ShoppingListItem } from '../../components/ShoppingList';
+import ShoppingList from '../../components/ShoppingList';
 import Heading from '../../components/Heading';
 import Page from '../../components/Page';
 import { ListsContext } from '../../lists-context';
 import { BarCodeScanner} from 'expo-barcode-scanner';
-import { FloatingAction } from 'react-native-floating-action';
 
+
+// Define the styles for this screen
 const styles = (theme) => ({
     searchField: {
         width: '72%',
@@ -38,14 +37,23 @@ const styles = (theme) => ({
     }
 });
 
+/**
+ * Defines the icon for the menu for more options
+ */
 const MoreIcon = (props) => (
     <Icon {...props} height={16} name='more-vertical-outline' />
 );
 
+/**
+ * Defines the icon for the adding an item via text to the list.
+ */
 const AddIcon = () => (
     <Icon height={16} width={16} fill="white" name='plus-circle-outline' />
 );
 
+/**
+ * Defines the icon for adding via a barcode scanner.
+ */
 const BarcodeIcon = () => (
     <Image 
         source = {require("../../assets/barcode.png")}
@@ -68,6 +76,7 @@ const floatingButtonActions = [
         position: 2
     }
 ]
+
 //= React.memo(
 function ListScreen(props) {
 
@@ -111,6 +120,9 @@ function ListScreen(props) {
         }
     }, []);
 
+    /**
+     * Handles checking of items in their checkboxes.
+     */
     const itemChecked = (index, checked) => {
         let item = list.items[index];
         if (item.checked !== checked) {
@@ -119,6 +131,9 @@ function ListScreen(props) {
         listsContext.updateListItem(listId, index, item);
     };
 
+    /**
+     * Adds an item to the list.
+     */
     const addListItem = (name, category) => {
         listsContext.addListItem(listId, { 
             name, 
@@ -127,16 +142,25 @@ function ListScreen(props) {
         });
     };
     
+    /**
+     * Handles removing an item from the list.
+     */
     const removeItem = (index) => {
         listsContext.removeListItem(listId, index);
     };
 
+    /**
+     * Handles removing a list.
+     */
     const removeList = () => {
         setSettingsVisible(false);
         navigation.navigate("Home");
         listsContext.removeList(listId);
     };
 
+    /**
+     * Handles what happens when the barcode scanner scans a barcode.
+     */
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setScanMode(false);
@@ -146,7 +170,10 @@ function ListScreen(props) {
     const AddAction = () => (
         <View style={styles.buttonContainer}>
             <OverflowMenu
-                anchor={() => <TopNavigationAction icon={MoreIcon} onPress={() => setSettingsVisible(true)}/>}
+                anchor={() => <TopNavigationAction 
+                    icon={MoreIcon} 
+                    onPress={() => setSettingsVisible(true)}
+                />}
                 visible={settingsVisible}
                 placement="bottom"
                 onBackdropPress={() => setSettingsVisible(false)}
@@ -155,14 +182,19 @@ function ListScreen(props) {
                 <MenuItem title='Share'/>
                 <MenuItem title='Print'/>
                 <MenuItem
-                    title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkgreen' }]}>Set default</Text>}
+                    title={evaProps => <
+                        Text {...evaProps} style={
+                            [evaProps.style, { color: 'darkgreen' }]
+                        }>Set default</Text>}
                     onPress={() => {
                         setSettingsVisible(false);
                         listsContext.setListActive(listId);
                     }}
                 />
                 <MenuItem
-                    title={evaProps => <Text {...evaProps} style={[evaProps.style, { color: 'darkred' }]}>Delete</Text>}
+                    title={evaProps => <Text {...evaProps} style={
+                        [evaProps.style, { color: 'darkred' }
+                    ]}>Delete</Text>}
                     onPress={removeList}
                 />
             </OverflowMenu>
@@ -225,15 +257,27 @@ function ListScreen(props) {
                     </Layout>
                 </View>
                 <ScrollView 
-                    contentContainerStyle={list.items.length === 0 ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : {}}
+                    contentContainerStyle={
+                        list.items.length === 0 ? { 
+                            flexGrow: 1, 
+                            alignItems: 'center', 
+                            justifyContent: 'center' 
+                        } : {}
+                    }
                 >
                     {list.items.length === 0 ? (
-                        <View style={{ textAlign: 'center', alignItems: 'center' }}>
-                            <Heading category="h6" style={{ color: theme['color-primary-default'] }}>
+                        <View style={
+                            { textAlign: 'center', 
+                            alignItems: 'center' }
+                        }>
+                            <Heading 
+                                category="h6" 
+                                style={{ color: theme['color-primary-default'] 
+                            }}>
                                 Your list is empty.
                             </Heading>
                             <Text category="c1" style={{ fontWeight: "300" }}>
-                                Add an item by entering a name into the field above.
+                            Add an item by entering a name into the field above.
                             </Text>
                         </View>
                     ) : (
@@ -244,8 +288,16 @@ function ListScreen(props) {
                         />
                     )}
                 </ScrollView>
-                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-                    <Button style={{ width: 256 }} onPress={() => navigation.navigate("StoreSelector", { listId })}>
+                <View style={{ 
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                        padding: 32 
+                    }}>
+                    <Button 
+                        style={{ width: 256 }} 
+                        onPress={() => 
+                            navigation.navigate("StoreSelector", { listId })}
+                    >
                         Start Shopping
                     </Button>
                 </View>
@@ -254,6 +306,7 @@ function ListScreen(props) {
     );
 };
 
-export default React.memo(withStyles(ListScreen, styles), (props, nextProps) => {
+export default React.memo(withStyles(ListScreen, styles), 
+        (props, nextProps) => {
     return !(props.navigation.isFocused() || nextProps.navigation.isFocused());
 });

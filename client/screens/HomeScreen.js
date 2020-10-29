@@ -1,3 +1,8 @@
+/**
+ * This file defines the screen for the user's home page, a display of all
+ * lists the user has stored.
+ */
+
 import React, { Fragment } from 'react';
 import { 
     View,
@@ -9,7 +14,6 @@ import {
     Divider, 
     Layout, 
     withStyles,
-    Icon
 } from '@ui-kitten/components';
 import ActiveList from '../components/ActiveList';
 import ShoppingLists from '../components/ShoppingLists';
@@ -34,7 +38,7 @@ const styles = (theme) => ({
     },
     headingBackground: {
         backgroundColor: theme['color-primary-default'],
-        height: WIN_DIM.height * 0.10,
+        height: WIN_DIM.height * 0.15,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -46,8 +50,8 @@ const styles = (theme) => ({
         fontWeight:'700'
     },
     imageStyle: {
-        height: WIN_DIM.height * 0.12 - 40,
-        width: WIN_DIM.height * 0.12,
+        height: WIN_DIM.height * 0.15 - 40,
+        width: WIN_DIM.height * 0.15,
         resizeMode: 'contain'
     },
     heading: {
@@ -91,12 +95,15 @@ function HomeScreen(props) {
             {/* The top header bar */}
             <View style={styles.headingBackground}>
                 <View>
-                    <Image source={require('../assets/logo.png')} style={styles.imageStyle}/>
+                    <Image 
+                        source={require('../assets/logo.png')} 
+                        style={styles.imageStyle}
+                    />
                 </View>
                 <Text category="h2" style={styles.headingFont}>
                     Home
                 </Text>
-                
+                <Text>{ }</Text>
                 <Text>{ }</Text>
                 <Text>{ }</Text>
                 <Text>{ }</Text>
@@ -104,13 +111,22 @@ function HomeScreen(props) {
             </View>
             {/* The list display */}
             <Layout style={styles.content}>
-                <Heading category="h6" style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}>Your Lists</Heading>
+                <Heading 
+                    category="h6" 
+                    style={[
+                        styles.heading, 
+                        { paddingTop: 5, fontWeight:'bold'}
+                    ]}
+                >
+                    Your Lists
+                </Heading>
                 {activeList && (
                     <Fragment>
                         <ActiveList 
                             list={activeList}
                             onPress={() => navigation.navigate('List', { 
-                                screen: 'Main', params: { listId: activeList.id }
+                                screen: 'Main', 
+                                params: { listId: activeList.id }
                             })}
                         />
                         <Divider style={{height: 3}} />
@@ -139,6 +155,7 @@ function HomeScreen(props) {
     );
 }
 
-export default React.memo(withStyles(HomeScreen, styles), (props, nextProps) => {
+export default React.memo(withStyles(HomeScreen, styles), 
+        (props, nextProps) => {
     return !props.navigation.isFocused();
 });

@@ -1,9 +1,16 @@
+/**
+ * A file that contains some helper functions for various files through the 
+ * program.
+ */
+
 import classifyPoint from 'robust-point-in-polygon';
 import polylabel from 'polylabel';
 import { Permutation } from 'js-combinatorics';
 import PF from 'pathfinding';
 
-
+/**
+ * Gets the overall busyness of a store.
+ */
 export function getCurrentBusynessFromTimezone(populartimes, utcHourDiff=10) {
     if (populartimes.length !== 7) {
         return -1;
@@ -16,6 +23,10 @@ export function getCurrentBusynessFromTimezone(populartimes, utcHourDiff=10) {
     return populartimes[day].data[hour];
 }
 
+/**
+ * Classifies the busyness into one of six categories for easy judgement
+ * on the user's part.
+ */
 export function getBusynessText(busyness) {
     if (busyness == 0) {
         return 'Empty'
@@ -33,6 +44,10 @@ export function getBusynessText(busyness) {
     return 'No crowd data'
 }
 
+/**
+ * Checks if a certain point in a store is actually walkable for a potential
+ * customer.
+ */
 export function isWalkable(store, point, includeBorder=false) {
     if (classifyPoint(store.background, point) >= 0) {
         return false;
@@ -54,6 +69,9 @@ export function isWalkable(store, point, includeBorder=false) {
     return true;
 }
 
+/**
+ * Generates a path between points using the A* search algorithm.
+ */
 export function generatePath(store, gridData, tasks, scaleFactor=15) {
 
     let geoCentres = []
@@ -101,8 +119,11 @@ export function generatePath(store, gridData, tasks, scaleFactor=15) {
     const finder = new PF.AStarFinder({ weight: 4 });
     let grid = new PF.Grid(gridData)
 
-    let paths = Array(tasks.length).fill().map(() => Array(tasks.length).fill([]));
-    let dist = Array(tasks.length).fill().map(() => Array(tasks.length).fill(-1));
+    let paths = Array(tasks.length).fill().map(
+            () => Array(tasks.length).fill([]));
+
+    let dist = Array(tasks.length).fill().map(
+            () => Array(tasks.length).fill(-1));
 
     for (let i = 0; i < tasks.length; i++) {
         for (let j = 0; j < tasks.length; j++) {
@@ -124,7 +145,8 @@ export function generatePath(store, gridData, tasks, scaleFactor=15) {
     let entranceDist = Array(tasks.length).fill([]);
 
     for (let i = 0; i < tasks.length; i++) {
-        let path = finder.findPath(ex, ey, entryPoints[i][0], entryPoints[i][1], grid.clone());
+        let path = finder.findPath(ex, ey, 
+                entryPoints[i][0], entryPoints[i][1], grid.clone());
         entrancePaths[i] = path;
         entranceDist[i] = path.length - 1;
     }
@@ -166,6 +188,9 @@ export function generatePath(store, gridData, tasks, scaleFactor=15) {
     return [path, tooltips, best];
 }
 
+/**
+ * Constructs the grid from store data.
+ */
 export function buildGrid(store, width, height) {
     let grid = Array(height).fill().map(() => Array(width).fill(1));
     for (let i = 0; i < width; i++) {
@@ -178,6 +203,9 @@ export function buildGrid(store, width, height) {
     return grid;
 }
 
+/**
+ * Returns the group of lists.
+ */
 export function groupListData(list) {
     const listGroups = {};
     for (let [id, item] of Object.entries(list.items)) {

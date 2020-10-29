@@ -1,3 +1,8 @@
+/**
+ * Screen to allow the user to add an item with more information to their list.
+ * Not currently implemented due to limitations with available data and time.
+ */
+
 import React from 'react';
 import { View } from 'react-native';
 import Heading from '../components/Heading';

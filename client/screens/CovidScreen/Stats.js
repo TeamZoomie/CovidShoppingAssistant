@@ -1,3 +1,8 @@
+/**
+ * Displays the statistics screen. Presents information about the COVID-19
+ * pandemic.
+ */
+
 import React, { Fragment, useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { 
@@ -15,6 +20,7 @@ import {
 import Heading from '../../components/Heading';
 import { getCovidStats } from '../../api/BackendServicesAPI';
 
+// Styles for this file.
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -38,12 +44,16 @@ const styles = (theme) => ({
     },
 });
 
+// Supported countries
 const countries = [
     'Australia', 'USA', 'UK', 'Canada', 'Spain', 'India', 'Brazil',
     'Russia', 'Mexico', 'South Africa', 'Chile', 'Germany', 'Sweden', 
     'Turkey', 'Italy'
 ];
 
+/**
+ * The main definition of the screen.
+ */
 const StatsScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
@@ -88,16 +98,27 @@ const StatsScreen = ({ eva, navigation }) => {
                     value={countries[countryIndex - 1]}
                     style={{ paddingBottom: 18 }}
                 >
-                    {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
+                    {countries.map((name, i) => 
+                        <SelectItem key={i} title={name}/>)}
                 </Select>
-                <View style={loading || error ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                <View style={loading || error ? {
+                        flexGrow: 1, 
+                        alignItems: 'center', 
+                        justifyContent: 'center' } : { flexGrow: 1 }
+                    }>
                     {loading || error ? (
                         error ? (
                             <Fragment>
-                                <Heading category="h6" style={styles.errorText}>
+                                <Heading 
+                                    category="h6" 
+                                    style={styles.errorText}
+                                >
                                     Could not get data.
                                 </Heading>
-                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                <Text 
+                                    category="c1" 
+                                    style={{ fontWeight: "300" }}
+                                >
                                     An error occured...
                                 </Text>
                             </Fragment>
@@ -109,7 +130,8 @@ const StatsScreen = ({ eva, navigation }) => {
                             <Heading category="c2">Statistics</Heading>
                             <List
                                 style={styles.container}
-                                data={Object.entries(data).map(([title, value]) => ({ title, value }))}
+                                data={Object.entries(data).map(
+                                    ([title, value]) => ({ title, value }))}
                                 ItemSeparatorComponent={Divider}
                                 renderItem={renderItem}
                             />

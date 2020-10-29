@@ -1,13 +1,15 @@
+/**
+ * A screen that allows the user to create a list.
+ */
+
 import React from 'react';
 import { View, Image, PixelRatio } from 'react-native';
 import { 
     Button,
-    CheckBox,
     Datepicker,
     Divider, 
     Input,
     IndexPath,
-    Icon, 
     Layout, 
     TopNavigation, 
     TopNavigationAction,
@@ -20,6 +22,7 @@ import Heading from '../components/Heading';
 import { ListsContext } from '../lists-context';
 import { iconImages } from '../icon-images';
 
+// Define the styles for this screen
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -45,7 +48,9 @@ const styles = (theme) => ({
     }
 });
 
-
+/**
+ * Defines the icon to go back a screen.
+ */
 const BackIcon = (props) => (
     <Image 
         source={require('../assets/back.png')} 
@@ -53,7 +58,9 @@ const BackIcon = (props) => (
     />
 );
 
-
+/**
+ * Define the screen.
+ */
 const CreateListScreen = ({ eva, navigation }) => {
 
     const styles = eva.style;
@@ -66,8 +73,16 @@ const CreateListScreen = ({ eva, navigation }) => {
 
     const listsContext = React.useContext(ListsContext);
 
+    /**
+     * Handles creating a list.
+     */
     const createList = () => {
-        listsContext.addList({ name, duedate, active: true, icon: iconName }, listId => {
+        listsContext.addList({ 
+            name, 
+            duedate, 
+            active: true, 
+            icon: iconName 
+        }, listId => {
             navigation.navigate("List", {
                 screen: "Main",
                 params: { listId }
@@ -75,10 +90,19 @@ const CreateListScreen = ({ eva, navigation }) => {
         });
     }
 
+    /**
+     * Handles the navigation of pressing the back button
+     */
     const BackAction = () => (
-        <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()}/>
+        <TopNavigationAction 
+            icon={BackIcon} 
+            onPress={() => navigation.goBack()}
+        />
     );  
 
+    /**
+     * Handles the icons for each list item
+     */
     const IconListItem = (props) => (
         <View style={{ flexDirection: 'row' }}>
             <Image source={iconImages[props.name]} style={styles.imageStyle}/>
@@ -126,7 +150,11 @@ const CreateListScreen = ({ eva, navigation }) => {
                         ))}
                     </Select>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+                <View style={{ 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    padding: 32 
+                }}>
                     <Button
                         onPress={createList}
                         style={{ width: '50%' }}

@@ -1,3 +1,9 @@
+/**
+ * Defines the news articles page, including setting the appropriate country
+ * from a selection of supported countries as well as displaying
+ * those news articles that are relevant to the COVID-19 pandemic.
+ */
+
 import React, { Fragment, useState, useEffect } from 'react';
 import { 
     View, 
@@ -19,6 +25,8 @@ import { format } from 'date-fns';
 import Heading from '../../components/Heading';
 import { getCovidNews } from '../../api/BackendServicesAPI';
 
+
+// Defines the styles used in this file
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -71,6 +79,9 @@ const styles = (theme) => ({
     }
 });
 
+/**
+ * Defines the screen.
+ */
 const NewsScreen = ({ eva }) => {
 
     const styles = eva.style;
@@ -93,6 +104,7 @@ const NewsScreen = ({ eva }) => {
             .catch(error => {setError(true); console.log(error)});
     }, [countryIndex]);
 
+    // Makes links accessible in the user's default browser
     const onItemPress = (index) => {
         const url = data[index].url;
         Linking.canOpenURL(url).then(supported => {
@@ -102,12 +114,15 @@ const NewsScreen = ({ eva }) => {
         });
     };
 
+    // Renders the item header
     const renderItemHeader = (info) => (
         <ImageBackground
             style={styles.itemHeader}
             source={{ uri: info.item.urlToImage }}
         />
     );
+
+    // Renders the item footer
     const renderItemFooter = (info) => (
         <View style={styles.itemFooter}>
             <View style={styles.itemAuthoringContainer}>
@@ -115,12 +130,16 @@ const NewsScreen = ({ eva }) => {
                     {info.item.source.name}
                 </Text>
                 <Text appearance='hint' category='c1'>
-                    {format(Date.parse(info.item.publishedAt), 'dd MMM, yyyy h:mm a')}
+                    {format(
+                        Date.parse(info.item.publishedAt), 
+                        'dd MMM, yyyy h:mm a'
+                    )}
                 </Text>
             </View>
         </View>
     );
 
+    // Renders the item itself
     const renderItem = (info) => (
         <Card
             style={styles.item}
@@ -136,7 +155,9 @@ const NewsScreen = ({ eva }) => {
                 appearance='hint'
                 category='s2'
             >
-                    {info.item.description ? `${info.item.description.substring(0, 82)}...` : 'No description.'}
+                {info.item.description ? 
+                    `${info.item.description.substring(0, 82)}...` : 
+                        'No description.'}
             </Text>
         </Card>
     );
@@ -151,16 +172,26 @@ const NewsScreen = ({ eva }) => {
                     value={countries[countryIndex - 1]}
                     style={{ paddingBottom: 18 }}
                 >
-                    {countries.map((name, i) => <SelectItem key={i} title={name}/>)}
+                    {countries.map((name, i) => 
+                        <SelectItem key={i} title={name}/>)}
                 </Select>
-                <View style={loading || error ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                <View style={loading || error ? 
+                    { flexGrow: 1, 
+                      alignItems: 'center', 
+                      justifyContent: 'center' } : { flexGrow: 1 }}>
                     {loading || error ? (
                         error ? (
                             <Fragment>
-                                <Heading category="h6" style={styles.errorText}>
+                                <Heading 
+                                    category="h6" 
+                                    style={styles.errorText}
+                                >
                                     Could not get data.
                                 </Heading>
-                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                <Text 
+                                    category="c1" 
+                                    style={{ fontWeight: "300" }}
+                                >
                                     An error occured...
                                 </Text>
                             </Fragment>

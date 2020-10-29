@@ -1,7 +1,15 @@
+/**
+ * Defines the screens for when the user enters the shopping experience.
+ */
+
 import React from 'react';
-import { ScrollView, View, ImageBackground, Dimensions, Image } from 'react-native';
 import { 
-    Icon,
+    ScrollView, 
+    View, 
+    ImageBackground, 
+    Dimensions, 
+    Image } from 'react-native';
+import { 
     Button,
     Text,
     TopNavigation,
@@ -18,8 +26,10 @@ import {
     getCurrentBusynessFromTimezone 
 } from '../../helpers';
 
+
 const { height } = Dimensions.get('window')
 
+// Define the styles for this page
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -68,7 +78,9 @@ const styles = (theme) => ({
     }
 });
 
-
+/**
+ * Defines the icon for the back action.
+ */
 const BackIcon = (props) => (
     <Image 
         source={require('../../assets/back.png')} 
@@ -76,7 +88,9 @@ const BackIcon = (props) => (
     />
 );
 
-
+/**
+ * The main definition of this screen
+ */
 const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
     const styles = eva.style;
@@ -150,7 +164,10 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                 }}
             >
                 <View style={{ width, height }}>
-                    <ImageBackground source={require('../../assets/social_distance_graphic.png')} style={styles.imageStyle}>
+                    <ImageBackground source={
+                            require('../../assets/social_distance_graphic.png')
+                        } style={styles.imageStyle}
+                    >
                         <TopNavigation 
                             alignment='center' 
                             accessoryLeft={BackAction}
@@ -158,11 +175,17 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                         />
                     </ImageBackground>
                     <View style={styles.wrapper}>
-                        <Heading style={styles.heading} category="h4">Remember to social distance</Heading>
+                        <Heading 
+                            style={styles.heading} 
+                            category="h4">Remember to social distance
+                        </Heading>
                         {hasData ? (
                             <Heading style={styles.subHeading} category="p1">
                                 This store is currently 
-                                <Text style={{ fontWeight: '700' }}> {getBusynessText(busyness)}</Text>
+                                <Text 
+                                    style={{ fontWeight: '700' }}
+                                > {getBusynessText(busyness)}
+                                </Text>
                             </Heading>
                         ) : (
                             <Heading style={styles.subHeading} category="p1">
@@ -173,21 +196,26 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
 
                         {hasData ? (
                             <SlideBarChart
-                                selectionChangedCallback={() => Haptics.selectionAsync()}
+                                selectionChangedCallback={() => 
+                                    Haptics.selectionAsync()}
                                 height={150}
                                 paddingLeft={32}
                                 paddingRight={32}
                                 axisHeight={32}
                                 barSelectedIndex={5}
                                 xAxisProps={{
-                                    axisMarkerLabels: data.map(item => convertTo12HourTime(item.x)),
+                                    axisMarkerLabels: data.map(
+                                        item => convertTo12HourTime(item.x)
+                                    ),
                                     markerSpacing: 2
                                 }}
                                 toolTipProps={{
                                     lockTriangleCenter: true,
                                     toolTipTextRenderers: [
                                         ({ selectedBarNumber }) => ({
-                                            text: data[selectedBarNumber].y.toString(),
+                                            text: data[
+                                                selectedBarNumber
+                                            ].y.toString(),
                                         }),
                                         () => ({ text: 'Crowdedness' }),
                                     ],
@@ -204,7 +232,10 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                     </View>
                 </View>
                 <View style={{ width, height }}>
-                    <ImageBackground source={require('../../assets/shopGraphic.png')} style={styles.imageStyle}>
+                    <ImageBackground source={require(
+                            '../../assets/shopGraphic.png')
+                        } style={styles.imageStyle}
+                    >
                         <TopNavigation 
                             alignment='center' 
                             accessoryLeft={BackAction}
@@ -212,7 +243,10 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
                         />
                     </ImageBackground>
                     <View style={styles.wrapper}>
-                        <Heading style={styles.heading} category="h4">Use the map!</Heading>
+                        <Heading 
+                            style={styles.heading} 
+                            category="h4">Use the map!
+                        </Heading>
                         <Heading style={styles.subheading} category="p1">
                             Optimise your route in store to avoid contact!
                         </Heading>
@@ -221,10 +255,19 @@ const ShoppingIntroScreen = ({ route, eva, navigation }) => {
             </ScrollView>
             <View style={styles.paginationWrapper}>
                 {Array.from(Array(2).keys()).map((key, index) => (
-                    <View style={[styles.paginationDots, { opacity: pageIndex === index ? 1 : 0.2 }]} key={index} />
+                    <View style={[
+                            styles.paginationDots, 
+                            { opacity: pageIndex === index ? 1 : 0.2 }
+                        ]} key={index} 
+                    />
                 ))}
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center', padding: 16, paddingBottom: 16 }}>
+            <View style={{ 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    padding: 16, 
+                    paddingBottom: 16 
+                }}>
                 <Button style={{ width: '50%' }} onPress={gotoMap}>
                     Let me shop!
                 </Button>

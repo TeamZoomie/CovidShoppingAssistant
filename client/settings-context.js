@@ -1,7 +1,14 @@
+/**
+ * Defines a context to keep track of the user's settings.
+ */
+
 import React, { useState } from 'react';
 
 export const SettingsContext = React.createContext();
 
+/**
+ * The main definition of the settings context.
+ */
 export const SettingsProvider = ({ children, onThemeChange }) => {
 
     const [theme, setTheme] = useState('light');

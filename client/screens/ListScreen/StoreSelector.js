@@ -1,5 +1,11 @@
+/**
+ * This file defines the screen that allows the user to select a store, using
+ * their location data to find all available stores nearby and presenting them,
+ * with some details as a list.
+ */
+
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { ScrollView, View, Image } from 'react-native';
+import { View, Image } from 'react-native';
 import { 
     Input,
     Icon,
@@ -18,8 +24,9 @@ import StoreList from '../../components/StoreList';
 import { getPlacesNearby } from '../../api/GooglePlacesAPI';
 import { getPlaceLiveBusyness } from '../../api/BackendServicesAPI';
 import { getCurrentBusynessFromTimezone } from '../../helpers';
-import { SettingsContext } from '../../settings-context';
 
+
+// Defines the styles for this page
 const styles = (theme) => ({
     root: {
         flex: 1,
@@ -38,11 +45,9 @@ const styles = (theme) => ({
     }
 });
 
-const ConfirmIcon = (props) => (
-    <Icon {...props} name='checkmark-outline' />
-);
-
-
+/**
+ * Defines the icon for going back a page.
+ */
 const BackIcon = (props) => (
     <Image 
         source={require('../../assets/back.png')} 
@@ -50,10 +55,12 @@ const BackIcon = (props) => (
     />
 );
 
-// hack
 let globalBusyness = {};
 let globalPopulartimes = {};
 
+/**
+ * Defines the screen.
+ */
 const StoreSelectorScreen = ({ route, eva, navigation }) => {
 
     const styles = eva.style;
@@ -81,7 +88,9 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                 if (status !== 'granted') {
                     console.log('Permission to access location was denied');
                 }
-                let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+                let location = await Location.getCurrentPositionAsync(
+                    { accuracy: Location.Accuracy.High }
+                );
                 setLocation(location);
                 getStores(searchText, location);
 
@@ -92,9 +101,14 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         })();
     }, []);
 
+    /**
+     * Function to run when a store has been selected
+     */
     const confirmStore = (id) => {
-        // Issue where user selects store before populartimes request has finished. 
-        // This results in busyness data being undefined
+        /*
+        Issue where user selects store before populartimes request has finished. 
+        This results in busyness data being undefined
+        */
         navigation.navigate('ShoppingIntro', {
             store: stores[id],
             listId: route.params.listId,
@@ -103,14 +117,17 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
         });
     };
 
+    /**
+     * Retrieves all store information given an input search and location 
+     * coordinates.
+     */
     const getStores = (text, location) => {
         setLoading(true);
         const searchParams = { 
             keyword: text, 
             type: 'store', 
             rankby: 'distance',
-            location: location.coords.latitude + ',' + location.coords.longitude, 
-            // radius: 20 // 20km
+            location: location.coords.latitude +','+ location.coords.longitude
         };
         getPlacesNearby(searchParams)
             .then(payload => {
@@ -132,11 +149,13 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                     if (!(placeId in globalBusyness)) {
                         getPlaceLiveBusyness(placeId)
                             .then(data => {
-                                // globalBusyness[placeId] = data.current_popularity; --> This seems wrong
-                                globalBusyness[placeId] = getCurrentBusynessFromTimezone(data.populartimes);
+                                globalBusyness[placeId] = 
+                                    getCurrentBusynessFromTimezone(
+                                            data.populartimes
+                                    );
+
                                 globalPopulartimes[placeId] = data.populartimes;
 
-                                // God dam this is stupidly hacky... sorry
                                 setLastUpdate((new Date().getTime()))
                             })
                             .catch(error => console.log(placeId, error));
@@ -180,7 +199,9 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
             <Divider/>
             <Layout style={styles.content}>
                 <View>
-                    <Heading category="c2">Enter Place, Location or Store</Heading>
+                    <Heading 
+                        category="c2">Enter Place, Location or Store
+                    </Heading>
                     <Input
                         placeholder="Search"
                         value={searchText}
@@ -188,14 +209,25 @@ const StoreSelectorScreen = ({ route, eva, navigation }) => {
                         style={{ paddingBottom: 16 }}
                     />
                 </View>
-                <View style={loading || error ? { flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+                <View style={loading || error ? { 
+                        flexGrow: 1, 
+                        alignItems: 'center', 
+                        justifyContent: 'center' 
+                    } : { flexGrow: 1 }}
+                >
                     {loading || error ? (
                         error ? (
                             <Fragment>
-                                <Heading category="h6" style={styles.errorText}>
+                                <Heading 
+                                    category="h6" 
+                                    style={styles.errorText}
+                                >
                                     Could not get location.
                                 </Heading>
-                                <Text category="c1" style={{ fontWeight: "300" }}>
+                                <Text 
+                                    category="c1" 
+                                    style={{ fontWeight: "300" }}
+                                >
                                     An error occured...
                                 </Text>
                             </Fragment>

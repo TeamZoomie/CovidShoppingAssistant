@@ -1,3 +1,7 @@
+/**
+ * Includes some data for the default lists.
+ */
+
 export default {
     lists: {
         0: {
