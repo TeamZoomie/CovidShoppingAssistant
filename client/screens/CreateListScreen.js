@@ -4,7 +4,8 @@
 
 import React from 'react';
 import { View, Image, PixelRatio } from 'react-native';
-import { 
+import {
+    Icon, 
     Button,
     Datepicker,
     Divider, 
