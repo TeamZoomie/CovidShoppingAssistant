@@ -266,7 +266,6 @@ export default class Map extends Component {
                     initialTop={50}
                     initialLeft={50}
                     initialZoom={1}
-                    // doubleTapThreshold={300}
                     meetOrSlice="meet"
                     svgRoot={MapSVG}
                     childProps={{ 
