@@ -4,7 +4,7 @@
  */
 
 import React, { Fragment, useState, useEffect, useContext } from 'react';
-import { View, Dimensions, Image } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import {
     Spinner,
     TopNavigationAction,
@@ -189,12 +189,14 @@ export const ListItem = (props) => {
 }
 
 const ForwardIcon = (props) => (
-    <Image 
-        source={require('../../assets/forward.png')} 
+    <Icon
+        height={20} 
+        width={20} 
         fill="black" 
-        style={({width: 32, height: 32} )}
+        name='arrow-ios-forward-outline'
     />
-);
+);  
+    
 
 const MapScreen = ({ eva, navigation, route }) => {
 

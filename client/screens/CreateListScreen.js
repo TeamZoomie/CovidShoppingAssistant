@@ -52,12 +52,14 @@ const styles = (theme) => ({
  * Defines the icon to go back a screen.
  */
 const BackIcon = (props) => (
-    <Image 
-        source={require('../assets/back.png')} 
-        fill="black" style={({width: 16, height: 16} )}
+    <Icon
+        height={20} 
+        width={20} 
+        fill="black" 
+        name='arrow-ios-back-outline'
     />
-);
-
+);  
+    
 /**
  * Define the screen.
  */

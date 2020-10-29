@@ -7,14 +7,15 @@ import {
     ScrollView, 
     View, 
     ImageBackground, 
-    Dimensions, 
-    Image } from 'react-native';
+    Dimensions
+ } from 'react-native';
 import { 
     Button,
     Text,
     TopNavigation,
     TopNavigationAction,
     withStyles,
+    Icon
 } from '@ui-kitten/components';
 import {
     SlideBarChart,
@@ -82,11 +83,14 @@ const styles = (theme) => ({
  * Defines the icon for the back action.
  */
 const BackIcon = (props) => (
-    <Image 
-        source={require('../../assets/back.png')} 
-        fill="black" style={({width: 16, height: 16} )}
+    <Icon
+        height={20} 
+        width={20} 
+        fill="black" 
+        name='arrow-ios-back-outline'
     />
-);
+);  
+    
 
 /**
  * The main definition of this screen
