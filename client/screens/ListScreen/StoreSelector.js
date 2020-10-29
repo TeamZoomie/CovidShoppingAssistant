@@ -50,12 +50,14 @@ const styles = (theme) => ({
  * Defines the icon for going back a page.
  */
 const BackIcon = (props) => (
-    <Image 
-        source={require('../../assets/back.png')} 
-        fill="black" style={({width: 16, height: 16} )}
+    <Icon
+        height={20} 
+        width={20} 
+        fill="black" 
+        name='arrow-ios-back-outline'
     />
-);
-
+);  
+    
 let globalBusyness = {};
 let globalPopulartimes = {};
 

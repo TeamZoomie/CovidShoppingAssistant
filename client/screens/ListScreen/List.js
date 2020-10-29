@@ -215,7 +215,7 @@ function ListScreen(props) {
                 }}
             >
                 <BarCodeScanner
-                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    onBarCodeScanned={handleBarCodeScanned}
                     style={StyleSheet.absoluteFillObject}
                 />
                 <Button onPress={() => setScanMode(false)}>
@@ -247,7 +247,9 @@ function ListScreen(props) {
                             // appearance='ghost' 
                             accessoryLeft={AddIcon}
                             onPress={() => {
-                                navigation.navigate('Categories');
+                                if (addText !== '') {
+                                    navigation.navigate('Categories');
+                                }
                             }}
                         />                           
                         <Button 
