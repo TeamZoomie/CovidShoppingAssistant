@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./client/assets/logoblack.png" 
+<img src="./client/assets/logosplash.png" 
 height="256" width="256" >
 </div>
 
