@@ -3,8 +3,9 @@
  */
 
 import React, { Fragment } from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import {
+    Icon,
     Divider,
     TopNavigation,
     TopNavigationAction,
@@ -31,9 +32,11 @@ const styles = (theme) => ({
  * Define the icon for navigating back a page.
  */
 const BackIcon = (props) => (
-    <Image 
-        source={require('../assets/back.png')} 
-        fill="black" style={({width: 32, height: 32} )}
+    <Icon
+        height={16} 
+        width={16} 
+        fill="black" 
+        name='arrow-ios-back-outline'
     />
 );  
     
