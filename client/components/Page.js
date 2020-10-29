@@ -5,13 +5,11 @@
 import React, { Fragment } from 'react';
 import { View, Image } from 'react-native';
 import {
-    Icon,
     Divider,
     TopNavigation,
     TopNavigationAction,
     Layout, 
     withStyles,
-    useTheme,
 } from '@ui-kitten/components';
 import Heading from './Heading';
 
@@ -35,7 +33,7 @@ const styles = (theme) => ({
 const BackIcon = (props) => (
     <Image 
         source={require('../assets/back.png')} 
-        fill="black" style={({width: 16, height: 16} )}
+        fill="black" style={({width: 32, height: 32} )}
     />
 );  
     

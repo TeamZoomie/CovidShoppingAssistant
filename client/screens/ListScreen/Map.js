@@ -192,7 +192,7 @@ const ForwardIcon = (props) => (
     <Image 
         source={require('../../assets/forward.png')} 
         fill="black" 
-        style={({width: 24, height: 24} )}
+        style={({width: 32, height: 32} )}
     />
 );
 
