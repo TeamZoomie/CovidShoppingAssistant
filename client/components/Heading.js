@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
  */
 export default function Heading(props) {
     return (
-        <View style={styles.root}>
+        <View style={[styles.root, props.rootStyle]}>
             <Text 
                 {...props} 
                 style={[styles.text, props.style]} 

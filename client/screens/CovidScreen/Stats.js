@@ -81,11 +81,11 @@ const StatsScreen = ({ eva, navigation }) => {
 
     useEffect(() => {
         getCovidStats(countries[countryIndex - 1])
-        .then(payload => {
-            setLoading(false);
-            setData(payload);
-        })
-        .catch(error => setError(true));
+            .then(payload => {
+                setLoading(false);
+                setData(payload);
+            })
+            .catch(error => setError(true));
     }, [countryIndex]);
 
     return (

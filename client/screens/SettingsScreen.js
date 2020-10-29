@@ -18,7 +18,7 @@ import {
 } from '@ui-kitten/components';
 import { getAllCountries, getAllTimezones } from 'countries-and-timezones';
 import { SettingsContext } from '../settings-context';
-import CenteredHeading from '../components/CenteredHeading';
+import Heading from '../components/Heading';
 
 // Defines the styles for this page
 const styles = (theme) => ({
@@ -29,11 +29,16 @@ const styles = (theme) => ({
     },
     content: {
         padding: 16,
+        flex: 1, 
+        flexDirection: 'column', 
+        justifyContent: 'space-between', 
+        width: '100%'
     },
     text: {
-        fontWeight: "700",
+        // fontWeight: "700",
         textAlign: 'left',
         marginHorizontal: 8,
+        fontStyle: 'italic'
     }
 });
 
@@ -89,58 +94,59 @@ const SettingsScreen = ({ eva, navigation }) => {
     return (
         <View style={styles.root}>
             <Layout style={styles.content}>
-                <CenteredHeading 
-                    category="h4" 
-                    style={[styles.heading, { paddingTop: 5, fontWeight:'bold'}]}
-                >
-                    Settings
-                </CenteredHeading>
-                <Select
-                    selectedIndex={selectedIndex}
-                    label={<Text category='h6'>Theme</Text>}
-                    value={displayValue}
-                    onSelect={index => themeSelectChange(index)}
-                >
-                    {themeOptions.map((title, id) => (
-                        <SelectItem key={id} title={title}/>
-                    ))}
-                </Select> 
-                <Divider/>
-                <Select 
-                    selectedIndex={countryIndex}
-                    label={<Text category='h6'> {'\n'} Default Country</Text>}
-                    value={countries[countryIndex - 1].name}
-                    onSelect={index => setCountry(countries[index - 1].id)}
-                >
-                    {countries.map(country => (
-                        <SelectItem key={country.id} title={country.name}/>
-                    ))}
-                </Select>
-                {/*
-                <Select
-                    selectedIndex={timezoneIndex}
-                    label={<Text category='h6'> {'\n'} Your timezone</Text>}
-                    value={timezones[timezoneIndex-1].name}
-                    disabled={!usingCountryTime}
-                    onSelect={index => setTimezoneIndex(index)}>
-                        {Object.values(timezones)[name].map((title, id) => (
+                <View>
+                    <Heading 
+                        category="h4" 
+                        style={[styles.heading, { textAlign: 'center', paddingTop: 5, fontWeight:'bold'}]}
+                    >
+                        Settings
+                    </Heading>
+                    <Select
+                        selectedIndex={selectedIndex}
+                        label={<Text category='h6'>Theme</Text>}
+                        value={displayValue}
+                        onSelect={index => themeSelectChange(index)}
+                    >
+                        {themeOptions.map((title, id) => (
                             <SelectItem key={id} title={title}/>
                         ))}
-                </Select>
-                        */}
-                <CheckBox
-                    checked={usingCountryTime}  
-                    onChange={nextChecked => setUsingCountryTime(nextChecked)}>
-                        Use your default country for your timezone?
-                </CheckBox>
-                <Text category='h6'> {'\n'}Username is {username}</Text>
-                <Input
-                    placeholder={username}
-                    value={username}
-                    onChangeText={nextValue => setUsername(nextValue)}
-                />
+                    </Select> 
+                    <Divider/>
+                    <Select 
+                        selectedIndex={countryIndex}
+                        label={<Text category='h6'> {'\n'} Default Country</Text>}
+                        value={countries[countryIndex - 1].name}
+                        onSelect={index => setCountry(countries[index - 1].id)}
+                    >
+                        {countries.map(country => (
+                            <SelectItem key={country.id} title={country.name}/>
+                        ))}
+                    </Select>
+                    {/*
+                    <Select
+                        selectedIndex={timezoneIndex}
+                        label={<Text category='h6'> {'\n'} Your timezone</Text>}
+                        value={timezones[timezoneIndex-1].name}
+                        disabled={!usingCountryTime}
+                        onSelect={index => setTimezoneIndex(index)}>
+                            {Object.values(timezones)[name].map((title, id) => (
+                                <SelectItem key={id} title={title}/>
+                            ))}
+                    </Select>
+                            */}
+                    <CheckBox
+                        checked={usingCountryTime}  
+                        onChange={nextChecked => setUsingCountryTime(nextChecked)}>
+                            Use your default country for your timezone?
+                    </CheckBox>
+                    <Text category='h6'> {'\n'}Username is {username}</Text>
+                    <Input
+                        placeholder={username}
+                        value={username}
+                        onChangeText={nextValue => setUsername(nextValue)}
+                    />
+                </View>
                 <Text style={styles.text}>
-                    {"\n\n\n\n"}
                     Note: We ask for your location data to provide certain 
                     services in our app. We will not use them for anything
                     other than improving your shopping experience. If you
