@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Shop Safe",
-    "slug": "Shop Safe",
+    "slug": "ShopSafe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logosplash.png",
