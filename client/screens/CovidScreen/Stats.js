@@ -46,7 +46,7 @@ const styles = (theme) => ({
 
 // Supported countries
 const countries = [
-    'Australia', 'USA', 'UK', 'Canada', 'Spain', 'India', 'Brazil',
+    'Australia', 'USA', 'UK', 'Canada', 'India', 'Brazil',
     'Russia', 'Mexico', 'South Africa', 'Chile', 'Germany', 'Sweden', 
     'Turkey', 'Italy'
 ];
