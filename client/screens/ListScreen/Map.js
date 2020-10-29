@@ -307,8 +307,9 @@ const MapScreen = ({ eva, navigation, route }) => {
             )}
             showAccessoryLeft={false}
             AccessoryRight={FowardAction}
+            pageStyles={{ alignItems: 'center', justifyContent: 'center' }}
         >
-            <View style={!updateMap ? {flexGrow: 1, alignItems: 'center', justifyContent: 'center' } : { flexGrow: 1 }}>
+            <View>
                 {!updateMap ? (
                     <View style={{ height: '100%' }}>
                         <Map 

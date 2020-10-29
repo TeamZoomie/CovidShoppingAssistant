@@ -16,19 +16,19 @@ export default {
                     name: 'Apples',
                     category: 'Fruit & Vegetables',
                     quantity: 1,
-                    checked: true
+                    checked: false
                 },
                 {
                     name: 'Carrot',
                     category: 'Fruit & Vegetables',
                     quantity: 1,
-                    checked: true
+                    checked: false
                 },
                 {
                     name: 'Plumbus',
                     category: 'Fruit & Vegetables',
                     quantity: 1,
-                    checked: true
+                    checked: false
                 },
                 {
                     name: 'Cookies',
@@ -50,7 +50,7 @@ export default {
                     name: 'Fruit',
                     category: 'Fruit & Vegetables',
                     quantity: 1,
-                    checked: true
+                    checked: false
                 }
             ]
         },
