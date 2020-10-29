@@ -14,11 +14,11 @@ GIF HERE
 
 This is a program written in React Native, designed for Android and IOS devices. Some features will not work if permissions aren't granted to the application, or if that sensor is missing in your device.
 
-This program is a part of the University of Queensland's course, [Design Computing Studio 3 - Build (DECO3801)](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3801), completed by Team Zoomie. This was based off of a proposal written by *The Social Distancing Social Club* as a part of [DECO3800](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3800).
+This program is a part of the University of Queensland's course, [Design Computing Studio 3 - Build (DECO3801)](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3801), completed by Zoomie Studios. This was based off of a proposal written by *The Social Distancing Social Club* as a part of [DECO3800](https://my.uq.edu.au/programs-courses/course.html?course_code=DECO3800).
 
 
 
-## Team Zoomie
+## Zoomie Studios
 Name | Experience
 ------------ | -------------
 Laura Pham | User interface, user experience, and front end programming
@@ -49,7 +49,6 @@ If you get permission denied, you will have to add an ssh key to your account (M
 5. Install the Expo app on your phone: https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_AU
 6. Start the client: `expo start`
 7. Open Expo App on your phone and scan QR code (In terminal / new window that was created)
-8. Profit??
 
 &nbsp;
 
